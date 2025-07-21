@@ -53,7 +53,6 @@ jobs:
             fi
 
             # Создаем директорию для проекта
-            mkdir -p /root/www/nakhodka-vodokanal.ru/vodokanal-front
             cd /root/www/nakhodka-vodokanal.ru/vodokanal-front
 
       - name: Copy files to VPS
