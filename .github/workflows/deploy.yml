@@ -80,12 +80,6 @@ jobs:
             npm ci --production
 
             # Создаем .env файл если его нет
-            if [ ! -f .env ]; then
-              cat > .env << EOF
-              NODE_ENV=production
-              NEXT_PUBLIC_API_URL=http://109.70.24.185:1337
-              EOF
-            fi
 
             # Останавливаем старый процесс если есть
             pm2 stop vodokanal-front || true
@@ -97,14 +91,13 @@ jobs:
             fi
 
             # Запускаем приложение через PM2
-            pm2 start npm --name "vodokanal-front" -- start
-            pm2 save
-            pm2 startup
+            #pm2 start npm --name "vodokanal-front" -- start
+            #pm2 save
+            #pm2 startup
 
 
             nginx -t && systemctl reload nginx
 
             echo "Deployment completed successfully!"
-            echo "Frontend: http://nakhodka-vodokanal.ru"
             echo "PM2 Status:"
             pm2 status
