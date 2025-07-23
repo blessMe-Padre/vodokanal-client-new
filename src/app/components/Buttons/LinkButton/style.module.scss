@@ -1,0 +1,48 @@
+@use '@/app/mixins' as *;
+// @include adaptiv-value("font-size", 24, 13);
+
+.link {
+    display: block;
+    font-family: var(--font-family);
+    font-weight: 500;
+    @include adaptiv-value("font-size", 16, 14);
+    border-radius: 6px;
+
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--white);
+    background-color: var(--blue);
+    padding: 20px 10px;
+
+    width: 100%;
+    max-width: 256px;
+    transition: all var(--anim-function);
+    cursor: pointer;
+
+    &:hover {
+        background-color: var(--hover-blue);
+    }
+
+    &.noBg {
+        background-color: transparent;
+        border: 1px solid var(--black);
+        color: var(--black);
+    }
+
+    &.noBg:hover {
+        background-color: var(--blue);
+        color: var(--white);
+    }
+
+    &.noBg:active {
+        background-color: var(--orange);
+        border: 1px solid var(--white);
+        color: var(--white);
+    }
+
+
+
+    @media (max-width: 480px) {
+        max-width: 80%;
+    }
+}

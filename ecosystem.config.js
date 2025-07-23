@@ -2,6 +2,7 @@ module.exports = {
   apps: [
     {
       name: "vodokanal-front",
+      script: "node_modules/next/dist/bin/next",
       args: "dev",
       env: {
         PORT: 3001,

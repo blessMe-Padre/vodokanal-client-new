@@ -1,0 +1,20 @@
+@use "sass:math";
+
+$maxWidth: 1920;
+$maxWidthContainer: 1480;
+
+@mixin adaptiv-value($property, $startSize, $minSize) {
+    // Конвертируем пиксели в em (предполагая базовый размер 16px)
+    $minSizeEm: math.div($minSize, 16);
+    $startSizeEm: math.div($startSize, 16);
+    $addSizeEm: $startSizeEm - $minSizeEm;
+
+    // Конвертируем брейкпоинты в em
+    $breakpointMin: math.div(768, 16); // 48em
+    $maxWidthEm: math.div($maxWidth, 16); // 120em
+    $widthDifference: $maxWidthEm - $breakpointMin; // 72em
+
+    #{$property}: clamp(#{$minSizeEm}em,
+        calc(#{$minSizeEm}em + #{$addSizeEm} * (100vw - #{$breakpointMin}em) / #{$widthDifference}),
+        #{$startSizeEm}em);
+}

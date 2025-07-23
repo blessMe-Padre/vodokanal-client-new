@@ -1,0 +1,54 @@
+@use '@/app/mixins' as *;
+
+
+.breadcrumbs {
+
+    font-weight: 400;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-black);
+    padding-top: 30px;
+    padding-bottom: 10px;
+    @include adaptiv-value("font-size", 24, 13);
+
+
+    ul {
+        list-style: none;
+        display: flex;
+        gap: 10px;
+
+        li {
+
+            &::after {
+                content: "|";
+                margin-left: 10px;
+            }
+
+            &:last-child::after {
+                content: "";
+            }
+
+            a {
+                text-decoration: none;
+                font-weight: 400;
+                font-size: 12px;
+                letter-spacing: 0.04em;
+                text-transform: uppercase;
+                color: var(--text-black);
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+
+        .active {
+            color: var(--blue);
+        }
+    }
+
+    @media (max-width: 480px) {
+        margin-top: 0;
+    }
+}

@@ -1,5 +1,8 @@
 import Image from "next/image";
+
+import { Breadcrumbs } from "./components/index";
 import styles from "./page.module.css";
+
 
 export default function Home() {
   return (
@@ -13,6 +16,7 @@ export default function Home() {
           height={38}
           priority
         />
+        <Breadcrumbs secondLink="/" secondLabel="Главная" thirdLabel="Каталог" />
         <ol>
           <li>
             Get started by editing <code>src/app/page.tsx</code>.
