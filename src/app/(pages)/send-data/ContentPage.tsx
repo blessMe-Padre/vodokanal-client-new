@@ -35,34 +35,35 @@ export default function ContentPage() {
     const handleFormSubmit = async (data: FieldValues) => {
         setIsSending(true);
         setError('');
-        
-        try { 
+        setIsSuccess(false);
+
+        try {
             const response = await fetch('/api/send-data-readings', {
                 method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
             });
 
-            const result = await response.json();
-            
-            if (!response.ok) {
-                // Используем сообщение об ошибке с сервера, если есть
-                throw new Error(result.message || 'Ошибка при отправке данных');
-            }
+            const contentType = response.headers.get('content-type') || '';
 
-            console.log('Success:', result);
-            setIsSuccess(true);
+            if (!response.ok) {
+                if (contentType.includes('application/json')) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Ошибка сервера');
+                }
+                throw new Error(`HTTP error! status: ${response.status}`);
+            } 
             
+            setIsSuccess(true);
+
         } catch (err) {
-            const errorMessage = err instanceof Error ? err.message : String(err);
+            const errorMessage = err instanceof Error ? err.message : 'Неизвестная ошибка';
             setError(errorMessage);
-            console.error('Submission error:', errorMessage);
+            console.error('Ошибка при отправке:', errorMessage);
         } finally {
             setIsSending(false);
         }
-    }
+    };
 
     return (
         <>
