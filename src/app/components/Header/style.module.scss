@@ -1,14 +1,16 @@
 @use '@/app/mixins' as *;
 // @include adaptiv-value("font-size", 24, 13);
 
-.document {
-    padding: 10px;
-    font-size: 16px;
-    font-weight: 600;
+.nav {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    padding: 10px 0;
+}
 
-    a {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
+.active {
+    color: var(--blue);
+    text-decoration: underline;
+    text-underline-offset: 5px;
+    text-decoration-thickness: 2px;
 }

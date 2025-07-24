@@ -9,13 +9,13 @@ interface HookProps {
 }
 
 
-const CustomHook = (props: HookProps) => { 
+const CustomHook = (props: HookProps) => {
     const obj = {
         name: 'John',
         age: 30,
         city: 'New York'
     }
-    
+
     const [count, setCount] = useState(0);
 
     const handleClick = () => {
@@ -32,7 +32,7 @@ const CustomHook = (props: HookProps) => {
 
 export default function Contacts() {
     return (
-        <div>
+        <div className="container">
             <Breadcrumbs secondLink="/" secondLabel="Главная" thirdLabel="Контакты" />
             <h1>Contacts</h1>
         </div>

@@ -1,4 +1,5 @@
 import Calculator from '@/app/components/Calculator/Calculator';
+
 import styles from './style.module.scss';
 
 export const metadata = {

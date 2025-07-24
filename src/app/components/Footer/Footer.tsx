@@ -1,4 +1,5 @@
 import { Cookies } from "@/app/components";
+
 import styles from "./style.module.scss";
 
 export default function Footer() {

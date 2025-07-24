@@ -1,4 +1,5 @@
 import DocumentComponent from "@/app/components/DocumentComponent/DocumentComponent";
+
 import styles from "./style.module.scss";
 
 type RatesList = {
