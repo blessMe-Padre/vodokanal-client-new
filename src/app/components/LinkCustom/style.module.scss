@@ -1,7 +1,8 @@
 @use '@/app/mixins' as *;
 // @include adaptiv-value("font-size", 24, 13);
 
-.link {
+// Общий стиль для кнопок и ссылок
+.appLink {
     display: block;
     font-family: var(--font-family);
     font-weight: 500;
@@ -39,8 +40,6 @@
         border: 1px solid var(--white);
         color: var(--white);
     }
-
-
 
     @media (max-width: 480px) {
         max-width: 80%;
