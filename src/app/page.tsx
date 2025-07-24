@@ -1,10 +1,11 @@
 import Image from "next/image";
+import Link from "next/link";
 
-import { Breadcrumbs } from "./components/index";
+import { Breadcrumbs, Button, LinkCustom } from "./components/index";
 import styles from "./page.module.css";
 
-
 export default function Home() {
+  
   return (
     <div className={styles.page}>
       <main className={styles.main}>
@@ -17,6 +18,10 @@ export default function Home() {
           priority
         />
         <Breadcrumbs secondLink="/" secondLabel="Главная" thirdLabel="Каталог" />
+
+        <LinkCustom href="/terms-of-service" text="Хотите отправить показания?" />
+
+        
         <ol>
           <li>
             Get started by editing <code>src/app/page.tsx</code>.
