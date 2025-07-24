@@ -1,0 +1,30 @@
+@use '@/app/mixins' as *;
+// @include adaptiv-value("font-size", 24, 13);
+
+.tabs {
+    padding: 30px 0;
+}
+
+.tabs_header {
+    margin-bottom: 20px;
+}
+
+.tabButton {
+    margin-right: 10px;
+    padding: 10px 20px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #000;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.input_group {
+    margin: 20px 0;
+}
+
+.input_wrapper {
+    margin-bottom: 20px;
+}
