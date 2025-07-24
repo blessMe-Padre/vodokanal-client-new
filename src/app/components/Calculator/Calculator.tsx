@@ -38,6 +38,14 @@ export default function Calculator() {
         if (asphalt) base += asphaltStoimost * length;
         return base;
     };
+    // Расчет стоимости
+    const calcNetworkWater = () => {
+        if (diameter === 0) return 0;
+        let base = length * diametrSetyWater[diameter - 1];
+
+        if (asphalt) base += asphaltStoimost * length;
+        return base;
+    };
 
     // Расчет стоимости водоснабжения
     const totalConsumption: number = consumption * bazovayStoimost;
@@ -50,7 +58,7 @@ export default function Calculator() {
     // Расчет стоимости водоотведения
     const totalConsumptionWater: number = consumptionWater * bazovayStoimostWater;
     const totalConsumptionWaterNDC: number = Math.round(totalConsumptionWater * (1 + NDC));
-    const networkWater: number = calcNetwork();
+    const networkWater: number = calcNetworkWater();
     const networkWaterNDC: number = Math.round(networkWater * (1 + NDC));
     const totalWater: number = totalConsumptionWater + networkWater;
     const totalWaterNDC: number = Math.round(totalWater * (1 + NDC));
