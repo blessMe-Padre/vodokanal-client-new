@@ -11,16 +11,21 @@ type TabButton = { title: string };
 export default function Calculator() {
     const [activeTab, setActiveTab] = useState<TabIndex>(0);
     const [consumption, setConsumption] = useState(0);
+    const [consumptionWater, setConsumptionWater] = useState(0);
     const [length, setLength] = useState(0);
     const [diameter, setDiameter] = useState(0);
     const [asphalt, setAsphalt] = useState(false);
 
     // Примерные тарифы (можно заменить на реальные)
     const bazovayStoimost: number = 1600; // Предполагаемый расход (кубометров в сутки): на 1 кубометр в сутки
+    const bazovayStoimostWater: number = 1082; // Предполагаемый расход (кубометров в сутки): на 1 кубометр в сутки
     const diametrSety: number[] = [
         5500, // До 100 мм.
         6000, // От 100 до 125 мм.
         6500, // От 125 до 150 мм.
+    ];
+    const diametrSetyWater: number[] = [
+        6340, // До 160 мм.
     ];
     const asphaltStoimost: number = 1700;
     const NDC: number = 0.2; // 20% НДС
@@ -34,12 +39,21 @@ export default function Calculator() {
         return base;
     };
 
+    // Расчет стоимости водоснабжения
     const totalConsumption: number = consumption * bazovayStoimost;
     const totalConsumptionNDC: number = Math.round(totalConsumption * (1 + NDC));
     const network: number = calcNetwork();
     const networkNDC: number = Math.round(network * (1 + NDC));
     const total: number = totalConsumption + network;
     const totalNDC: number = Math.round(total * (1 + NDC));
+
+    // Расчет стоимости водоотведения
+    const totalConsumptionWater: number = consumptionWater * bazovayStoimostWater;
+    const totalConsumptionWaterNDC: number = Math.round(totalConsumptionWater * (1 + NDC));
+    const networkWater: number = calcNetwork();
+    const networkWaterNDC: number = Math.round(networkWater * (1 + NDC));
+    const totalWater: number = totalConsumptionWater + networkWater;
+    const totalWaterNDC: number = Math.round(totalWater * (1 + NDC));
 
     const openTab = (e: React.MouseEvent<HTMLButtonElement>) => setActiveTab(+e.currentTarget.dataset.index! as TabIndex);
 
@@ -163,7 +177,7 @@ export default function Calculator() {
                         <h3>Подключение</h3>
                         <div className={styles.input_wrapper}>
                             <label htmlFor="consumption">Предполагаемый расход (кубометров в сутки):</label>
-                            <input type="number" id="consumption" value={consumption} onChange={e => setConsumption(+e.target.value)} />
+                            <input type="number" id="consumption" value={consumptionWater} onChange={e => setConsumptionWater(+e.target.value)} />
                         </div>
                     </div>
                     <div className={styles.input_group}>
@@ -201,18 +215,18 @@ export default function Calculator() {
                             <tbody>
                                 <tr>
                                     <td>Подключение:</td>
-                                    <td>{totalConsumption.toLocaleString()}</td>
-                                    <td>{totalConsumptionNDC.toLocaleString()}</td>
+                                    <td>{totalConsumptionWater.toLocaleString()}</td>
+                                    <td>{totalConsumptionWaterNDC.toLocaleString()}</td>
                                 </tr>
                                 <tr>
                                     <td>Сеть:</td>
-                                    <td>{network.toLocaleString()}</td>
-                                    <td>{networkNDC.toLocaleString()}</td>
+                                    <td>{networkWater.toLocaleString()}</td>
+                                    <td>{networkWaterNDC.toLocaleString()}</td>
                                 </tr>
                                 <tr>
                                     <td>Итого:</td>
-                                    <td>{total.toLocaleString()}</td>
-                                    <td>{totalNDC.toLocaleString()}</td>
+                                    <td>{totalWater.toLocaleString()}</td>
+                                    <td>{totalWaterNDC.toLocaleString()}</td>
                                 </tr>
                             </tbody>
                         </table>
