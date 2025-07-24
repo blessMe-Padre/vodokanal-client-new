@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FieldErrors, FieldValues, useForm, UseFormRegister } from 'react-hook-form';
 
@@ -12,6 +13,7 @@ interface ComponentFormReadingsProps {
     register: UseFormRegister<FieldValues>;
     errors: FieldErrors<FieldValues>;
     error: string;
+    isSending: boolean;
 }
 
 interface ComponentPhoneNumberProps { 
@@ -22,16 +24,44 @@ interface ComponentPhoneNumberProps {
 
 
 export default function ContentPage() {
-
+    const router = useRouter();
     const [step, setStep] = useState('phone_number');
     const [isSending, setIsSending] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
     const [error, setError] = useState('');
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
-
+    
     const handleFormSubmit = async (data: FieldValues) => {
-        console.log(data);
+        setIsSending(true);
+        setError('');
+        
+        try { 
+            const response = await fetch('/api/send-data-readings', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const result = await response.json();
+            
+            if (!response.ok) {
+                // Используем сообщение об ошибке с сервера, если есть
+                throw new Error(result.message || 'Ошибка при отправке данных');
+            }
+
+            console.log('Success:', result);
+            setIsSuccess(true);
+            
+        } catch (err) {
+            const errorMessage = err instanceof Error ? err.message : String(err);
+            setError(errorMessage);
+            console.error('Submission error:', errorMessage);
+        } finally {
+            setIsSending(false);
+        }
     }
 
     return (
@@ -39,23 +69,36 @@ export default function ContentPage() {
             <div className="container">
                 <h1 className="title">Передача показаний через сайт</h1>
                 <div className="flex flex-col gap-[10px]">
-                    <form onSubmit={handleSubmit(handleFormSubmit)}>
-                        {step === 'phone_number'
-                            ?
-                                <ComponentPhoneNumber
-                                    setStep={setStep}
-                                    register={register}
-                                    errors={errors}
-                                />
-                            :
-                                <ComponentFormReadings
-                                    register={register}
-                                    errors={errors}
-                                    error={error}
-                                    setStep={setStep}
+                    {isSuccess ? (
+                        <>
+                            <SuccessMessage />
+                            <Button
+                                text="На главную"
+                                onClick={() => {
+                                    router.push('/');
+                                }}
                             />
-                        }
-                    </form>
+                        </>
+                    ) : (
+                        <form onSubmit={handleSubmit(handleFormSubmit)}>
+                            {step === 'phone_number'
+                                ?
+                                    <ComponentPhoneNumber
+                                        setStep={setStep}
+                                        register={register}
+                                        errors={errors}
+                                    />
+                                :
+                                    <ComponentFormReadings
+                                        register={register}
+                                        errors={errors}
+                                        error={error}
+                                        setStep={setStep}
+                                        isSending={isSending}
+                                    />
+                            }
+                        </form>
+                    )}
                 </div>
             </div>
         </>
@@ -117,7 +160,7 @@ const ComponentPhoneNumber = ({ setStep, register, errors }: ComponentPhoneNumbe
 }
 
 
-const ComponentFormReadings = ({ register, errors, error, setStep }: ComponentFormReadingsProps) => { 
+const ComponentFormReadings = ({ register, errors, error, setStep, isSending }: ComponentFormReadingsProps) => { 
     const individualMeters = [
       { label: '1 - ХВС санузел (показания, куб. м) например: 00120.000', name: 'readings_1' },
       { label: '2 - ГВС санузел (показания, куб. м) например: 00120.000', name: 'readings_2' },
@@ -206,8 +249,43 @@ const ComponentFormReadings = ({ register, errors, error, setStep }: ComponentFo
                     Согласно Федеральному закону № 152–ФЗ от 27.07.2006 г. «О персональных данных», я согласен на обработку персональных данных. До моего сведения доведено, что МУП «Находка-Водоканал» гарантирует обработку моих персональных данных в соответствии с действующим законодательством РФ.*
                 </div>
 
-                <button type="submit" className='appButton'>Отправить</button>
+                <button type="submit" className='appButton' disabled={isSending}>
+                    {isSending ? (
+                        <span className='loader'></span>
+                    ) : (
+                        'Отправить'
+                    )}
+                </button>
             </div>
         </>
     )
+}
+
+
+const SuccessMessage = () => {
+    return (
+        <div className={styles.success_message}>
+            <div className={styles.success_icon_wrapper}>
+                <svg
+                    className={styles.success_icon}
+                    viewBox="0 0 52 52"
+                    width="64" height="64"
+                    fill="none"
+                >
+                    <circle cx="26" cy="26" r="25" stroke="#52c41a" strokeWidth="2" fill="#e6ffed" />
+                    <path
+                        className={styles.success_check}
+                        d="M16 27L24 35L38 19"
+                        stroke="#52c41a"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        fill="none"
+                    />
+                </svg>
+            </div>
+            <h2>Данные успешно отправлены!</h2>
+            <p>Спасибо! Ваши показания приняты в обработку.</p>
+        </div>
+    );
 }
