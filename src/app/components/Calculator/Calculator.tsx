@@ -4,8 +4,12 @@ import styles from './style.module.scss';
 import { motion } from "framer-motion";
 import type { Variants } from "framer-motion";
 
+type TabIndex = 0 | 1;
+
+type TabButton = { title: string };
+
 export default function Calculator() {
-    const [activeTab, setActiveTab] = useState(0);
+    const [activeTab, setActiveTab] = useState<TabIndex>(0);
     const [consumption, setConsumption] = useState(0);
     const [length, setLength] = useState(0);
     const [diameter, setDiameter] = useState(0);
@@ -36,9 +40,9 @@ export default function Calculator() {
     const networkNDC = Math.round(network * (1 + NDC));
     const totalNDC = Math.round(total * (1 + NDC));
 
-    const openTab = (e: React.MouseEvent<HTMLButtonElement>) => setActiveTab(+e.currentTarget.dataset.index!);
+    const openTab = (e: React.MouseEvent<HTMLButtonElement>) => setActiveTab(+e.currentTarget.dataset.index! as TabIndex);
 
-    const tabsButton = [
+    const tabsButton: TabButton[] = [
         { title: 'Водоснабжение' },
         { title: 'Водоотведение' }
     ]
