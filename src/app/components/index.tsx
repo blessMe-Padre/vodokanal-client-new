@@ -16,6 +16,8 @@ export { default as Breadcrumbs } from './Breadcrumbs/Breadcrumbs';
 
 
 // single item
+export { default as Cookies } from './Cookies/Cookies';
+
 
 
 
