@@ -190,7 +190,7 @@ export default function Calculator() {
                             <label htmlFor="diameter">Предполагаемый диаметр cети (мм.):</label>
                             <select name="" id="diameter" value={diameter} onChange={e => setDiameter(+e.target.value)}>
                                 <option value="0">- Выбирите диаметр -</option>
-                                <option value="2">До 160 мм.</option>
+                                <option value="1">До 160 мм.</option>
                             </select>
                         </div>
 
