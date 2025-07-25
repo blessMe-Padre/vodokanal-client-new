@@ -35,12 +35,11 @@ export type NewsResponse = {
 
 export default function PageContent() {
     const [news, setNews] = useState<NewsItem[]>([]);
-    console.log('news', news);
     const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [hasMore, setHasMore] = useState<boolean>(true);
+    const [hasMore, setHasMore] = useState<boolean>(false);
 
     // для пагинации
-    const PAGE_SIZE: number = 2;
+    const PAGE_SIZE: number = 2; // количество новостей на странице
     const [page, setPage] = useState<number>(1);
 
     const handleLoadMore = () => {
@@ -49,6 +48,7 @@ export default function PageContent() {
 
     useEffect(() => {
         const loadData = async (): Promise<void> => {
+            setIsLoading(true);
             try {
                 const url =
                     `/api/novostis` +
@@ -82,7 +82,7 @@ export default function PageContent() {
                                 <article>
                                     <Link href={`/news/${item?.documentId}`}>
                                         <Image
-                                            src={`${process.env.NEXT_PUBLIC_API_SERVER}${item?.image?.url}`}
+                                            src={item?.image?.url ? `${process.env.NEXT_PUBLIC_API_SERVER}${item.image.url}` : '/placeholder.svg'}
                                             alt={item?.title}
                                             width={300}
                                             height={250}
