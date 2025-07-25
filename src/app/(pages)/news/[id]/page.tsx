@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import Breadcrumbs from "@/app/components/Breadcrumbs/Breadcrumbs";
 import ContentRenderer from "@/app/components/ContentRenderer/ContentRenderer";
 import fetchData from "@/app/utils/fetchData";
 
@@ -33,6 +34,7 @@ export default async function Page({ params }: { params: { id: string } }) {
 
     return (
         <div className="container">
+            <Breadcrumbs secondLink="/news" secondLabel="Новости" thirdLabel={page?.data?.title} />
             <article>
                 <Image
                     src={page?.data?.image?.url ? `${process.env.NEXT_PUBLIC_API_SERVER}${page.data.image.url}` : '/placeholder.svg'}
