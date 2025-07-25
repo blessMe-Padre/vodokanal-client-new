@@ -34,6 +34,10 @@ const navLinks: NavLink[] = [
     {
         title: "Новости",
         href: "/news"
+    },
+    {
+        title: "О компании",
+        href: "/about"
     }
 ]
 
