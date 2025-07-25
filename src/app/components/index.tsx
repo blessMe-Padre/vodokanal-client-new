@@ -26,6 +26,7 @@ export { default as Cookies } from './Cookies/Cookies';
 
 // микро компоненты
 // чекбоксы, input, btn
+export { default as SuccessMessage } from './SuccessMessage/SuccessMessage';
 
 
 
