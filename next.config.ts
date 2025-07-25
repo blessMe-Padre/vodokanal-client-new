@@ -6,11 +6,11 @@ const nextConfig = {
             //     protocol: 'https',
             //     hostname: 'shop.compass25.ru',
             // },
-            // {
-            //     protocol: 'http',
-            //     hostname: 90'.156.134.142',
-            //     port: '1337'
-            // },
+            {
+                protocol: 'http',
+                hostname: '109.70.24.185',
+                port: '1337'
+            },
         ],
     },
     experimental: {

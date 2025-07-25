@@ -30,6 +30,10 @@ const navLinks: NavLink[] = [
     {
         title: "Калькулятор",
         href: "/connection"
+    },
+    {
+        title: "Новости",
+        href: "/news"
     }
 ]
 

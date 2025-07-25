@@ -1,0 +1,14 @@
+@use '@/app/mixins' as *;
+// @include adaptiv-value("font-size", 24, 13);
+
+.title {
+    @include adaptiv-value("font-size", 60, 30);
+    margin-bottom: 10px;
+}
+
+.news_list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
