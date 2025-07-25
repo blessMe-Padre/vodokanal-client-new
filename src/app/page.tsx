@@ -21,6 +21,7 @@ export default function Home() {
 
         <LinkCustom href="/send-data" text="Хотите отправить показания?" />
         <LinkCustom href="/call-controller" text="Хотите вызвать контролёра?" />
+        <LinkCustom href="/contact-us" text="Обращение к нам" />
 
         
         <ol>

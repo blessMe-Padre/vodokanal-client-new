@@ -8,7 +8,6 @@ import { Button, SuccessMessage } from '@/app/components';
 import styles from './styles.module.scss';
 
 interface ComponentFormReadingsProps { 
-    setStep: (step: 'phone_number' | 'form_readings') => void;
     register: UseFormRegister<FieldValues>;
     errors: FieldErrors<FieldValues>;
     error: string;
@@ -17,7 +16,6 @@ interface ComponentFormReadingsProps {
 
 export default function ContentPage() {
     const router = useRouter();
-    const [step, setStep] = useState('phone_number');
     const [isSending, setIsSending] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
     const [error, setError] = useState('');
@@ -72,7 +70,7 @@ export default function ContentPage() {
                 <h1 className="title">Передача показаний через сайт</h1>
                 <div className="flex flex-col gap-[10px]">
                     {isSuccess ? (
-                        <p>
+                        <>
                             <SuccessMessage text="Спасибо! Ваша заявка принята в обработку." />
                             <Button
                                 text="На главную"
@@ -80,7 +78,7 @@ export default function ContentPage() {
                                     router.push('/');
                                 }}
                             />
-                        </p>
+                        </>
                     ) : (
                         <>
                         
@@ -98,9 +96,8 @@ export default function ContentPage() {
                                     register={register}
                                     errors={errors}
                                     error={error}
-                                    setStep={setStep}
                                     isSending={isSending}
-                                    />
+                                />
                             </form>
                         </>
                     )}
@@ -110,7 +107,7 @@ export default function ContentPage() {
     );
 }
 
-const ComponentFormCallController = ({ register, errors, error, setStep, isSending }: ComponentFormReadingsProps) => { 
+const ComponentFormCallController = ({ register, errors, error, isSending }: ComponentFormReadingsProps) => { 
     const data = [
       { label: 'Фамилия, Имя, Отчество (или название компании)*', name: 'call_fio' },
       { label: 'Адрес (улица, дом, квартира)', name: 'call_address' },
@@ -150,7 +147,7 @@ const ComponentFormCallController = ({ register, errors, error, setStep, isSendi
                         {data.map((i, idx) => (
                             <div key={i.name} className={styles.form_row}>
                             <label>{i.label}</label>
-                            <input type="text" className='appInput' placeholder='' {...register(i.name)} />
+                            <input type="text" className='appInput' placeholder='' {...register(i.name)} required />
                           </div>
                         ))}
                     </div>
@@ -158,6 +155,7 @@ const ComponentFormCallController = ({ register, errors, error, setStep, isSendi
 
                 <div className={styles.form_content}>
                     <p>Согласно Федеральному закону № 152–ФЗ от 27.07.2006 г. «О персональных данных», я согласен на обработку персональных данных. До моего сведения доведено, что МУП «Находка-Водоканал» гарантирует обработку моих персональных данных в соответствии с действующим законодательством РФ.*</p>
+                    
                 </div>
 
                 <button type="submit" className='appButton' disabled={isSending}>
