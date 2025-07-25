@@ -9,17 +9,24 @@ import fetchData from '../../utils/fetchData';
 
 import styles from "./style.module.scss";
 
-type NewsItem = {
+type ResponseItem = {
     title: string;
-
+    link?: string;
+    file?: {
+        url: string;
+    };
+    type: string;
+    documentId: string;
     // сюда дописывать другие поля из API
 }
 
 export default function Search() {
     const [inputValue, setInputValue] = useState('');
     const [loading, setLoading] = useState(false);
-    const [dataList, setData] = useState<NewsItem[]>([]);
+    const [dataList, setData] = useState<ResponseItem[]>([]);
     const [isFocused, setIsFocused] = useState(false);
+
+    console.log(dataList);
 
     const router = useRouter();
 
@@ -154,7 +161,14 @@ export default function Search() {
                                     dataList.map((item, index) => {
                                         return (
                                             <li key={index} className={styles.item}>
-                                                <span className={styles.item_title}>{highlightText(item?.title, inputValue)}</span>
+                                                {item.type === 'news' &&
+                                                    <Link href={`/news/${item.documentId}`} rel="noopener noreferrer">
+                                                        <span className={styles.item_title}>{highlightText(item?.title, inputValue)}</span>
+                                                    </Link>}
+                                                {item.type === 'tariff' &&
+                                                    <Link href={'/rates'} rel="noopener noreferrer">
+                                                        <span className={styles.item_title}>{highlightText(item?.title, inputValue)}</span>
+                                                    </Link>}
                                             </li>
                                         );
                                     })
