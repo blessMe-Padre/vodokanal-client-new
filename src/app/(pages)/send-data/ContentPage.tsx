@@ -1,7 +1,7 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { FieldErrors, FieldValues, useForm, UseFormRegister } from 'react-hook-form';
 
 import { Button } from '@/app/components';
@@ -22,13 +22,13 @@ interface ComponentPhoneNumberProps {
   errors: ReturnType<typeof useForm>['formState']['errors'];
 }
 
-
 export default function ContentPage() {
     const router = useRouter();
     const [step, setStep] = useState('phone_number');
     const [isSending, setIsSending] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
     const [error, setError] = useState('');
+
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     
@@ -117,6 +117,7 @@ export default function ContentPage() {
 
 const ComponentPhoneNumber = ({ setStep, register, errors }: ComponentPhoneNumberProps) => {
     const [phone, setPhone] = useState('+7');
+
     const [touched, setTouched] = useState(false);
 
     const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -146,9 +147,6 @@ const ComponentPhoneNumber = ({ setStep, register, errors }: ComponentPhoneNumbe
                 className="appInput"
                 placeholder="+7XXXXXXXXXX"
                 value={phone}
-                {...register('phone_number', {
-                    required: true
-                })}
                 onChange={handlePhoneChange}
                 onBlur={() => setTouched(true)}
             />
