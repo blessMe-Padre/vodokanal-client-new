@@ -32,16 +32,24 @@ export default function ContentPage() {
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
     
-    const handleFormSubmit = async (data: FieldValues) => {
+    const handleFormSubmit = async (formData: FieldValues) => {
         setIsSending(true);
         setError('');
         setIsSuccess(false);
+
+        const date = new Date().toLocaleDateString('ru-RU', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        });
+
+        formData = { ...formData, date };
 
         try {
             const response = await fetch('/api/send-data-readings', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data),
+                body: JSON.stringify(formData),
             });
 
             const contentType = response.headers.get('content-type') || '';
@@ -163,22 +171,22 @@ const ComponentPhoneNumber = ({ setStep, register, errors }: ComponentPhoneNumbe
 
 const ComponentFormReadings = ({ register, errors, error, setStep, isSending }: ComponentFormReadingsProps) => { 
     const individualMeters = [
-      { label: '1 - ХВС санузел (показания, куб. м) например: 00120.000', name: 'readings_1' },
-      { label: '2 - ГВС санузел (показания, куб. м) например: 00120.000', name: 'readings_2' },
-      { label: '3 - ХВС кухня (показания, куб. м) например: 00120.000', name: 'readings_3' },
-      { label: '4 - ГВС кухня (показания, куб. м) например: 00120.000', name: 'readings_4' },
-      { label: '5 - ХВС санузел (показания, куб. м) например: 00120.000', name: 'readings_5' },
-      { label: '6 - ГВС санузел (показания, куб. м) например: 00120.000', name: 'readings_6' },
+      { label: '1 - ХВС санузел (показания, куб. м) например: 00120.000', name: 'readings_1_i' },
+      { label: '2 - ГВС санузел (показания, куб. м) например: 00120.000', name: 'readings_2_i' },
+      { label: '3 - ХВС кухня (показания, куб. м) например: 00120.000', name: 'readings_3_i' },
+      { label: '4 - ГВС кухня (показания, куб. м) например: 00120.000', name: 'readings_4_i' },
+      { label: '5 - ХВС санузел (показания, куб. м) например: 00120.000', name: 'readings_5_i' },
+      { label: '6 - ГВС санузел (показания, куб. м) например: 00120.000', name: 'readings_6_i' },
     ];
 
     const groupMeters = [
-      { label: '8 - ХВС санузел-групповой (показания, куб. м) например: 00120.000', name: 'group_readings_7' },
-      { label: '9 - ХВС кухня-групповой (показания, куб. м) например: 00120.000', name: 'group_readings_8' },
-      { label: '10 - ГВС санузел-групповой (показания, куб. м) например: 00120.000', name: 'group_readings_9' },
-      { label: '10 - ГВС кухня-групповой (показания, куб. м) например: 00120.000', name: 'group_readings_10' },
-      { label: '11 - ХВС туалет-групповой (показания, куб. м) например: 00120.000', name: 'group_readings_11' },
-      { label: '12 - ХВС ванна, титан-групповой (показания, куб. м) например: 00120.000', name: 'group_readings_12' },
-      { label: '14 - ГВС туалет-групповой (показания, куб. м) например: 00120.000', name: 'group_readings_14' },
+      { label: '7 - ХВС санузел-групповой (показания, куб. м) например: 00120.000', name: 'readings_7_g' },
+      { label: '8 - ХВС кухня-групповой (показания, куб. м) например: 00120.000', name: 'readings_8_g' },
+      { label: '9 - ГВС санузел-групповой (показания, куб. м) например: 00120.000', name: 'readings_9_g' },
+      { label: '10 - ГВС кухня-групповой (показания, куб. м) например: 00120.000', name: 'readings_10_g' },
+      { label: '11 - ХВС туалет-групповой (показания, куб. м) например: 00120.000', name: 'readings_11_g' },
+      { label: '12 - ХВС ванна, титан-групповой (показания, куб. м) например: 00120.000', name: 'readings_12_g' },
+      { label: '14 - ГВС туалет-групповой (показания, куб. м) например: 00120.000', name: 'readings_14_g' },
     ];
 
     return (
@@ -199,12 +207,12 @@ const ComponentFormReadings = ({ register, errors, error, setStep, isSending }: 
                     </div>
                     <div className={styles.form_content_item}>
                         <div>
-                            <input type="text" className='appInput' placeholder='' {...register('код улицы')} />
-                            <input type="text" className='appInput' placeholder='' {...register('номер дома')} />
-                            <input type="text" className='appInput' placeholder='' {...register('номер квартиры')} />
+                            <input type="text" className='appInput' placeholder='' {...register('code_street')} />
+                            <input type="text" className='appInput' placeholder='' {...register('house_number')} />
+                            <input type="text" className='appInput' placeholder='' {...register('apartment_number')} />
                         </div>
                         <div>
-                            <input type="text" className='appInput' placeholder='' {...register('person_data')} />  
+                            <input type="text" className='appInput' placeholder='' {...register('fio')} />  
                         </div>
                         <div>
                             <input type="text" className='appInput' placeholder='...' {...register('address')} />
@@ -229,7 +237,7 @@ const ComponentFormReadings = ({ register, errors, error, setStep, isSending }: 
                         <p>Водомер скважины для учёта стоков (частный сектор)</p>
                         <div className={styles.form_row}>
                             <label>7 - ХВС скважина (показания, куб. м) например: 00120.000</label>
-                            <input type="text" className='appInput' placeholder='' {...register('private_readings_7')} />
+                            <input type="text" className='appInput' placeholder='' {...register('readings_6_double')} />
                         </div>
                     </div>
                 </div> 
