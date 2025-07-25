@@ -1,9 +1,11 @@
 'use client';
-import { useState } from 'react';
-import styles from './style.module.scss';
-import { motion } from "framer-motion";
-import type { Variants } from "framer-motion";
 
+import { motion } from "framer-motion";
+import { useState } from 'react';
+
+import styles from './style.module.scss';
+
+import type { Variants } from "framer-motion";
 type TabIndex = 0 | 1;
 
 type TabButton = { title: string };

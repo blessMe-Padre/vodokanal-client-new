@@ -1,0 +1,131 @@
+.search_wrapper {
+    background-color: var(--white);
+    padding: 22px 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+    border-bottom: 1px solid var(--black);
+    padding-bottom: 20px;
+
+    @media (max-width: 560px) {
+        padding: 15px 0;
+    }
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: var(--white);
+    position: relative;
+}
+
+.input_area {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.input {
+    display: flex;
+    width: 100%;
+    background-color: var(--white);
+    padding: 15px 30px;
+    color: var(--black);
+
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: var(--black);
+    border: none;
+
+    @media (max-width: 560px) {
+        padding: 10px 15px;
+    }
+}
+
+.input::placeholder {
+    font-family: var(--font-family);
+    font-weight: 400;
+    font-size: 16px;
+    color: var(--black);
+}
+
+.delete {
+    background-color: var(--white);
+    border: none;
+    padding: 0 10px;
+    cursor: pointer;
+}
+
+.submit {
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 18px;
+    text-transform: uppercase;
+    color: var(--white);
+    background-color: var(--blue);
+    border-radius: 10px;
+    padding: 6px 20px;
+    border: none;
+    width: 190px;
+    cursor: pointer;
+    transition: background-color var(--anim-function);
+
+    &:hover,
+    &:active {
+        background-color: var(--hover-blue);
+    }
+
+    @media (max-width: 560px) {
+        display: none;
+    }
+}
+
+.list {
+    background-color: var(--white);
+    color: var(--black);
+    position: absolute;
+    left: 0;
+    top: 64px;
+    padding: 0 20px 20px 20px;
+    width: 100%;
+
+    max-height: 300px;
+    overflow: auto;
+}
+
+.image {
+    position: relative;
+    display: block;
+    animation-name: anim_rotation;
+    animation-duration: 600ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: steps(12, start);
+    width: 20px;
+    height: 20px;
+    margin: 0 auto;
+}
+
+@keyframes anim_rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.list_item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.item_atr {
+    padding-left: 10px;
+}

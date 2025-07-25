@@ -14,3 +14,13 @@
     text-underline-offset: 5px;
     text-decoration-thickness: 2px;
 }
+
+.button {
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+    cursor: pointer;
+
+    svg {
+        stroke: white;
+    }
+}
