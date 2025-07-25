@@ -14,8 +14,6 @@ export const metadata = {
 export default async function About() {
     const page = await fetchData(`/api/stranicza-o-kompanii?populate=*`);
 
-    console.log(page);
-
     return (
 
         <div className="container">
