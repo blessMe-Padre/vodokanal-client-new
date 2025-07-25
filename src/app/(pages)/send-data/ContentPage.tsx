@@ -1,10 +1,10 @@
 'use client';
 
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { FieldErrors, FieldValues, useForm, UseFormRegister } from 'react-hook-form';
 
-import { Button } from '@/app/components';
+import { Button, SuccessMessage } from '@/app/components';
 
 import styles from './styles.module.scss';
 
@@ -80,7 +80,7 @@ export default function ContentPage() {
                 <div className="flex flex-col gap-[10px]">
                     {isSuccess ? (
                         <>
-                            <SuccessMessage />
+                            <SuccessMessage text="Спасибо! Ваши показания приняты в обработку." />
                             <Button
                                 text="На главную"
                                 onClick={() => {
@@ -268,31 +268,3 @@ const ComponentFormReadings = ({ register, errors, error, setStep, isSending }: 
     )
 }
 
-
-const SuccessMessage = () => {
-    return (
-        <div className={styles.success_message}>
-            <div className={styles.success_icon_wrapper}>
-                <svg
-                    className={styles.success_icon}
-                    viewBox="0 0 52 52"
-                    width="64" height="64"
-                    fill="none"
-                >
-                    <circle cx="26" cy="26" r="25" stroke="#52c41a" strokeWidth="2" fill="#e6ffed" />
-                    <path
-                        className={styles.success_check}
-                        d="M16 27L24 35L38 19"
-                        stroke="#52c41a"
-                        strokeWidth="3"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        fill="none"
-                    />
-                </svg>
-            </div>
-            <h2>Данные успешно отправлены!</h2>
-            <p>Спасибо! Ваши показания приняты в обработку.</p>
-        </div>
-    );
-}

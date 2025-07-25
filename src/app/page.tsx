@@ -19,7 +19,8 @@ export default function Home() {
         />
         <Breadcrumbs secondLink="/" secondLabel="Главная" thirdLabel="Каталог" />
 
-        <LinkCustom href="/terms-of-service" text="Хотите отправить показания?" />
+        <LinkCustom href="/send-data" text="Хотите отправить показания?" />
+        <LinkCustom href="/call-controller" text="Хотите вызвать контролёра?" />
 
         
         <ol>
