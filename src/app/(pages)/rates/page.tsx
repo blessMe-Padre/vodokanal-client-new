@@ -4,8 +4,10 @@ import fetchData from "@/app/utils/fetchData";
 import styles from "./style.module.scss";
 
 type RatesList = {
-    Title: string;
-    file: string;
+    title: string;
+    file: {
+        url: string;
+    };
 }
 
 type RatesResponse = {
@@ -30,8 +32,8 @@ export default async function Rates() {
                     ratesList.map((rate, index) => (
                         <DocumentComponent
                             key={index}
-                            title={rate.Title}
-                            link={rate.file}
+                            title={rate?.title}
+                            link={`${process.env.NEXT_PUBLIC_API_SERVER}${rate?.file?.url}`}
                         />
                     ))}
             </ul>

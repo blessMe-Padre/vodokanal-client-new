@@ -11,6 +11,7 @@ import styles from "./style.module.scss";
 
 type NewsItem = {
     title: string;
+
     // сюда дописывать другие поля из API
 }
 
@@ -79,10 +80,21 @@ export default function Search() {
         setLoading(true)
         debounceTimeout.current = setTimeout(async () => {
             try {
-                const url = `/api/novostis?filters[title][$containsi]=${encodeURIComponent(inputValue)}&populate=*`;
+                // Тут можно добавить другие API источники, добавить в промис и объединить результаты
+                const newsUrl = `/api/novostis?filters[title][$containsi]=${encodeURIComponent(inputValue)}&populate=*`;
+                const tariffsUrl = `/api/tarify-i-normativies?filters[title][$containsi]=${encodeURIComponent(inputValue)}&populate=*`;
 
-                const result = await fetchData(url);
-                setData(result?.data);
+
+                const [newsResult, tariffsResult] = await Promise.all([
+                    fetchData(newsUrl),
+                    fetchData(tariffsUrl)
+                ]);
+
+                const combinedData = [
+                    ...(newsResult?.data || []),
+                    ...(tariffsResult?.data || [])
+                ];
+                setData(combinedData);
                 setLoading(false);
             } catch (error) {
                 console.error('Ошибка загрузки Объектов:', error)
