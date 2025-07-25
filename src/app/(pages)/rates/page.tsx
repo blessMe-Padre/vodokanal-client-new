@@ -1,37 +1,26 @@
 import DocumentComponent from "@/app/components/DocumentComponent/DocumentComponent";
+import fetchData from "@/app/utils/fetchData";
 
 import styles from "./style.module.scss";
 
 type RatesList = {
-    title: string;
-    link: string;
+    Title: string;
+    file: string;
 }
 
-const ratesList: RatesList[] = [
-    {
-        title: 'Постановление Агенства по тарифам ПК № 50.3 от 28.11.2024 г',
-        link: '/rates.pdf',
-    },
-    {
-        title: 'Постановление о тарифах на тех присоединение',
-        link: '/rates.pdf',
-    },
-    {
-        title: 'Постановление о тарифах на 2024 - 2028 г. № 61.2 от 29.11.2024 г',
-        link: '/rates.pdf',
-    },
-    {
-        title: 'Постановление о присоединении 2024',
-        link: '/rates.pdf',
-    },
-]
+type RatesResponse = {
+    data: RatesList[];
+}
 
 export const metadata = {
     title: 'МУП "Находка-Водоканал" - Тарифы',
     description: 'Тарифы на услуги водоснабжения и водоотведения',
 }
 
-export default function Rates() {
+export default async function Rates() {
+    const data: RatesResponse = await fetchData('/api/tarify-i-normativies?populate=*');
+    const ratesList: RatesList[] = data.data;
+
     return (
         <div className="container">
             <h1>Тарифы</h1>
@@ -41,8 +30,8 @@ export default function Rates() {
                     ratesList.map((rate, index) => (
                         <DocumentComponent
                             key={index}
-                            title={rate.title}
-                            link={rate.link}
+                            title={rate.Title}
+                            link={rate.file}
                         />
                     ))}
             </ul>
