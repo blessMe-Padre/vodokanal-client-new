@@ -21,7 +21,7 @@ export default function ContentPage() {
     const [error, setError] = useState('');
 
 
-    const { register, handleSubmit, formState: { errors }, reset } = useForm();
+    const { register, handleSubmit, formState: { errors } } = useForm();
     
     const handleFormSubmit = async (formData: FieldValues) => {
         setIsSending(true);
@@ -99,7 +99,7 @@ export default function ContentPage() {
     );
 }
 
-const ComponentFormContactUs = ({ register, errors, error, isSending }: ComponentFormReadingsProps) => { 
+const ComponentFormContactUs = ({ register, isSending }: ComponentFormReadingsProps) => { 
     const data = [
       { label: '1. Фамилия имя отчество*', name: 'contact_fio' },
       { label: '2. Адрес проживания*', name: 'contact_address' },
@@ -115,10 +115,10 @@ const ComponentFormContactUs = ({ register, errors, error, isSending }: Componen
             <div>
                 <div className={styles.form_content}>
                     <div className={styles.form_content_item}>
-                        {data.map((i, idx) => (
+                        {data.map(i => (
                             <div key={i.name} className={styles.form_row}>
                             <label>{i.label}</label>
-                            <input type="text" className='appInput' placeholder='' name={i.name} {...register(i.name)} required />
+                            <input type="text" className='appInput' placeholder='' {...register(i.name)} required />
                           </div>
                         ))}
                     </div>

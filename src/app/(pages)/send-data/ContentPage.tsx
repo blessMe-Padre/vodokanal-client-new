@@ -30,7 +30,7 @@ export default function ContentPage() {
     const [error, setError] = useState('');
 
 
-    const { register, handleSubmit, formState: { errors }, reset } = useForm();
+    const { register, handleSubmit, formState: { errors } } = useForm();
     
     const handleFormSubmit = async (formData: FieldValues) => {
         setIsSending(true);
@@ -115,7 +115,7 @@ export default function ContentPage() {
 }
 
 
-const ComponentPhoneNumber = ({ setStep, register, errors }: ComponentPhoneNumberProps) => {
+const ComponentPhoneNumber = ({ setStep, errors }: ComponentPhoneNumberProps) => {
     const [phone, setPhone] = useState('+7');
 
     const [touched, setTouched] = useState(false);
@@ -167,7 +167,7 @@ const ComponentPhoneNumber = ({ setStep, register, errors }: ComponentPhoneNumbe
 }
 
 
-const ComponentFormReadings = ({ register, errors, error, setStep, isSending }: ComponentFormReadingsProps) => { 
+const ComponentFormReadings = ({ register, isSending }: ComponentFormReadingsProps) => { 
     const individualMeters = [
       { label: '1 - ХВС санузел (показания, куб. м) например: 00120.000', name: 'readings_1_i' },
       { label: '2 - ГВС санузел (показания, куб. м) например: 00120.000', name: 'readings_2_i' },
@@ -220,7 +220,7 @@ const ComponentFormReadings = ({ register, errors, error, setStep, isSending }: 
                 <div className={styles.form_content}>
                     <div className={styles.form_content_item}>
                         <p>Индивидуальные приборы учета воды</p>
-                        {individualMeters.map((meter, idx) => (
+                        {individualMeters.map(meter => (
                             <div key={meter.name} className={styles.form_row}>
                             <label>{meter.label}</label>
                             <input type="text" className='appInput' placeholder='' {...register(meter.name)} />
@@ -243,7 +243,7 @@ const ComponentFormReadings = ({ register, errors, error, setStep, isSending }: 
                 <div className={styles.form_content}>
                     <div className={styles.form_content_item}>
                         <p>Общие квартирные приборы учета воды (групповые)</p>
-                        {groupMeters.map((meter, idx) => (
+                        {groupMeters.map(meter => (
                           <div key={meter.name} className={styles.form_row}>
                             <label>{meter.label}</label>
                             <input type="text" className='appInput' placeholder='' {...register(meter.name)} />

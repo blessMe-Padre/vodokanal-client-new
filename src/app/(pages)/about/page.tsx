@@ -4,8 +4,6 @@ import Breadcrumbs from "@/app/components/Breadcrumbs/Breadcrumbs";
 import ContentRenderer from "@/app/components/ContentRenderer/ContentRenderer";
 import fetchData from "@/app/utils/fetchData";
 
-import styles from "./style.module.scss";
-
 export const metadata = {
     title: 'МУП "Находка-Водоканал" - О компании',
     description: 'О компании МУП "Находка-Водоканал"',

@@ -21,7 +21,7 @@ export default function ContentPage() {
     const [error, setError] = useState('');
 
 
-    const { register, handleSubmit, formState: { errors }, reset } = useForm();
+    const { register, handleSubmit, formState: { errors } } = useForm();
     
     const handleFormSubmit = async (formData: FieldValues) => {
         setIsSending(true);
@@ -107,7 +107,7 @@ export default function ContentPage() {
     );
 }
 
-const ComponentFormCallController = ({ register, errors, error, isSending }: ComponentFormReadingsProps) => { 
+const ComponentFormCallController = ({ register, isSending }: ComponentFormReadingsProps) => { 
     const data = [
       { label: 'Фамилия, Имя, Отчество (или название компании)*', name: 'call_fio' },
       { label: 'Адрес (улица, дом, квартира)', name: 'call_address' },
@@ -144,7 +144,7 @@ const ComponentFormCallController = ({ register, errors, error, isSending }: Com
                 <div className={styles.form_content}>
                     <div className={styles.form_content_item}>
                         <p>Индивидуальные приборы учета воды</p>
-                        {data.map((i, idx) => (
+                        {data.map(i => (
                             <div key={i.name} className={styles.form_row}>
                             <label>{i.label}</label>
                             <input type="text" className='appInput' placeholder='' {...register(i.name)} required />

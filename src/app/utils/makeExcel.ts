@@ -3,8 +3,30 @@ import path from 'path';
 
 import * as XLSX from 'xlsx';
 
+interface ReadingsData {
+  date: string;
+  code_street: string;
+  house_number: string;
+  apartment_number: string;
+  fio: string;
+  address: string;
+  readings_1_i?: number;
+  readings_2_i?: number;
+  readings_3_i?: number;
+  readings_4_i?: number;
+  readings_5_i?: number;
+  readings_6_i?: number;
+  readings_6_double?: number;
+  readings_7_g?: number;
+  readings_8_g?: number;
+  readings_9_g?: number;
+  readings_10_g?: number;
+  readings_11_g?: number;
+  readings_12_g?: number;
+  readings_14_g?: number;
+}
 
-export const makeExcel = (body: any) => {
+export const makeExcel = (body: ReadingsData) => {
     
     // путь до файа
     const tempDir = path.join(process.cwd(), 'tmp');
@@ -18,7 +40,7 @@ export const makeExcel = (body: any) => {
 
     let workbook: XLSX.WorkBook;
     let worksheet: XLSX.WorkSheet;
-    let excelData: any[] = [];
+    let excelData: Record<string, string | number>[] = [];
 
     // Проверяем, существует ли уже файл
     if(fs.existsSync(filePath)) {

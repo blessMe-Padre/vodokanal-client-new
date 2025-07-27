@@ -1,15 +1,26 @@
 'use client';
 import { useSearchParams } from 'next/navigation';
-import { useState, useEffect, Suspense } from 'react';
+import { Suspense } from 'react';
 
-export default function SearchPage() {
+function SearchResults() {
     const searchParams = useSearchParams();
     const query = searchParams.get('query');
 
 
     return (
-        <div className='container'>
-            <h1>Результаты поиска для: {query}</h1>
-        </div>
+        <Suspense>
+            <div className='container'>
+                <h1>Результаты поиска для: {query}</h1>
+            </div>
+        </Suspense>
     )
+}
+
+
+export default function SearchPage() {
+    return (
+        <Suspense fallback={<div className='container'><h1>Загрузка результатов поиска...</h1></div>}>
+            <SearchResults />
+        </Suspense>
+    );
 }
