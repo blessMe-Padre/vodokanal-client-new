@@ -5,9 +5,9 @@ import * as XLSX from 'xlsx';
 
 interface ReadingsData {
   date: string;
-  code_street: string;
-  house_number: string;
-  apartment_number: string;
+  code_street: number;
+  house_number: number;
+  apartment_number: number;
   fio: string;
   address: string;
   readings_1_i?: number;
@@ -78,6 +78,19 @@ export const makeExcel = (body: ReadingsData) => {
 
     excelData.push(newRecord);
     worksheet = XLSX.utils.json_to_sheet(excelData);
+    
+    const numFormat = '0.000';
+    if (worksheet['!ref']) {
+      const range = XLSX.utils.decode_range(worksheet['!ref']);
+      for (let R = range.s.r; R <= range.e.r; ++R) {
+        for (let C = 4; C <= 18; ++C) { // Колонки с числами (нумерация с 0)
+          const cellAddress = XLSX.utils.encode_cell({r: R, c: C});
+          if (worksheet[cellAddress] && typeof worksheet[cellAddress].v === 'number') {
+            worksheet[cellAddress].z = numFormat;
+          }
+        }
+      }
+    }
 
 
     worksheet['!cols'] = [

@@ -33,6 +33,14 @@ const navLinks: NavLink[] = [
         href: "/terms-of-service"
     },
     {
+        title: "Связаться с нами",
+        href: "/contact-us"
+    },
+    {
+        title: "Вызвать оператора",
+        href: "/call-controller"
+    },
+    {
         title: "Калькулятор",
         href: "/connection"
     },

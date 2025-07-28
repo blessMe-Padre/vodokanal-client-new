@@ -175,3 +175,28 @@ a {
 .page_wrapper>main {
   flex: 1;
 }
+
+/* Стили для валидации полей */
+.valid-input {
+  border-color: #28a745 !important;
+}
+
+.invalid-input {
+  border-color: #dc3545 !important;
+  
+
+~.error {
+    position: absolute;
+    align-self: start;
+    margin-top: 40px;
+    right: 135px;
+    margin-bottom: 10px;
+  }
+}
+
+.error {
+  color: #dc3545;
+  font-size: 12px;
+  margin-top: -5px;
+  margin-bottom: 10px;
+}

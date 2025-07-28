@@ -168,6 +168,24 @@ const ComponentPhoneNumber = ({ setStep, errors }: ComponentPhoneNumberProps) =>
 
 
 const ComponentFormReadings = ({ register, isSending }: ComponentFormReadingsProps) => { 
+    const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({});
+    const [fieldValues, setFieldValues] = useState<Record<string, string>>({});
+
+
+    const handleFieldChange = (fieldName: string, value: string) => { 
+        setFieldValues(prev => ({ ...prev, [fieldName]: value }));
+        setTouchedFields(prev => ({ ...prev, [fieldName]: true }));
+    }
+
+    const handleFieldBlur = (fieldName: string) => { 
+        setTouchedFields(prev => ({ ...prev, [fieldName]: true }));
+    }
+
+    const getMeterValidation = (meterName: string) => { 
+        const value = fieldValues[meterName] || '';
+        return validateMeterReading(value);
+    }
+    
     const individualMeters = [
       { label: '1 - ХВС санузел (показания, куб. м) например: 00120.000', name: 'readings_1_i' },
       { label: '2 - ГВС санузел (показания, куб. м) например: 00120.000', name: 'readings_2_i' },
@@ -205,9 +223,46 @@ const ComponentFormReadings = ({ register, isSending }: ComponentFormReadingsPro
                     </div>
                     <div className={styles.form_content_item}>
                         <div>
-                            <input type="text" className='appInput' placeholder='' {...register('code_street')} />
-                            <input type="text" className='appInput' placeholder='' {...register('house_number')} />
-                            <input type="text" className='appInput' placeholder='' {...register('apartment_number')} />
+                            {/* <input type="text" className='appInput' placeholder='' {...register('code_street')} /> */}
+                             <input 
+                                type="text" 
+                                className={inputClass(
+                                    /^\d{3}$/.test(fieldValues['code_street'] || ''),
+                                    touchedFields['code_street'] || false,
+                                    'appInput'
+                                )}
+                                placeholder='Код улицы (3 цифры)' 
+                                {...register('code_street', {
+                                    onChange: (e) => handleFieldChange('code_street', e.target.value)
+                                })}
+                                onBlur={() => handleFieldBlur('code_street')}
+                            />
+                           <input 
+                                type="text" 
+                                className={inputClass(
+                                    /^[\dа-яА-Я\/]+$/.test(fieldValues['house_number'] || ''),
+                                    touchedFields['house_number'] || false,
+                                    'appInput'
+                                )}
+                                placeholder='Номер дома' 
+                                {...register('house_number', {
+                                    onChange: (e) => handleFieldChange('house_number', e.target.value)
+                                })}
+                                onBlur={() => handleFieldBlur('house_number')}
+                            />
+                            <input 
+                                type="text" 
+                                className={inputClass(
+                                    /^[\dа-яА-Я]+$/.test(fieldValues['apartment_number'] || ''),
+                                    touchedFields['apartment_number'] || false,
+                                    'appInput'
+                                )}
+                                placeholder='Номер квартиры' 
+                                {...register('apartment_number', {
+                                    onChange: (e) => handleFieldChange('apartment_number', e.target.value)
+                                })}
+                                onBlur={() => handleFieldBlur('apartment_number')}
+                            />
                         </div>
                         <div>
                             <input type="text" className='appInput' placeholder='' {...register('fio')} />  
@@ -222,9 +277,24 @@ const ComponentFormReadings = ({ register, isSending }: ComponentFormReadingsPro
                         <p>Индивидуальные приборы учета воды</p>
                         {individualMeters.map(meter => (
                             <div key={meter.name} className={styles.form_row}>
-                            <label>{meter.label}</label>
-                            <input type="text" className='appInput' placeholder='' {...register(meter.name)} />
-                          </div>
+                                <label>{meter.label}</label>
+                                <input 
+                                    type="text" 
+                                    className={inputClass(
+                                        getMeterValidation(meter.name),
+                                        touchedFields[meter.name] || false,
+                                        'appInput'
+                                    )}
+                                    placeholder='00000.000' 
+                                    {...register(meter.name, {
+                                        onChange: (e) => handleFieldChange(meter.name, e.target.value)
+                                    })}
+                                    onBlur={() => handleFieldBlur(meter.name)}
+                                />
+                                {touchedFields[meter.name] && !getMeterValidation(meter.name) && fieldValues[meter.name] && (
+                                    <p className="error">Формат: 5 цифр до точки, 3 цифры после (например: 00120.000)</p>
+                                )}
+                            </div>
                         ))}
                     </div>
                 </div>
@@ -235,7 +305,22 @@ const ComponentFormReadings = ({ register, isSending }: ComponentFormReadingsPro
                         <p>Водомер скважины для учёта стоков (частный сектор)</p>
                         <div className={styles.form_row}>
                             <label>7 - ХВС скважина (показания, куб. м) например: 00120.000</label>
-                            <input type="text" className='appInput' placeholder='' {...register('readings_6_double')} />
+                            <input 
+                                type="text" 
+                                className={inputClass(
+                                    getMeterValidation('readings_6_double'),
+                                    touchedFields['readings_6_double'] || false,
+                                    'appInput'
+                                )}
+                                placeholder='00000.000' 
+                                {...register('readings_6_double', {
+                                    onChange: (e) => handleFieldChange('readings_6_double', e.target.value)
+                                })}
+                                onBlur={() => handleFieldBlur('readings_6_double')}
+                            />
+                            {touchedFields['readings_6_double'] && !getMeterValidation('readings_6_double') && fieldValues['readings_6_double'] && (
+                                <p className="error">Формат: 5 цифр до точки, 3 цифры после (например: 00120.000)</p>
+                            )}
                         </div>
                     </div>
                 </div> 
@@ -246,7 +331,22 @@ const ComponentFormReadings = ({ register, isSending }: ComponentFormReadingsPro
                         {groupMeters.map(meter => (
                           <div key={meter.name} className={styles.form_row}>
                             <label>{meter.label}</label>
-                            <input type="text" className='appInput' placeholder='' {...register(meter.name)} />
+                            <input 
+                                type="text" 
+                                className={inputClass(
+                                    getMeterValidation(meter.name),
+                                    touchedFields[meter.name] || false,
+                                    'appInput'
+                                )}
+                                placeholder='00000.000' 
+                                {...register(meter.name, {
+                                    onChange: (e) => handleFieldChange(meter.name, e.target.value)
+                                })}
+                                onBlur={() => handleFieldBlur(meter.name)}
+                            />
+                            {touchedFields[meter.name] && !getMeterValidation(meter.name) && fieldValues[meter.name] && (
+                                <p className="error">Формат: 5 цифр до точки, 3 цифры после (например: 00120.000)</p>
+                            )}
                           </div>
                         ))}
                     </div>
@@ -268,3 +368,30 @@ const ComponentFormReadings = ({ register, isSending }: ComponentFormReadingsPro
     )
 }
 
+
+// Валидация лицевого счета
+const validateAccountNumber = (code: string, house: string, apartment: string) => {
+    if (!code || !house || !apartment) return false;
+    
+    // Проверяем код улицы (3 цифры)
+    if (!/^\d{3}$/.test(code)) return false;
+    
+    // Проверяем номер дома (может содержать буквы и символы)
+    if (!/^[\dа-яА-Я\/]+$/.test(house)) return false;
+    
+    // Проверяем номер квартиры (может содержать буквы)
+    if (!/^[\dа-яА-Я]+$/.test(apartment)) return false;
+    
+    return true;
+};
+
+const validateMeterReading = (value: string) => { 
+    if(!value) return true;
+    return /^\d{5}\.\d{3}$/.test(value);
+}
+
+
+const inputClass = (isValid: boolean, isTouched: boolean, baseClass: string) => {
+    if(!isTouched) return baseClass;
+    return `${baseClass} ${isValid ? 'valid-input' : 'invalid-input'}`;
+} 
