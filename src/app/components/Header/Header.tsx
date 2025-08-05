@@ -5,10 +5,15 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 
 import Search from "../Search/Search";
+import Image from "next/image";
 
 import styles from "./style.module.scss";
 
 import type { Variants } from "framer-motion";
+
+import logo from '@/../public/logo.svg'
+import uslugi from '@/../public/uslugi.svg'
+import phone from '@/../public/phone.svg';
 
 type NavLink = {
     title: string;
@@ -108,7 +113,41 @@ export default function Header() {
     return (
         <header className={styles.header}>
             <div className="container">
-                <h1>МУП Находка-Водоканал - header</h1>
+                <div className={styles.header_top}> 
+                    <div className={styles.logo}>
+                        <Image src={logo} width={50} height={50} alt="logo" />
+                        <div>
+                            <p className={styles.logo_sub_title}>Муниципальное унитарное предприятие</p>
+                            <h1 className={`${styles.logo_title} font-inter font-me`}>МУП Находка-Водоканал</h1>
+                        </div>
+                    </div>
+
+                    <div>
+                        <Image src={uslugi} alt="uslugi" />
+                    </div>
+
+                    <div className={styles.wrapper_contact_info}>
+                        <Image src={phone} width={25} height={25} alt="phone" />
+                        <div>
+                            <p>Для жителей многоквартирных домов</p>
+                            <a href="+7 984 195 8355, 745-582">+7 984 195 8355, 745-582</a>
+                        </div>
+                    </div>
+                    <div className={styles.wrapper_contact_info}>
+                        <Image src={phone} width={25} height={25} alt="phone" />
+                        <div>
+                            <p>Для жителей частного сектора</p>
+                            <a href="+7 914 719 6831, 634-132">+7 914 719 6831, 634-132</a>
+                        </div>
+                    </div>
+                    <div className={styles.wrapper_contact_info}>
+                        <Image src={phone} width={25} height={25} alt="phone" />
+                        <div>
+                            <p>Для юридических лиц</p>
+                            <a href="+7 914 716 5619, 744-539">+7 914 716 5619, 744-539</a>
+                        </div>
+                    </div>
+                </div>
 
 
                 <nav className={styles.nav}>

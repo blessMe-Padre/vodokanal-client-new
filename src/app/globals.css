@@ -1,15 +1,21 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --blue: #007bff;
+  --light-gray: #EAF0F3;
+  --main-color: #1B4965;
   --hover-blue: #0056b3;
-  --orange: #ff6347;
   --white: #ffffff;
-  --black: #000000;
+  --disabled-color: #BAC9D4;
+  --black: #263238;
   --anim-function: 0.3s ease-in-out;
+  
+  /* Font variables */
+  --font-montserrat: var(--font-montserrat);
+  --font-inter: var(--font-inter);
+  --font-roboto: var(--font-roboto);
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
@@ -25,7 +31,7 @@ body {
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-montserrat), 'Montserrat', Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -199,4 +205,34 @@ a {
   font-size: 12px;
   margin-top: -5px;
   margin-bottom: 10px;
+}
+
+/* Font utility classes */
+.font-montserrat {
+  font-family: var(--font-montserrat), 'Montserrat', sans-serif;
+}
+
+.font-inter {
+  font-family: var(--font-inter), 'Inter', sans-serif;
+}
+
+.font-roboto {
+  font-family: var(--font-roboto), 'Roboto', sans-serif;
+}
+
+/* Font weight utilities */
+.font-normal {
+  font-weight: 400;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.font-bold {
+  font-weight: 700;
 }
