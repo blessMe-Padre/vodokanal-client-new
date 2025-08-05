@@ -1,19 +1,21 @@
 "use client";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 
+import logo from '@/../public/logo.svg'
+import phone from '@/../public/phone.svg';
+import uslugi from '@/../public/uslugi.svg'
+
 import Search from "../Search/Search";
-import Image from "next/image";
 
 import styles from "./style.module.scss";
 
 import type { Variants } from "framer-motion";
 
-import logo from '@/../public/logo.svg'
-import uslugi from '@/../public/uslugi.svg'
-import phone from '@/../public/phone.svg';
+
 
 type NavLink = {
     title: string;
@@ -117,7 +119,7 @@ export default function Header() {
                     <div className={styles.logo}>
                         <Image src={logo} width={50} height={50} alt="logo" />
                         <div>
-                            <p className={styles.logo_sub_title}>Муниципальное унитарное предприятие</p>
+                            <p className={`${styles.logo_sub_title} font-inter`}>Муниципальное унитарное предприятие</p>
                             <h1 className={`${styles.logo_title} font-inter font-me`}>МУП Находка-Водоканал</h1>
                         </div>
                     </div>

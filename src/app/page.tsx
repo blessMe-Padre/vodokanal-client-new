@@ -1,5 +1,5 @@
 
-import { News } from "./section/index";
+import { News, MainBanner } from "./section/index";
 
 export default function Home() {
   return (
