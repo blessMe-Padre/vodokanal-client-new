@@ -4,6 +4,8 @@
   --light-gray: #EAF0F3;
   --light-blue: #8499A9;
   --main-color: #1B4965;
+  --main-color-hover: #357398;
+  --hover-blue: #0056b3;
   --hover-blue: #357398;
   --white: #ffffff;
   --disabled-color: #BAC9D4;
@@ -240,6 +242,19 @@ a {
   font-weight: 700;
 }
 
+/* Обернуть Image в image-wrapper для анимации */
+.image-wrapper {
+  overflow: hidden;
+  border-radius: 20px;
+}
+.image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+.image-wrapper:hover img {
+  transform: scale(1.1);
 /* Responsive font size with clamp */
 .font-responsive {
   font-size: clamp(22px, 4vw + 14px, 46px);
