@@ -28,7 +28,7 @@ const navLinks: NavLink[] = [
         href: "/"
     },
     {
-        title: "Тарифы",
+        title: "Тарифы и нормативы",
         href: "/rates"
     },
     {
@@ -40,24 +40,16 @@ const navLinks: NavLink[] = [
         href: "/transmission-of-readings"
     },
     {
-        title: "Связаться с нами",
-        href: "/contact-us"
-    },
-    {
-        title: "Вызвать оператора",
-        href: "/call-controller"
-    },
-    {
-        title: "Калькулятор",
-        href: "/connection"
-    },
-    {
         title: "Новости",
         href: "/news"
     },
     {
         title: "Противодействие коррупции",
         href: "/anti-corruption"
+    },
+    {
+        title: "Раскрытие информации",
+        href: "/requisites"
     }
 ]
 
