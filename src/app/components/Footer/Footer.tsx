@@ -27,12 +27,12 @@ const navLinks: NavLink[] = [
         href: "/rates"
     },
     {
-        title: "Контакты",
-        href: "/contacts"
+        title: "О компании",
+        href: "/about"
     },
     {
         title: "Передача показаний через сайт",
-        href: "/terms-of-service"
+        href: "/transmission-of-readings"
     },
     {
         title: "Связаться с нами",
@@ -51,8 +51,8 @@ const navLinks: NavLink[] = [
         href: "/news"
     },
     {
-        title: "О компании",
-        href: "/about"
+        title: "Противодействие коррупции",
+        href: "/anti-corruption"
     }
 ]
 

@@ -140,29 +140,31 @@ const ComponentPhoneNumber = ({ setStep, errors }: ComponentPhoneNumberProps) =>
     }
 
     return (
-        <>
-            <input
-                id='phone_number'
-                type="tel"
-                className="appInput"
-                placeholder="+7XXXXXXXXXX"
-                value={phone}
-                onChange={handlePhoneChange}
-                onBlur={() => setTouched(true)}
-            />
+        <div className='flex flex-row gap-[10px]'>
+            <div>
+                <input
+                    id='phone_number'
+                    type="tel"
+                    className="appInput"
+                    placeholder="+7XXXXXXXXXX"
+                    value={phone}
+                    onChange={handlePhoneChange}
+                    onBlur={() => setTouched(true)}
+                />
 
-            {(errors.phone_number || (touched && phone.length < 12)) && (
-                <p className="error">
-                {errors?.phone_number?.message?.toString() || 'Номер должен содержать 10 цифр после +7'}
-                </p>
-            )}
+                    {(errors.phone_number || (touched && phone.length < 12)) && (
+                        <p className="error">
+                        {errors?.phone_number?.message?.toString() || 'Номер должен содержать 10 цифр после +7'}
+                        </p>
+                    )}
+            </div>
 
             <Button
                 text="Далее"
                 disabled={!touched || phone.length !== 12}
                 onClick={handleNext}
             />
-        </>
+        </div>
     )
 }
 

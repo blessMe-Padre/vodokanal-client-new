@@ -1,0 +1,23 @@
+@use '@/app/mixins' as *;
+
+.section {
+    @include adaptiv-value("padding-bottom", 100, 60);
+}
+
+.desc {
+    font-weight: 500;
+    color: var(--black);
+    @include adaptiv-value("font-size", 18, 14);
+    margin-bottom: 30px;
+}
+
+.documentsList {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    margin-top: 20px;
+
+    a {
+        margin-bottom: 20px;
+    }
+} 

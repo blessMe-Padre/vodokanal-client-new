@@ -1,0 +1,18 @@
+@use '@/app/mixins' as *;
+
+.section {
+    @include adaptiv-value("padding-bottom", 100, 60);
+}
+
+.desc {
+    font-weight: 500;
+    color: var(--black);
+    @include adaptiv-value("font-size", 18, 14);
+    margin-bottom: 40px;
+
+    max-width: 60%;
+
+    @media screen and (max-width: 780px) {
+        max-width: 100%;
+    }
+}
