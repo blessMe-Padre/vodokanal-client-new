@@ -71,10 +71,10 @@ a {
 }
 
 .title {
-  font-size: 24px;
+  font-size: clamp(22px, 4vw + 14px, 46px);
   font-weight: 700;
   line-height: 1.2;
-  color: white;
+  color: var(--black);
   margin-bottom: 20px;
 }
 
@@ -236,4 +236,9 @@ a {
 
 .font-bold {
   font-weight: 700;
+}
+
+/* Responsive font size with clamp */
+.font-responsive {
+  font-size: clamp(22px, 4vw + 14px, 46px);
 }

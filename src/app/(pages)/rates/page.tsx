@@ -28,8 +28,8 @@ export default async function Rates() {
         <section className={styles.section}>
             <div className="container">
                 <Breadcrumbs secondLabel="Тарифы и нормативы"/>
-                <h1>Тарифы</h1>
-
+                <h1 className='title'>Тарифы</h1>
+                <p className={styles.desc}>В этом разделе размещаются нормативные акты, определяющие стоимость услуг МУП «Находка-Водоканал».</p>
                 <ul className={styles.ratesList}>
                     {ratesList.length > 0 &&
                         ratesList.map((rate, index) => (

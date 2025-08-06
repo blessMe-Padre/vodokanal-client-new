@@ -5,6 +5,13 @@
     @include adaptiv-value("padding-bottom", 100, 60);
 }
 
+.desc {
+    font-weight: 500;
+    color: var(--black);
+    @include adaptiv-value("font-size", 18, 14);
+
+}
+
 .ratesList {
     margin: 0;
     padding: 0;
