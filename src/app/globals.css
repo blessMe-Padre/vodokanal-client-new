@@ -3,6 +3,7 @@
   --foreground: #171717;
   --light-gray: #EAF0F3;
   --main-color: #1B4965;
+  --main-color-hover: #357398;
   --hover-blue: #0056b3;
   --white: #ffffff;
   --disabled-color: #BAC9D4;
@@ -240,6 +241,7 @@ a {
 /* Обернуть Image в image-wrapper для анимации */
 .image-wrapper {
   overflow: hidden;
+  border-radius: 20px;
 }
 .image-wrapper img {
   width: 100%;

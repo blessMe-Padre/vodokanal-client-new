@@ -3,6 +3,7 @@ import Image from "next/image";
 import Breadcrumbs from "@/app/components/Breadcrumbs/Breadcrumbs";
 import ContentRenderer from "@/app/components/ContentRenderer/ContentRenderer";
 import Counter from "@/app/components/Counter/Counter";
+import { News } from "@/app/section/index";
 import fetchData from "@/app/utils/fetchData";
 
 import styles from './style.module.scss';
@@ -74,7 +75,7 @@ export default async function About() {
                 </div>
             </section>
 
-
+            <News />
         </div>
     )
 }
