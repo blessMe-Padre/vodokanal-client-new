@@ -14,7 +14,6 @@ export const metadata = {
 
 export default async function About() {
     const page = await fetchData(`/api/stranicza-o-kompanii?populate=*`);
-    console.log(page);
 
     return (
 
@@ -57,18 +56,24 @@ export default async function About() {
                 </div>
             </section>
 
-            <Image
-                src={page?.data?.image?.url ? `${process.env.NEXT_PUBLIC_API_SERVER}${page.data.image.url}` : '/placeholder.svg'}
-                alt={page?.data?.image?.alternativeText ?? 'image'}
-                width={page?.data?.image?.width}
-                height={page?.data?.image?.height}
-                // loading="lazy"
-                priority
-                placeholder="blur"
-                blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQ0MiIgaGVpZ2h0PSIxMTg5IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNjY2MiIC8+PC9zdmc+"
-            />
+            <section className={styles.features}>
+                <div className='image-wrapper'>
+                    <Image
+                        src={page?.data?.image?.url ? `${process.env.NEXT_PUBLIC_API_SERVER}${page.data.image.url}` : '/placeholder.svg'}
+                        alt={page?.data?.image?.alternativeText ?? 'image'}
+                        width={page?.data?.image?.width}
+                        height={page?.data?.image?.height}
+                        loading="lazy"
+                        // priority
+                        placeholder="blur"
+                        blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQ0MiIgaGVpZ2h0PSIxMTg5IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNjY2MiIC8+PC9zdmc+"
+                    />
+                </div>
+                <div>
+                    <ContentRenderer content={page?.data?.content} />
+                </div>
+            </section>
 
-            <ContentRenderer content={page?.data?.content} />
 
         </div>
     )
