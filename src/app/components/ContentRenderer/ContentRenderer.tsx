@@ -8,6 +8,7 @@ export type ContentItem = {
     children: ContentItem[];
     level?: number;
     format?: string;
+    bold?: boolean;
     text?: string;
     image?: {
         url: string;
@@ -40,16 +41,20 @@ export const renderContent = (content: ContentItem[]): React.ReactNode => {
                     </HeadingTag>
                 );
             }
+
             case 'paragraph':
                 return (
                     <p className={styles.p} key={index}>
-                        {item.children.map((child, childIndex) => (
-                            <React.Fragment key={childIndex}>
-                                {renderContent([child])}
-                            </React.Fragment>
-                        ))}
+                         {item.children.map((child, childIndex) => {
+                            return child.bold ? (
+                                <strong key={childIndex}>{child.text}</strong>
+                            ) : (
+                                <span key={childIndex}>{child.text}</span>
+                            );
+                        })}
                     </p>
                 );
+            
             case 'list': {
                 const ListTag: ListTagType = item.format === 'unordered' ? 'ul' : 'ol';
                 return (
@@ -62,18 +67,23 @@ export const renderContent = (content: ContentItem[]): React.ReactNode => {
                     </ListTag>
                 );
             }
+
             case 'list-item':
                 return (
                     <li className={styles.li} key={index} >
-                        {item.children.map((child, childIndex) => (
-                            <React.Fragment key={childIndex}>
-                                {renderContent([child])}
-                            </React.Fragment>
-                        ))}
+                        {item.children.map((child, childIndex) => {
+                            return child.bold ? (
+                                <strong key={childIndex}>{child.text}</strong>
+                            ) : (
+                                <span key={childIndex}>{child.text}</span>
+                            );
+                        })}
                     </li>
                 );
+
             case 'text':
                 return <React.Fragment key={index}>{item.text}</React.Fragment>;
+            
             case 'image':
                 if (!item.image) return null;
                 return (
