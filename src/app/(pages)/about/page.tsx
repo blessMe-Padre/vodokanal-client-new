@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import Breadcrumbs from "@/app/components/Breadcrumbs/Breadcrumbs";
 import ContentRenderer from "@/app/components/ContentRenderer/ContentRenderer";
+import Counter from "@/app/components/Counter/Counter";
 import fetchData from "@/app/utils/fetchData";
 
 import styles from './style.module.scss';
@@ -26,6 +27,32 @@ export default async function About() {
                     <p><strong>МУП «Находка-Водоканал» — </strong> это стратегически важное предприятие, обеспечивающее бесперебойное водоснабжение и водоотведение для жителей, бизнеса 
                     и социальных объектов города Находка.</p>
                     <p><strong>Наша миссия — </strong> поставлять чистую воду, сохранять природные ресурсы и делать жизнь в городе комфортнее.</p>
+                </div>
+            </section>
+
+            <section className={styles.counter}>
+                <div className={styles.counter_item}>
+                    <div className={styles.counter_item_title}>
+                        <span>&gt;</span>
+                        <Counter endValue={100000} className="increement" />
+                    </div>
+                    <p>обслуживаем жителей</p>
+                </div>
+                <div className={styles.counter_item}>
+                    <div className={styles.counter_item_title}>
+                        <span>&gt;</span>
+                        <Counter endValue={400} className="increement" />
+                        <span> км</span>
+                    </div>
+                    <p>протяжённость сетей</p>
+                </div>
+                <div className={styles.counter_item}>
+                    <div className={styles.counter_item_title}>
+                        <span>&gt;</span>
+                        <Counter endValue={300} className="increement" />
+                        <span> ед</span>
+                    </div>
+                    <p>специалистов в штате</p>
                 </div>
             </section>
 
