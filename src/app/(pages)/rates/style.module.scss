@@ -1,8 +1,17 @@
 @use '@/app/mixins' as *;
 // @include adaptiv-value("font-size", 24, 13);
 
+.section {
+    @include adaptiv-value("padding-bottom", 100, 60);
+}
+
 .ratesList {
     margin: 0;
     padding: 0;
     list-style: none;
+    margin-top: 20px;
+
+    a {
+        margin-bottom: 20px;
+    }
 }

@@ -271,7 +271,7 @@ export default function Header() {
                     </div>
                 </motion.div>
 
-                <button
+                {/* <button
                     ref={buttonRef}
                     className={`${styles.button}`}
                     onClick={() => setSearchOpened(!searchOpened)}
@@ -289,7 +289,7 @@ export default function Header() {
                     className="overflow-hidden"
                 >
                     <Search />
-                </motion.div>
+                </motion.div> */}
 
             </div>
         </header>
