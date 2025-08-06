@@ -1,3 +1,4 @@
+import { Breadcrumbs } from "@/app/components";
 import DocumentComponent from "@/app/components/DocumentComponent/DocumentComponent";
 import fetchData from "@/app/utils/fetchData";
 
@@ -24,19 +25,22 @@ export default async function Rates() {
     const ratesList: RatesList[] = data.data;
 
     return (
-        <div className="container">
-            <h1>Тарифы</h1>
-
-            <ul className={styles.ratesList}>
-                {ratesList.length > 0 &&
-                    ratesList.map((rate, index) => (
-                        <DocumentComponent
-                            key={index}
-                            title={rate?.title}
-                            link={`${process.env.NEXT_PUBLIC_API_SERVER}${rate?.file?.url}`}
-                        />
-                    ))}
-            </ul>
-        </div>
+        <section className={styles.section}>
+            <div className="container">
+                <Breadcrumbs secondLabel="Тарифы и нормативы"/>
+                <h1 className='title'>Тарифы</h1>
+                <p className={styles.desc}>В этом разделе размещаются нормативные акты, определяющие стоимость услуг МУП «Находка-Водоканал».</p>
+                <ul className={styles.ratesList}>
+                    {ratesList.length > 0 &&
+                        ratesList.map((rate, index) => (
+                            <DocumentComponent
+                                key={index}
+                                title={rate?.title}
+                                link={`${process.env.NEXT_PUBLIC_API_SERVER}${rate?.file?.url}`}
+                            />
+                        ))}
+                </ul>
+            </div>
+        </section>
     )
 }

@@ -2,9 +2,11 @@
   --background: #ffffff;
   --foreground: #171717;
   --light-gray: #EAF0F3;
+  --light-blue: #8499A9;
   --main-color: #1B4965;
   --main-color-hover: #357398;
   --hover-blue: #0056b3;
+  --hover-blue: #357398;
   --white: #ffffff;
   --disabled-color: #BAC9D4;
   --black: #263238;
@@ -71,10 +73,10 @@ a {
 }
 
 .title {
-  font-size: 24px;
+  font-size: clamp(22px, 4vw + 14px, 46px);
   font-weight: 700;
   line-height: 1.2;
-  color: white;
+  color: var(--black);
   margin-bottom: 20px;
 }
 
@@ -86,12 +88,14 @@ a {
 }
 
 .appInput {
-  max-width: 256px;
+  max-width: 347px;
   width: 100%;
+  height: 60px;
   padding: 10px;
-  border: 1px solid var(--black);
-  border-radius: 5px;
-  outline: none;
+  background-color: var(--light-gray);
+  color: var(--black);
+  border: none;
+  border-radius: 10px;
   margin-bottom: 10px;
 }
 
@@ -251,4 +255,7 @@ a {
 }
 .image-wrapper:hover img {
   transform: scale(1.1);
+/* Responsive font size with clamp */
+.font-responsive {
+  font-size: clamp(22px, 4vw + 14px, 46px);
 }

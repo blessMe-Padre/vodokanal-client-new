@@ -3,14 +3,18 @@
 
 .breadcrumbs {
 
-    font-weight: 400;
+    font-weight: 500;
     font-size: 12px;
     letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--text-black);
-    padding-top: 30px;
-    padding-bottom: 10px;
-    @include adaptiv-value("font-size", 24, 13);
+    // text-transform: uppercase;
+    color: var(--black);
+    padding-bottom: 30px;
+    @include adaptiv-value("font-size", 16, 13);
+
+    @media screen and (max-width: 760px) {
+        padding-top: 15px;
+        padding-bottom: 20px;
+    }
 
 
     ul {
@@ -32,10 +36,10 @@
             a {
                 text-decoration: none;
                 font-weight: 400;
-                font-size: 12px;
+                font-size: 16px;
                 letter-spacing: 0.04em;
-                text-transform: uppercase;
-                color: var(--text-black);
+                // text-transform: uppercase;
+                color: var(--light-blue);
 
                 &:hover {
                     text-decoration: underline;

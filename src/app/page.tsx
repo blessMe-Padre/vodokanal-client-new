@@ -1,10 +1,11 @@
 
-import { News, MainBanner } from "./section/index";
+import { News, MainBanner, Services } from "./section/index";
 
 export default function Home() {
   return (
     <div className="container">
-      <News />
+      <MainBanner />
+      <Services />
     </div>
   );
 }
