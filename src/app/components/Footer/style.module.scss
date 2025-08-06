@@ -2,11 +2,131 @@
 // @include adaptiv-value("font-size", 24, 13);
 
 .footer {
-    
+    background-color: var(--main-color);
+    color: white;
+    padding: 60px 0 20px;
+    margin-top: auto;
 }
 
 .footer_info {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 40px;
+    margin-bottom: 30px;
+}
+
+.logos_column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo_sub_title {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 5px;
+}
+
+.logo_title {
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+}
+
+.uslugi_logo {
+    margin-top: 10px;
+}
+
+.nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 30px;
     
+    a {
+        color: white;
+        text-decoration: none;
+        font-size: 14px;
+        transition: opacity 0.3s ease;
+        
+        &:hover {
+            opacity: 0.8;
+        }
+        
+        &.active {
+            font-weight: 600;
+        }
+    }
+}
+
+.contacts_column {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.wrapper_contact_info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    
+    p {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 2px;
+    }
+    
+    a {
+        color: white;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
+.footer_bottom {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 20px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.8);
+    
+    a {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        
+        &:hover {
+            color: white;
+            text-decoration: underline;
+        }
+    }
+}
+
+.copyright {
+    grid-column: 1 / 2;
+}
+
+.policy_links {
+    grid-column: 2 / 3;
+}
+
+.terms_links {
+    grid-column: 3 / 4;
+}
+
+.development {
+    grid-column: 4 / 5;
 }
 
 .document {
@@ -18,5 +138,31 @@
         display: flex;
         align-items: center;
         gap: 10px;
+    }
+}
+
+// Адаптивность для мобильных устройств
+@media (max-width: 768px) {
+    .footer_info {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .nav {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .footer_bottom {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .copyright,
+    .policy_links,
+    .terms_links,
+    .development {
+        grid-column: 1 / 2;
     }
 }

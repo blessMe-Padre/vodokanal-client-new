@@ -63,6 +63,7 @@ const navLinks: NavLink[] = [
 
 export default function Header() {
     const [searchOpened, setSearchOpened] = useState(false);
+    const [mobileMenuOpened, setMobileMenuOpened] = useState(false);
 
     // закрываем поиск при клике вне попапа
     useEffect(() => {
@@ -91,6 +92,7 @@ export default function Header() {
 
     const buttonRef = useRef<HTMLButtonElement>(null);
     const menuRef = useRef<HTMLDivElement>(null);
+    const mobileMenuRef = useRef<HTMLDivElement>(null);
     const pathname = usePathname();
 
     // Работа с поиском
@@ -111,11 +113,47 @@ export default function Header() {
         },
     };
 
+    // Работа с мобильным меню
+    const mobileMenuVariants: Variants = {
+        visible: {
+            x: 0,
+            opacity: 1,
+            transition: {
+                type: "spring",
+                stiffness: 300,
+                damping: 30,
+            },
+        },
+        hidden: {
+            x: "-100%",
+            opacity: 0,
+            transition: {
+                type: "spring",
+                stiffness: 300,
+                damping: 30,
+            },
+        },
+    };
+
+    const toggleMobileMenu = () => {
+        setMobileMenuOpened(!mobileMenuOpened);
+    };
+
 
     return (
         <header className={styles.header}>
             <div className="container">
                 <div className={styles.header_top}> 
+                    <button
+                        className={styles.burger_menu}
+                        onClick={toggleMobileMenu}
+                        aria-label="Открыть меню"
+                    >
+                        <span className={`${styles.burger_line} ${mobileMenuOpened ? styles.active : ''}`}></span>
+                        <span className={`${styles.burger_line} ${mobileMenuOpened ? styles.active : ''}`}></span>
+                        <span className={`${styles.burger_line} ${mobileMenuOpened ? styles.active : ''}`}></span>
+                    </button>
+
                     <div className={styles.logo}>
                         <Image src={logo} width={50} height={50} alt="logo" />
                         <div>
@@ -124,33 +162,46 @@ export default function Header() {
                         </div>
                     </div>
 
-                    <div>
+                    <div className={styles.desktop_logo}>
                         <Image src={uslugi} alt="uslugi" />
                     </div>
 
-                    <div className={styles.wrapper_contact_info}>
-                        <Image src={phone} width={25} height={25} alt="phone" />
+                    <div className={styles.mobile_logos}>
+                        <Image src={logo} width={30} height={30} alt="logo" />
                         <div>
-                            <p>Для жителей многоквартирных домов</p>
-                            <a href="+7 984 195 8355, 745-582">+7 984 195 8355, 745-582</a>
+                            <p className={`${styles.logo_sub_title} font-inter`}>Муниципальное унитарное предприятие</p>
+                            <h1 className={`${styles.logo_title} font-inter font-me`}>МУП Находка-Водоканал</h1>
                         </div>
+                        
                     </div>
-                    <div className={styles.wrapper_contact_info}>
-                        <Image src={phone} width={25} height={25} alt="phone" />
-                        <div>
-                            <p>Для жителей частного сектора</p>
-                            <a href="+7 914 719 6831, 634-132">+7 914 719 6831, 634-132</a>
+                    <div className={styles.mobile_logos}>
+                        <Image src={uslugi} width={120} height={30} alt="uslugi" />
+                    </div>
+
+                    <div className={styles.desktop_contacts}>
+                        <div className={styles.wrapper_contact_info}>
+                            <Image src={phone} width={25} height={25} alt="phone" />
+                            <div>
+                                <p>Для жителей многоквартирных домов</p>
+                                <a href="+7 984 195 8355, 745-582">+7 984 195 8355, 745-582</a>
+                            </div>
                         </div>
-                    </div>
-                    <div className={styles.wrapper_contact_info}>
-                        <Image src={phone} width={25} height={25} alt="phone" />
-                        <div>
-                            <p>Для юридических лиц</p>
-                            <a href="+7 914 716 5619, 744-539">+7 914 716 5619, 744-539</a>
+                        <div className={styles.wrapper_contact_info}>
+                            <Image src={phone} width={25} height={25} alt="phone" />
+                            <div>
+                                <p>Для жителей частного сектора</p>
+                                <a href="+7 914 719 6831, 634-132">+7 914 719 6831, 634-132</a>
+                            </div>
+                        </div>
+                        <div className={styles.wrapper_contact_info}>
+                            <Image src={phone} width={25} height={25} alt="phone" />
+                            <div>
+                                <p>Для юридических лиц</p>
+                                <a href="+7 914 716 5619, 744-539">+7 914 716 5619, 744-539</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-
 
                 <nav className={styles.nav}>
                     {navLinks.map((link, index) => (
@@ -162,8 +213,63 @@ export default function Header() {
                             {link.title}
                         </Link>
                     ))}
-
                 </nav>
+
+                <motion.div
+                    ref={mobileMenuRef}
+                    variants={mobileMenuVariants}
+                    initial={"hidden"}
+                    animate={mobileMenuOpened ? "visible" : "hidden"}
+                    className={styles.mobile_menu}
+                >
+                    <div className={styles.mobile_menu_header}>
+                        <button
+                            className={styles.close_menu}
+                            onClick={toggleMobileMenu}
+                            aria-label="Закрыть меню"
+                        >
+                            <span className={styles.close_line}></span>
+                            <span className={styles.close_line}></span>
+                        </button>
+                    </div>
+
+                    <nav className={styles.mobile_nav}>
+                        {navLinks.map((link, index) => (
+                            <Link
+                                key={index}
+                                href={link.href}
+                                className={pathname === link.href ? styles.active : undefined}
+                                onClick={() => setMobileMenuOpened(false)}
+                            >
+                                {link.title}
+                            </Link>
+                        ))}
+                    </nav>
+
+                    <div className={styles.mobile_contacts}>
+                        <div className={styles.wrapper_contact_info}>
+                            <Image src={phone} width={20} height={20} alt="phone" />
+                            <div>
+                                <p>Для жителей многоквартирных домов</p>
+                                <a href="+7 984 195 8355, 745-582">+7 984 195 8355, 745-582</a>
+                            </div>
+                        </div>
+                        <div className={styles.wrapper_contact_info}>
+                            <Image src={phone} width={20} height={20} alt="phone" />
+                            <div>
+                                <p>Для жителей частного сектора</p>
+                                <a href="+7 914 719 6831, 634-132">+7 914 719 6831, 634-132</a>
+                            </div>
+                        </div>
+                        <div className={styles.wrapper_contact_info}>
+                            <Image src={phone} width={20} height={20} alt="phone" />
+                            <div>
+                                <p>Для юридических лиц</p>
+                                <a href="+7 914 716 5619, 744-539">+7 914 716 5619, 744-539</a>
+                            </div>
+                        </div>
+                    </div>
+                </motion.div>
 
                 <button
                     ref={buttonRef}

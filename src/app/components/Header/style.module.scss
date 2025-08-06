@@ -25,6 +25,10 @@
             color: var(--main-color);
         }
     }
+
+    @media screen and (max-width: 780px) {
+        display: none;
+    }
 }
 
 .header_top {
@@ -33,26 +37,203 @@
     justify-content: space-between;
     flex-direction: row;
     margin-top: 30px;
+    position: relative;
+
+
+    @media screen and (max-width: 780) {
+        background-color: var(--light-gray);
+        padding: 20px;
+        border-radius: 20px;
+    }
 }
 
 .logo_sub_title {
     font-weight: 400;
     color: var(--main-color);
-    @include adaptiv-value("font-size", 9, 6);
+    @include adaptiv-value("font-size", 9, 4);
 }
 
 .logo_title {
     font-weight: 700;
     text-transform: uppercase;
     color: var(--main-color);
-    @include adaptiv-value("font-size", 17, 13);
-
+    @include adaptiv-value("font-size", 17, 7);
 }
 
 .logo {
     display: flex;
     align-items: center;
-    gap: 10px
+    gap: 10px;
+
+    @media screen and (max-width: 780px) {
+        display: none;
+    }
+}
+
+.desktop_logo {
+    @media screen and (max-width: 780px) {
+        display: none;
+    }
+}
+
+.mobile_logos {
+    display: none;
+    align-items: center;
+    gap: 15px;
+
+    @media screen and (max-width: 780px) {
+        display: flex;
+    }
+}
+
+.desktop_contacts {
+    display: flex;
+    gap: 20px;
+
+    @media screen and (max-width: 780px) {
+        display: none;
+    }
+}
+
+.burger_menu {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 25px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1000;
+    order: -1;
+
+    @media screen and (max-width: 780px) {
+        display: flex;
+    }
+}
+
+.burger_line {
+    width: 100%;
+    height: 3px;
+    background-color: var(--main-color);
+    border-radius: 2px;
+    transition: all 0.3s ease-in-out;
+
+    &.active {
+        &:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        &:nth-child(2) {
+            opacity: 0;
+        }
+
+        &:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+    }
+}
+
+.mobile_menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 100vh;
+    background-color: white;
+    z-index: 9999;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+
+    @media screen and (min-width: 781px) {
+        display: none;
+    }
+}
+
+.mobile_menu_header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.close_menu {
+    width: 30px;
+    height: 30px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close_line {
+    position: absolute;
+    width: 20px;
+    height: 2px;
+    background-color: var(--main-color);
+    border-radius: 1px;
+
+    &:nth-child(1) {
+        transform: rotate(45deg);
+    }
+
+    &:nth-child(2) {
+        transform: rotate(-45deg);
+    }
+}
+
+.mobile_nav {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+
+    a {
+        color: var(--black);
+        font-weight: 500;
+        font-size: 16px;
+        padding: 15px 0;
+        border-bottom: 1px solid #eee;
+        transition: all .3s ease-in-out;
+        text-decoration: none;
+
+        &:hover {
+            color: var(--main-color);
+            background-color: #f8f8f8;
+            padding-left: 10px;
+        }
+
+        &.active {
+            color: var(--blue);
+            background-color: #f0f8ff;
+            padding-left: 10px;
+        }
+
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+}
+
+.mobile_contacts {
+    padding: 20px;
+    border-top: 1px solid #eee;
+    background-color: #f8f8f8;
+
+    .wrapper_contact_info {
+        margin-bottom: 15px;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
 }
 
 .wrapper_contact_info {
@@ -72,7 +253,6 @@
         font-weight: 700;
         color: var(--main-color);
         @include adaptiv-value("font-size", 15, 13);
-
     }
 
     p {
