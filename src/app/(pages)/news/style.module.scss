@@ -188,3 +188,39 @@
     color: var(--main-color);
     border: 1px solid var(--main-color);
 }
+
+// стили страницы одной новости
+
+.article {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    margin-top: 20px;
+    @include adaptiv-value("margin-bottom", 100, 50);
+
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .article_content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 20px;
+    }
+}
+
+.article_title {
+    @include adaptiv-value("margin-bottom", 36, 22);
+    margin-bottom: 30px;
+}
+
+.article_img {
+    border-radius: 20px;
+}
+.article_img img {
+    object-fit: contain;
+    border-radius: 20px;
+    height: auto;
+}
