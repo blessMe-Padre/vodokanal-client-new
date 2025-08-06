@@ -39,6 +39,7 @@ export type NewsItem = {
     documentId: string;
     title: string;
     description: string;
+    publishedAt?: string;
     content: [],
     display_on_site: boolean,
     image: {

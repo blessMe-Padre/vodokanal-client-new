@@ -3,6 +3,8 @@ import Breadcrumbs from "@/app/components/Breadcrumbs/Breadcrumbs";
 import PageContent from "./PageContent";
 import styles from "./style.module.scss";
 
+// TODO: уточнить по поводу фильтрафии новостей
+
 export const metadata = {
 
     title: 'МУП "Находка-Водоканал" - Новости',
@@ -13,8 +15,8 @@ export default function News() {
     return (
         <div className="container">
             <div className={styles.news}>
-                <h1>Все новости</h1>
                 <Breadcrumbs thirdLabel="Новости" />
+                <h1 className={styles.title}>Новости</h1>
                 <PageContent />
             </div>
         </div>
