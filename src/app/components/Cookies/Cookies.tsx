@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import styles from './style.module.css';
 
@@ -8,7 +8,7 @@ export default function Cookies() {
     const [open, setOpen] = useState(false);
 
     const UTCDate = new Date(new Date().setMonth(new Date().getMonth() + 1)).toUTCString();
-    const cookiesStorage = {
+    const cookiesStorage = useMemo(() => ({
         getItem: (key: string) => {
             const cookies = document.cookie
                 .split(';')
@@ -20,7 +20,7 @@ export default function Cookies() {
         setItem: (key: string, value: string) => {
             document.cookie = `${key}=${value};expires=${UTCDate}`;
         }
-    }
+    }), [UTCDate])
 
     useEffect(() => {
         if (cookiesStorage.getItem('site_consent') === 'true') {
@@ -28,7 +28,7 @@ export default function Cookies() {
         } else {
             setOpen(true);
         }
-    }, []);
+    }, [cookiesStorage]);
 
     const handleClick = () => {
         setOpen(false);

@@ -1,9 +1,8 @@
 import Image from 'next/image';
 
 import banner from '@/../public/banner.png';
-import phone from '@/../public/phone.svg';
 import banner_s from '@/../public/banner_s.png';
-
+import phone from '@/../public/phone.svg';
 import { LinkCustom } from '@/app/components';
 
 import styles from './style.module.scss';

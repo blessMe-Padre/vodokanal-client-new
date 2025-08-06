@@ -6,7 +6,6 @@ import { usePathname } from 'next/navigation';
 import logo from '@/../public/logo_w.svg'
 import phone from '@/../public/phone_w.svg';
 import uslugi from '@/../public/uslugi.svg'
-
 import { Cookies } from "@/app/components";
 
 import styles from "./style.module.scss";

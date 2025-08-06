@@ -372,20 +372,20 @@ const ComponentFormReadings = ({ register, isSending }: ComponentFormReadingsPro
 
 
 // Валидация лицевого счета
-const validateAccountNumber = (code: string, house: string, apartment: string) => {
-    if (!code || !house || !apartment) return false;
+// const validateAccountNumber = (code: string, house: string, apartment: string) => {
+//     if (!code || !house || !apartment) return false;
     
-    // Проверяем код улицы (3 цифры)
-    if (!/^\d{3}$/.test(code)) return false;
+//     // Проверяем код улицы (3 цифры)
+//     if (!/^\d{3}$/.test(code)) return false;
     
-    // Проверяем номер дома (может содержать буквы и символы)
-    if (!/^[\dа-яА-Я\/]+$/.test(house)) return false;
+//     // Проверяем номер дома (может содержать буквы и символы)
+//     if (!/^[\dа-яА-Я\/]+$/.test(house)) return false;
     
-    // Проверяем номер квартиры (может содержать буквы)
-    if (!/^[\dа-яА-Я]+$/.test(apartment)) return false;
+//     // Проверяем номер квартиры (может содержать буквы)
+//     if (!/^[\dа-яА-Я]+$/.test(apartment)) return false;
     
-    return true;
-};
+//     return true;
+// };
 
 const validateMeterReading = (value: string) => { 
     if(!value) return true;
