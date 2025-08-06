@@ -45,12 +45,13 @@ export const renderContent = (content: ContentItem[]): React.ReactNode => {
             case 'paragraph':
                 return (
                     <p className={styles.p} key={index}>
-                        {item.children.map((child, childIndex) => (
-                            <React.Fragment key={childIndex}>
-                                {child.bold && <strong>{child.text} </strong>}
-                                {renderContent([child])}
-                            </React.Fragment>
-                        ))}
+                         {item.children.map((child, childIndex) => {
+                            return child.bold ? (
+                                <strong key={childIndex}>{child.text}</strong>
+                            ) : (
+                                <span key={childIndex}>{child.text}</span>
+                            );
+                        })}
                     </p>
                 );
             
@@ -70,12 +71,13 @@ export const renderContent = (content: ContentItem[]): React.ReactNode => {
             case 'list-item':
                 return (
                     <li className={styles.li} key={index} >
-                        {item.children.map((child, childIndex) => (
-                            <React.Fragment key={childIndex}>
-                                {child.bold && <strong>{child.text} </strong>}
-                                {renderContent([child])}
-                            </React.Fragment>
-                        ))}
+                        {item.children.map((child, childIndex) => {
+                            return child.bold ? (
+                                <strong key={childIndex}>{child.text}</strong>
+                            ) : (
+                                <span key={childIndex}>{child.text}</span>
+                            );
+                        })}
                     </li>
                 );
 
