@@ -4,10 +4,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react'
 
-import fetchData from '@/app/utils/fetchData';
 import formatDate from '@/app/utils/formatDate'
 
 import styles from './style.module.scss';
+
+import fetchData from '@/app/utils/fetchData';
+
 
 
 type NewsType = {

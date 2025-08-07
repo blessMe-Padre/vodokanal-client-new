@@ -1,4 +1,4 @@
-export default async function fetchData(url) {
+export default async function fetchData<T = any>(url:string): Promise<T> {
     const domain = `${process.env.NEXT_PUBLIC_API_SERVER}`;
     try {
         const response = await fetch(domain + url, {
@@ -8,10 +8,10 @@ export default async function fetchData(url) {
         if (!response.ok) {
             throw new Error(`Ошибка http:, ${response.status}`)
         }
-        const result = await response.json();
+        const result: T = await response.json();
         return result;
     } catch (error) {
-        console.error('Произошла ошибка', error)
-        return [];
+        console.error('Произошла ошибка', error);
+        throw error;
     }
 }

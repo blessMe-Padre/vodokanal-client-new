@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 
 import logo from '@/../public/logo_w.svg'
 import phone from '@/../public/phone_w.svg';
-import uslugi from '@/../public/uslugi.svg'
+import uslugi from '@/../public/uslugi.png'
 import { Cookies } from "@/app/components";
 
 import styles from "./style.module.scss";
@@ -64,16 +64,17 @@ export default function Footer() {
                 <div className={styles.footer_info}>
                     {/* Первая колонка - логотипы */}
                     <div className={styles.logos_column}>
-                        <div className={styles.uslugi_logo}>
+                        <Link className={styles.uslugi_logo} href={'https://gosuslugi.primorsky.ru/main.htm'} target="_blank">
                             <Image src={uslugi} alt="uslugi" />
-                        </div>
-                        <div className={styles.logo}>
+                        </Link>
+                        
+                        <Link href={'/'} className={styles.logo}>
                             <Image src={logo} width={50} height={50} alt="logo" />
                             <div>
                                 <p className={`${styles.logo_sub_title} font-inter`}>Муниципальное унитарное предприятие</p>
                                 <h1 className={`${styles.logo_title} font-inter font-me`}>МУП Находка-Водоканал</h1>
                             </div>
-                        </div>
+                        </Link>
                     </div>
 
                     {/* Вторая колонка - навигация */}

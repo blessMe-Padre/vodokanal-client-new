@@ -215,62 +215,55 @@ const ComponentFormReadings = ({ register, isSending }: ComponentFormReadingsPro
                         <div>
                             <p>Лицевой счет №*</p>
                             <p>Шаблон ввода лицевого счета: «код улицы»-«номер дома»-«номер квартиры» Например: 052-001-025, 052-035а-025, 052-205б-001а, 052-205/1-101/2</p>
+                            <div className={styles.input_row}>
+                                <input 
+                                    type="text" 
+                                    className={inputClass(
+                                        /^\d{3}$/.test(fieldValues['code_street'] || ''),
+                                        touchedFields['code_street'] || false,
+                                        'appInput'
+                                    )}
+                                    placeholder='Код улицы (3 цифры)' 
+                                    {...register('code_street', {
+                                        onChange: (e) => handleFieldChange('code_street', e.target.value)
+                                    })}
+                                    onBlur={() => handleFieldBlur('code_street')}
+                                />
+                                <input 
+                                    type="text" 
+                                    className={inputClass(
+                                        /^[\dа-яА-Я\/]+$/.test(fieldValues['house_number'] || ''),
+                                        touchedFields['house_number'] || false,
+                                        'appInput'
+                                    )}
+                                    placeholder='Номер дома' 
+                                    {...register('house_number', {
+                                        onChange: (e) => handleFieldChange('house_number', e.target.value)
+                                    })}
+                                    onBlur={() => handleFieldBlur('house_number')}
+                                />
+                                <input 
+                                    type="text" 
+                                    className={inputClass(
+                                        /^[\dа-яА-Я]+$/.test(fieldValues['apartment_number'] || ''),
+                                        touchedFields['apartment_number'] || false,
+                                        'appInput'
+                                    )}
+                                    placeholder='Номер квартиры' 
+                                    {...register('apartment_number', {
+                                        onChange: (e) => handleFieldChange('apartment_number', e.target.value)
+                                    })}
+                                    onBlur={() => handleFieldBlur('apartment_number')}
+                                />
+                            </div>
                         </div>
                         <div>
-                            <p>Фамилия, имя, отчество (нанимателя или собственника)</p>
+                            <p>Фамилия, имя, отчество (нанимателя или собственника)*</p>
+                            <input type="text" className='appInput' placeholder='Введите ФИО' {...register('fio')} />  
                         </div>
                         <div>
                             <p>Адрес (улица, дом, квартира)*</p>
-                        </div>
-                    </div>
-                    <div className={styles.form_content_item}>
-                        <div>
-                            {/* <input type="text" className='appInput' placeholder='' {...register('code_street')} /> */}
-                             <input 
-                                type="text" 
-                                className={inputClass(
-                                    /^\d{3}$/.test(fieldValues['code_street'] || ''),
-                                    touchedFields['code_street'] || false,
-                                    'appInput'
-                                )}
-                                placeholder='Код улицы (3 цифры)' 
-                                {...register('code_street', {
-                                    onChange: (e) => handleFieldChange('code_street', e.target.value)
-                                })}
-                                onBlur={() => handleFieldBlur('code_street')}
-                            />
-                           <input 
-                                type="text" 
-                                className={inputClass(
-                                    /^[\dа-яА-Я\/]+$/.test(fieldValues['house_number'] || ''),
-                                    touchedFields['house_number'] || false,
-                                    'appInput'
-                                )}
-                                placeholder='Номер дома' 
-                                {...register('house_number', {
-                                    onChange: (e) => handleFieldChange('house_number', e.target.value)
-                                })}
-                                onBlur={() => handleFieldBlur('house_number')}
-                            />
-                            <input 
-                                type="text" 
-                                className={inputClass(
-                                    /^[\dа-яА-Я]+$/.test(fieldValues['apartment_number'] || ''),
-                                    touchedFields['apartment_number'] || false,
-                                    'appInput'
-                                )}
-                                placeholder='Номер квартиры' 
-                                {...register('apartment_number', {
-                                    onChange: (e) => handleFieldChange('apartment_number', e.target.value)
-                                })}
-                                onBlur={() => handleFieldBlur('apartment_number')}
-                            />
-                        </div>
-                        <div>
-                            <input type="text" className='appInput' placeholder='' {...register('fio')} />  
-                        </div>
-                        <div>
-                            <input type="text" className='appInput' placeholder='...' {...register('address')} />
+                            <input type="text" className='appInput' placeholder='Введите адрес' {...register('address')} />
                         </div>
                     </div>
                 </div>
