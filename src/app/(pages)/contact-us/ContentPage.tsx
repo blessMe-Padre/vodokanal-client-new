@@ -217,7 +217,7 @@ const ComponentFormContactUs = ({ register, setValue, isSending }: ComponentForm
                             ))}
                         </ul>
                         <div className="button-container">
-                            <button type="submit" className={styles.button} disabled={isSending}>
+                            <button type="submit" className="appButton appButton--full" disabled={isSending}>
                                 {isSending ? (
                                     <span className='loader'></span>
                                 ) : (

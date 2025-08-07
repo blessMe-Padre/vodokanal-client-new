@@ -121,6 +121,10 @@ a {
   transition: var(--anim-function);
 }
 
+.appButton--full {
+  width: 100%;
+}
+
 .appButton:hover {
   background-color: var(--hover-blue);
 }
