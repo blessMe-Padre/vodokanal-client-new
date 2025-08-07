@@ -3,6 +3,7 @@
 
 .nav {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     padding: 30px;
@@ -71,6 +72,16 @@
 }
 
 .desktop_logo {
+    filter: grayscale(100%);
+    opacity: 0.5;
+
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+        opacity: 1;
+        filter: grayscale(0%);
+    }
+
     @media screen and (max-width: 780px) {
         display: none;
     }

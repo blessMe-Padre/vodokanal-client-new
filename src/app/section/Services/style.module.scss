@@ -26,6 +26,10 @@
     color: inherit;
     transition: all 0.3s ease-in-out;
 
+    path, .svg_background, .service_content .service_title, .service_desc, .service_arrow {
+         transition: all 0.3s ease-in-out;
+    }
+
     &:hover {
         .service_content {
             background-color: var(--main-color);
@@ -42,6 +46,19 @@
         
         .service_arrow {
             color: var(--white);
+        }
+        
+        .service_icon {
+            color: var(--white);
+            
+            path {
+                stroke: var(--main-color);
+                fill: var(--main-color);
+            }
+            
+            .svg_background {
+                fill: var(--white);
+            }
         }
     }
 }
@@ -66,14 +83,30 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
+    background-color: transparent !important;
 
     img {
         width: 100%;
         height: 100%;
         object-fit: contain;
     }
+}
+
+.service_icon {
+    width: 50px;
+    height: 50px;
+    color: var(--main-color);
+    transition: all 0.3s ease-in-out;
+    
+    path {
+        transition: all 0.3s ease-in-out;
+    }
+}
+
+.svg_background {
+    transition: all 0.3s ease-in-out;
 }
 
 .service_title {

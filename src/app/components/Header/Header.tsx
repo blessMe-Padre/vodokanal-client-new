@@ -7,15 +7,13 @@ import { useState, useEffect, useRef } from "react";
 
 import logo from '@/../public/logo.svg'
 import phone from '@/../public/phone.svg';
-import uslugi from '@/../public/uslugi.svg'
+import uslugi from '@/../public/uslugi.png'
 
-// import Search from "../Search/Search";
+import Search from "../Search/Search";
 
 import styles from "./style.module.scss";
 
 import type { Variants } from "framer-motion";
-
-
 
 type NavLink = {
     title: string;
@@ -88,22 +86,22 @@ export default function Header() {
     const pathname = usePathname();
 
     // Работа с поиском
-    // const variants: Variants = {
-    //     visible: {
-    //         opacity: 1,
-    //         height: "auto",
-    //         visibility: "visible",
-    //         transition: {
-    //             when: "beforeChildren",
-    //             staggerChildren: 0.1,
-    //         },
-    //     },
-    //     hidden: {
-    //         opacity: 0,
-    //         height: 0,
-    //         visibility: "hidden",
-    //     },
-    // };
+    const variants: Variants = {
+        visible: {
+            opacity: 1,
+            height: "auto",
+            visibility: "visible",
+            transition: {
+                when: "beforeChildren",
+                staggerChildren: 0.1,
+            },
+        },
+        hidden: {
+            opacity: 0,
+            height: 0,
+            visibility: "hidden",
+        },
+    };
 
     // Работа с мобильным меню
     const mobileMenuVariants: Variants = {
@@ -146,30 +144,30 @@ export default function Header() {
                         <span className={`${styles.burger_line} ${mobileMenuOpened ? styles.active : ''}`}></span>
                     </button>
 
-                    <div className={styles.logo}>
+                    <Link href={'/'} className={styles.logo}>
                         <Image src={logo} width={50} height={50} alt="logo" />
                         <div>
                             <p className={`${styles.logo_sub_title} font-inter`}>Муниципальное унитарное предприятие</p>
                             <h1 className={`${styles.logo_title} font-inter font-me`}>МУП Находка-Водоканал</h1>
                         </div>
-                    </div>
+                    </Link>
 
-                    <div className={styles.desktop_logo}>
+                    <Link href={'https://gosuslugi.primorsky.ru/main.htm'} className={styles.desktop_logo} target="_blank">
                         <Image src={uslugi} alt="uslugi" />
-                    </div>
+                    </Link>
 
-                    <div className={styles.mobile_logos}>
+                    <Link href={'/'} className={styles.mobile_logos}>
                         <Image src={logo} width={30} height={30} alt="logo" />
                         <div>
                             <p className={`${styles.logo_sub_title} font-inter`}>Муниципальное унитарное предприятие</p>
                             <h1 className={`${styles.logo_title} font-inter font-me`}>МУП Находка-Водоканал</h1>
                         </div>
+                    </Link>
                         
-                    </div>
-                    <div className={styles.mobile_logos}>
+                    <Link href={'https://gosuslugi.primorsky.ru/main.htm'} className={styles.mobile_logos} target="_blank">
                         <Image src={uslugi} width={120} height={30} alt="uslugi" />
-                    </div>
-
+                    </Link>
+                    
                     <div className={styles.desktop_contacts}>
                         <div className={styles.wrapper_contact_info}>
                             <Image src={phone} width={25} height={25} alt="phone" />
@@ -263,7 +261,7 @@ export default function Header() {
                     </div>
                 </motion.div>
 
-                {/* <button
+                <button
                     ref={buttonRef}
                     className={`${styles.button}`}
                     onClick={() => setSearchOpened(!searchOpened)}
@@ -281,7 +279,7 @@ export default function Header() {
                     className="overflow-hidden"
                 >
                     <Search />
-                </motion.div> */}
+                </motion.div>
 
             </div>
         </header>
