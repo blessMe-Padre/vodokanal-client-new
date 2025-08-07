@@ -41,13 +41,13 @@ export default function Cookies() {
 
             <div className={styles.button_wrapper}>
                 <button
-                    className={styles.button}
+                    className={`${styles.button} appButton`}
                     onClick={handleClick}
                 >
                     Принять
                 </button>
                 <button
-                    className={styles.button_cancel}
+                    className="appButton appButton--white"
                     onClick={handleClick}
                 >
                     Отклонить
