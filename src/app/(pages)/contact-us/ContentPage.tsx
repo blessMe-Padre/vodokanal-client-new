@@ -216,13 +216,15 @@ const ComponentFormContactUs = ({ register, setValue, isSending }: ComponentForm
                                 </li>
                             ))}
                         </ul>
-                        <button type="submit" className='appButton animate-button' disabled={isSending}>
-                            {isSending ? (
-                                <span className='loader'></span>
-                            ) : (
-                                'Отправить'
-                            )}
-                        </button>
+                        <div className="button-container">
+                            <button type="submit" className={styles.button} disabled={isSending}>
+                                {isSending ? (
+                                    <span className='loader'></span>
+                                ) : (
+                                    'Отправить'
+                                )}
+                            </button>
+                        </div>
                     </div>
                 </div>
 

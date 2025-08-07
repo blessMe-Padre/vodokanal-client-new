@@ -14,6 +14,11 @@
   --font-montserrat: var(--font-montserrat);
   --font-inter: var(--font-inter);
   --font-roboto: var(--font-roboto);
+
+
+  --height: 2.8em;
+  --width: 10em;
+  --button-color: #EE3769;
 }
 
 @media (prefers-color-scheme: light) {
@@ -269,3 +274,9 @@ a {
 }
 
 /* Тестовая анимация по классу animate-button */
+
+.button-container {
+  position: relative;
+  display: flex;
+  width: 100%;
+}
