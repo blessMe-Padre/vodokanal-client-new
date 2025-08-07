@@ -9,7 +9,7 @@ import logo from '@/../public/logo.svg'
 import phone from '@/../public/phone.svg';
 import uslugi from '@/../public/uslugi.svg'
 
-// import Search from "../Search/Search";
+import Search from "../Search/Search";
 
 import styles from "./style.module.scss";
 
@@ -88,22 +88,22 @@ export default function Header() {
     const pathname = usePathname();
 
     // Работа с поиском
-    // const variants: Variants = {
-    //     visible: {
-    //         opacity: 1,
-    //         height: "auto",
-    //         visibility: "visible",
-    //         transition: {
-    //             when: "beforeChildren",
-    //             staggerChildren: 0.1,
-    //         },
-    //     },
-    //     hidden: {
-    //         opacity: 0,
-    //         height: 0,
-    //         visibility: "hidden",
-    //     },
-    // };
+    const variants: Variants = {
+        visible: {
+            opacity: 1,
+            height: "auto",
+            visibility: "visible",
+            transition: {
+                when: "beforeChildren",
+                staggerChildren: 0.1,
+            },
+        },
+        hidden: {
+            opacity: 0,
+            height: 0,
+            visibility: "hidden",
+        },
+    };
 
     // Работа с мобильным меню
     const mobileMenuVariants: Variants = {
@@ -135,7 +135,7 @@ export default function Header() {
     return (
         <header className={styles.header}>
             <div className="container">
-                <div className={styles.header_top}> 
+                <div className={styles.header_top}>
                     <button
                         className={styles.burger_menu}
                         onClick={toggleMobileMenu}
@@ -164,7 +164,7 @@ export default function Header() {
                             <p className={`${styles.logo_sub_title} font-inter`}>Муниципальное унитарное предприятие</p>
                             <h1 className={`${styles.logo_title} font-inter font-me`}>МУП Находка-Водоканал</h1>
                         </div>
-                        
+
                     </div>
                     <div className={styles.mobile_logos}>
                         <Image src={uslugi} width={120} height={30} alt="uslugi" />
