@@ -1,0 +1,120 @@
+@use '@/app/mixins' as *;
+// @include adaptiv-value("font-size", 24, 13);
+
+
+.contract_wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+
+    @media screen and (max-width: 580px) {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .contract_item {
+        width: 50%;
+        border-radius: 20px;
+        @include adaptiv-value("padding", 32, 30);
+        background-color: var(--light-gray);
+        display: flex;
+        flex-direction: column;
+
+        @media screen and (max-width: 800px) {
+            width: 100%;            
+        }
+    }
+
+    .item_image {
+        height: 100%;
+        border-radius: 20px;
+    }
+
+    .item_top {
+        display: flex;
+        flex-direction: row;
+        gap: 30px;
+        
+        margin-bottom: 30px;
+
+        @media screen and (max-width: 1200px) {
+            flex-direction: column;
+        }
+
+        @media screen and (max-width: 580px) {
+            flex-direction: column;
+        }
+
+        .list_of_payments {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+
+            @media screen and (max-width: 580px) {
+                flex-direction: column;
+            }
+
+            .item_list {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                flex-direction: row;
+                @include adaptiv-value("padding", 18, 15);
+
+                border-radius: 20px;
+                background-color: var(--white);
+
+                .item_list_title {
+                    font-weight: 500;
+                    color: var(--black);
+                    @include adaptiv-value("font-size", 14, 12);
+                }
+                
+                .item_list_payment {
+                    font-weight: 700;
+                    color: var(--main-color);
+                    width: 80%;
+                    @include adaptiv-value("font-size", 20, 16);
+                }
+                
+                @media screen and (max-width: 800px) {
+                    flex-direction: column;
+                    gap: 10px;
+                }
+            }
+        }
+    }
+
+    .item_bottom {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        margin-bottom: 20px;
+        flex: 1;
+        justify-content: space-between;
+
+        .content_wrapper {
+            flex: 1;
+        }
+
+        .item_title {
+            color: var(--black);
+            font-weight: 700;
+            max-width: 60%;
+            margin-bottom: 30px;
+        }
+    }
+
+    .wrapper {
+        a {
+            max-width: 100%;
+            background-color: var(--main-color);
+            color: var(--white);
+
+            &:hover {
+                background-color: var(--white);
+                color: var(--black);
+            }
+        }
+    }
+}
