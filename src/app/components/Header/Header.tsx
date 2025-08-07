@@ -133,7 +133,7 @@ export default function Header() {
     return (
         <header className={styles.header}>
             <div className="container">
-                <div className={styles.header_top}> 
+                <div className={styles.header_top}>
                     <button
                         className={styles.burger_menu}
                         onClick={toggleMobileMenu}

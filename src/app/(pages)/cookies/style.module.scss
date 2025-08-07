@@ -1,0 +1,15 @@
+.cookies {
+    margin-bottom: 50px;
+
+    h2 {
+        margin: 20px 0;
+    }
+
+    button {
+        margin-top: 30px;
+
+        @media (max-width: 560px) {
+            width: 100%;
+        }
+    }
+}
