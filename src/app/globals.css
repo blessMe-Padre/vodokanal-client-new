@@ -16,7 +16,7 @@
   --font-roboto: var(--font-roboto);
 }
 
-@media (prefers-color-scheme: ligth) {
+@media (prefers-color-scheme: light) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
@@ -267,3 +267,5 @@ a {
 .font-responsive {
   font-size: clamp(22px, 4vw + 14px, 46px);
 }
+
+/* Тестовая анимация по классу animate-button */
