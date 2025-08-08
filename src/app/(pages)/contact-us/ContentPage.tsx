@@ -13,6 +13,8 @@ interface ComponentFormReadingsProps {
     errors: FieldErrors<FieldValues>;
     error: string;
     isSending: boolean;
+    files: File[];
+    setFiles: React.Dispatch<React.SetStateAction<File[]>>;
 }
 
 export default function ContentPage() {
@@ -20,6 +22,7 @@ export default function ContentPage() {
     const [isSending, setIsSending] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
     const [error, setError] = useState('');
+    const [files, setFiles] = useState<File[]>([]);
 
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
 
@@ -34,14 +37,23 @@ export default function ContentPage() {
             year: 'numeric'
         });
 
-        formData = { ...formData, date };
-        console.log(formData);
+        const formDataToSend = new FormData();
+        Object.keys(formData).forEach(key => {
+            if (key !== 'files' && formData[key as keyof FieldValues]) {
+                formDataToSend.append(key, formData[key as keyof FieldValues] as string);
+            }
+        });
+        formDataToSend.append('date', date);
+
+        // Добавляем файлы в FormData
+        files.forEach((file) => {
+            formDataToSend.append('files', file);
+        });
 
         try {
             const response = await fetch('/api/contact-us', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData),
+                body: formDataToSend
             });
 
             const contentType = response.headers.get('content-type') || '';
@@ -53,6 +65,9 @@ export default function ContentPage() {
                 }
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
+
+            // const data = await response.json();
+            // console.log('ответ от api', data);
 
             setIsSuccess(true);
 
@@ -88,6 +103,8 @@ export default function ContentPage() {
                                 errors={errors}
                                 error={error}
                                 isSending={isSending}
+                                files={files}
+                                setFiles={setFiles}
                             />
                         </form>
                     </>
@@ -97,9 +114,7 @@ export default function ContentPage() {
     );
 }
 
-const ComponentFormContactUs = ({ register, setValue, isSending }: ComponentFormReadingsProps) => {
-
-    const [files, setFiles] = useState<File[]>([]);
+const ComponentFormContactUs = ({ register, setValue, isSending, files, setFiles }: ComponentFormReadingsProps) => {
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newFiles = Array.from(e.target.files || []);
@@ -111,15 +126,11 @@ const ComponentFormContactUs = ({ register, setValue, isSending }: ComponentForm
             return;
         }
 
-        setFiles(prev => [...prev, ...newFiles]);
+        setFiles((prev: File[]) => [...prev, ...newFiles]);
     };
 
     const handleRemoveFile = (index: number) => {
-        setFiles(prev => prev.filter((_, i) => i !== index));
-        const fileList = files.filter((_, i) => i !== index);
-        const dataTransfer = new DataTransfer();
-        fileList.forEach(file => dataTransfer.items.add(file));
-        setValue("files", dataTransfer.files);
+        setFiles((prev: File[]) => prev.filter((_: File, i: number) => i !== index));
     };
 
     const handlePhoneInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -192,7 +203,6 @@ const ComponentFormContactUs = ({ register, setValue, isSending }: ComponentForm
                                         type="file"
                                         multiple
                                         className='visually-hidden'
-                                        {...register(`files`)}
                                         onChange={handleFileChange}
                                     />
                                 </label>

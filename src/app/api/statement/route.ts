@@ -18,18 +18,16 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Получаем все файлы
     const allFiles = formData.getAll('files') as File[];
 
-    console.log('Полученные данные формы:', formFields);
-    console.log('Полученные файлы:', allFiles.map(file => ({
-      name: file.name,
-      size: file.size,
-      type: file.type
-    })));
+    // console.log('Полученные данные формы:', formFields);
+    // console.log('Полученные файлы:', allFiles.map(file => ({
+    //   name: file.name,
+    //   size: file.size,
+    //   type: file.type
+    // })));
 
-    // Здесь можно добавить логику отправки на почту
-    // Например, использовать nodemailer или другой сервис
+    // использовать nodemailer
 
     return NextResponse.json({
       status: 'success',

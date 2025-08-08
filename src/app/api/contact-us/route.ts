@@ -2,14 +2,45 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
+    const formData = await request.formData();
 
-    // Отправка на почту
+    // Получаем все поля формы
+    const formFields: Record<string, string> = {};
+    const files: File[] = [];
+
+    for (const [key, value] of formData.entries()) {
+      if (key === 'files') {
+        if (value instanceof File) {
+          files.push(value);
+        }
+      } else {
+        formFields[key] = value.toString();
+      }
+    }
+
+    const allFiles = formData.getAll('files') as File[];
+
+    // console.log('Полученные данные формы:', formFields);
+    // console.log('Полученные файлы:', allFiles.map(file => ({
+    //   name: file.name,
+    //   size: file.size,
+    //   type: file.type
+    // })));
+
+    // использовать nodemailer
 
     return NextResponse.json({
       status: 'success',
       message: 'Данные успешно отправлены',
-      details: body
+      details: {
+        formFields,
+        filesCount: allFiles.length,
+        filesInfo: allFiles.map(file => ({
+          name: file.name,
+          size: file.size,
+          type: file.type
+        }))
+      }
     });
 
   } catch (error) {
@@ -17,9 +48,9 @@ export async function POST(request: NextRequest) {
       message: error,
       stack: error
     });
-    
+
     return NextResponse.json(
-      { 
+      {
         status: 'error',
         message: 'Не удалось отправить данные',
         details: error

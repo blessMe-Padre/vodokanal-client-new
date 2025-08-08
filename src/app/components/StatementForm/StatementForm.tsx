@@ -36,22 +36,14 @@ export default function StatementForm() {
             month: '2-digit',
             year: 'numeric'
         });
-
-        // Создаем FormData для отправки файлов
         const formDataToSend = new FormData();
-
-        // Добавляем все поля формы
         Object.keys(formData).forEach(key => {
             if (key !== 'files' && formData[key as keyof FormData]) {
                 formDataToSend.append(key, formData[key as keyof FormData] as string);
             }
         });
-
-        // Добавляем дату
         formDataToSend.append('date', date);
-
-        // Добавляем файлы
-        files.forEach((file, index) => {
+        files.forEach((file) => {
             formDataToSend.append(`files`, file);
         });
 
