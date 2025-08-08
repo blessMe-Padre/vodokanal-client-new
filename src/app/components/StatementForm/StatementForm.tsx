@@ -1,7 +1,6 @@
 'use client';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { FieldValues, UseFormSetValue } from 'react-hook-form';
 
 import styles from './style.module.scss';
 
@@ -19,6 +18,7 @@ interface FormData {
     email?: string;
     message?: string;
     date?: string;
+    files?: FileList;
 }
 
 export default function StatementForm() {
@@ -178,7 +178,7 @@ export default function StatementForm() {
                             />
                             {errors.address && <span className={styles.error}>{errors.address.message}</span>}
                         </div>
-                        <p className={styles.form_row_description}>((адрес регистрации, контактный телефон, адрес электронной почты))</p>
+                        <p className={styles.form_row_description}>(адрес регистрации, контактный телефон, адрес электронной почты)</p>
                     </div>
 
                     <div className={styles.form_row}>
@@ -192,7 +192,7 @@ export default function StatementForm() {
                             />
                             {errors.client_request && <span className={styles.error}>{errors.client_request.message}</span>}
                         </div>
-                        <p className={styles.form_row_description}>((холодное водоснабжение и (или) водоотведение))</p>
+                        <p className={styles.form_row_description}>(холодное водоснабжение и (или) водоотведение)</p>
                     </div>
 
                     <div className={styles.form_row}>
@@ -303,7 +303,6 @@ export default function StatementForm() {
                         </div>
                     </div>
 
-
                     <button type="submit" className="appButton appButton--full" disabled={isSending}>
                         {isSending ? (
                             <span className='loader'></span>
@@ -311,9 +310,7 @@ export default function StatementForm() {
                             'Отправить'
                         )}
                     </button>
-
                 </form>
-
             </div>
         </section>
     )
