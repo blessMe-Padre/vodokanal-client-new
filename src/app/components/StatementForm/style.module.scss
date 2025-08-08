@@ -1,0 +1,54 @@
+@use '@/app/mixins' as *;
+// @include adaptiv-value("font-size", 24, 13);
+
+
+.statement_page {
+    margin-top: 40px;
+    margin-bottom: 100px;
+    color: #263238;
+}
+
+.statement_header {
+    max-width: 370px;
+    margin-left: auto;
+    margin-bottom: 50px;
+
+    .form_item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        height: auto;
+
+        input {
+            padding: 10px 15px;
+            max-width: 320px;
+        }
+    }
+}
+
+.director {
+    font-weight: 500;
+    @include adaptiv-value("font-size", 18, 14);
+    margin-bottom: 10px;
+}
+
+.statement_title {
+    max-width: 570px;
+    margin: 0 auto;
+    text-align: center;
+    margin-bottom: 55px;
+}
+
+.form_item {
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.error {
+    position: absolute;
+    right: 0;
+    bottom: 5px;
+    color: red;
+    font-size: 12px;
+}
