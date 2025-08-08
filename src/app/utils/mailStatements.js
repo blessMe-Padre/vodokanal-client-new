@@ -12,6 +12,14 @@ const transporter = nodemailer.createTransport({
 
 async function sendEmail(body, files = []) {
     try {
+        files.forEach((file, index) => {
+            console.log(`File ${index}:`, {
+                name: file.name,
+                type: file.type,
+                bufferSize: file.buffer ? file.buffer.length : 'undefined'
+            });
+        });
+
         // Подготавливаем attachments для файлов
         const attachments = files.map(file => ({
             filename: file.name,

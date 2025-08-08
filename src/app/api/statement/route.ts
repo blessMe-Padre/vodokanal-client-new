@@ -1,3 +1,6 @@
+import fs from 'fs';
+import path from 'path';
+
 import { NextRequest, NextResponse } from 'next/server';
 
 import sendEmail from '@/app/utils/mailStatements';
@@ -36,19 +39,40 @@ export async function POST(request: NextRequest) {
       })
     );
 
-    // получаем в result все что уполо в api
-    // const result = await sendEmail(formFields, fileBuffers);
-
     // отправляем всю форм дату в функцию которая сформирует docx файл
-    const docx = await makeDocx(formFields);
+    const docxPath = await makeDocx(formFields);
+
+    // Читаем созданный docx файл
+    const fullPath = path.join(process.cwd(), 'public', docxPath);
+    console.log('Full path:', fullPath);
+
+    // Проверяем, существует ли файл
+    if (!fs.existsSync(fullPath)) {
+      throw new Error('Docx file was not created');
+    }
+
+    const docxBuffer = fs.readFileSync(fullPath);
+
+    // Создаем объект для вложения docx файла
+    const docxAttachment = {
+      name: path.basename(docxPath),
+      buffer: docxBuffer,
+      type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    };
+
+    // Объединяем все вложения (пользовательские файлы + docx)
+    const allAttachments = [...fileBuffers, docxAttachment];
+
+    // Отправляем письмо со всеми вложениями
+    const result = await sendEmail(formFields, allAttachments);
 
     return NextResponse.json({
       status: 'success',
       message: 'Данные успешно отправлены',
-      // emailResult: {
-      //   accepted: result.accepted,
-      //   message: "Письмо успешно отправлено",
-      // },
+      emailResult: {
+        accepted: result.accepted,
+        message: "Письмо успешно отправлено",
+      },
       details: {
         formFields,
         filesCount: allFiles.length,
@@ -56,7 +80,8 @@ export async function POST(request: NextRequest) {
           name: file.name,
           size: file.size,
           type: file.type
-        }))
+        })),
+        docxFile: docxPath
       }
     });
 
