@@ -37,13 +37,28 @@ export default function StatementForm() {
             year: 'numeric'
         });
 
-        formData = { ...formData, date };
+        // Создаем FormData для отправки файлов
+        const formDataToSend = new FormData();
+
+        // Добавляем все поля формы
+        Object.keys(formData).forEach(key => {
+            if (key !== 'files' && formData[key as keyof FormData]) {
+                formDataToSend.append(key, formData[key as keyof FormData] as string);
+            }
+        });
+
+        // Добавляем дату
+        formDataToSend.append('date', date);
+
+        // Добавляем файлы
+        files.forEach((file, index) => {
+            formDataToSend.append(`files`, file);
+        });
 
         try {
             const response = await fetch('/api/statement', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData),
+                body: formDataToSend
             });
 
             const contentType = response.headers.get('content-type') || '';
@@ -78,15 +93,25 @@ export default function StatementForm() {
             return;
         }
 
-        setFiles(prev => [...prev, ...newFiles]);
+        setFiles(prev => {
+            const updatedFiles = [...prev, ...newFiles];
+            // Обновляем значение в форме
+            const dataTransfer = new DataTransfer();
+            updatedFiles.forEach(file => dataTransfer.items.add(file));
+            setValue("files", dataTransfer.files);
+            return updatedFiles;
+        });
     };
 
     const handleRemoveFile = (index: number) => {
-        setFiles(prev => prev.filter((_, i) => i !== index));
-        const fileList = files.filter((_, i) => i !== index);
-        const dataTransfer = new DataTransfer();
-        fileList.forEach(file => dataTransfer.items.add(file));
-        setValue("files", dataTransfer.files);
+        setFiles(prev => {
+            const newFiles = prev.filter((_, i) => i !== index);
+            // Обновляем значение в форме
+            const dataTransfer = new DataTransfer();
+            newFiles.forEach(file => dataTransfer.items.add(file));
+            setValue("files", dataTransfer.files);
+            return newFiles;
+        });
     };
 
     const handlePhoneInput = (e: React.ChangeEvent<HTMLInputElement>) => {
