@@ -12,22 +12,15 @@ export { default as LoadMoreButton } from './Buttons/LoadMoreButton/LoadMoreButt
 export { default as Breadcrumbs } from './Breadcrumbs/Breadcrumbs';
 
 
-// forms
-
+// Заявления
+export { default as StatementForm } from './StatementForm/StatementForm';
 
 
 // single item
 export { default as Cookies } from './Cookies/Cookies';
 
-
-
-
-
-
 // микро компоненты
 // чекбоксы, input, btn
 export { default as SuccessMessage } from './SuccessMessage/SuccessMessage';
-
-
 
 // timer

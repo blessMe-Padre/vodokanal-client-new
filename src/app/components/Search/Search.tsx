@@ -23,9 +23,6 @@ export default function Search() {
     const [loading, setLoading] = useState(false);
     const [dataList, setData] = useState<ResponseItem[]>([]);
     const [isFocused, setIsFocused] = useState(false);
-
-    console.log(dataList);
-
     const router = useRouter();
 
     // Исправлено: типизация для setTimeout/clearTimeout
