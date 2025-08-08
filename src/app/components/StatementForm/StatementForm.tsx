@@ -140,6 +140,7 @@ export default function StatementForm() {
                                 className='appInput'
                                 placeholder=''
                                 {...register('client_phone', { required: 'Телефон обязателен для заполнения' })}
+                                onInput={handlePhoneInput}
                             />
                             {errors.client_phone && <span className={styles.error}>{errors.client_phone.message}</span>}
                         </div>
@@ -174,7 +175,6 @@ export default function StatementForm() {
                                 type="text"
                                 className='appInput'
                                 {...register('address', { required: 'Поле обязательно для заполнения' })}
-                                onInput={handlePhoneInput}
                             />
                             {errors.address && <span className={styles.error}>{errors.address.message}</span>}
                         </div>
