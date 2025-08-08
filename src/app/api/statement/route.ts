@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import sendEmail from '@/app/utils/mailStatements';
+import makeDocx from '@/app/utils/makeDocx';
 
 export async function POST(request: NextRequest) {
   try {
@@ -36,15 +37,18 @@ export async function POST(request: NextRequest) {
     );
 
     // получаем в result все что уполо в api
-    const result = await sendEmail(formFields, fileBuffers);
+    // const result = await sendEmail(formFields, fileBuffers);
+
+    // отправляем всю форм дату в функцию которая сформирует docx файл
+    const docx = await makeDocx(formFields);
 
     return NextResponse.json({
       status: 'success',
       message: 'Данные успешно отправлены',
-      emailResult: {
-        accepted: result.accepted,
-        message: "Письмо успешно отправлено",
-      },
+      // emailResult: {
+      //   accepted: result.accepted,
+      //   message: "Письмо успешно отправлено",
+      // },
       details: {
         formFields,
         filesCount: allFiles.length,
