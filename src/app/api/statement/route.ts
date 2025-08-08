@@ -44,7 +44,6 @@ export async function POST(request: NextRequest) {
 
     // Читаем созданный docx файл
     const fullPath = path.join(process.cwd(), 'public', docxPath);
-    console.log('Full path:', fullPath);
 
     // Проверяем, существует ли файл
     if (!fs.existsSync(fullPath)) {
@@ -64,15 +63,15 @@ export async function POST(request: NextRequest) {
     const allAttachments = [...fileBuffers, docxAttachment];
 
     // Отправляем письмо со всеми вложениями
-    const result = await sendEmail(formFields, allAttachments);
+    // const result = await sendEmail(formFields, allAttachments);
 
     return NextResponse.json({
       status: 'success',
       message: 'Данные успешно отправлены',
-      emailResult: {
-        accepted: result.accepted,
-        message: "Письмо успешно отправлено",
-      },
+      // emailResult: {
+      //   accepted: result.accepted,
+      //   message: "Письмо успешно отправлено",
+      // },
       details: {
         formFields,
         filesCount: allFiles.length,
