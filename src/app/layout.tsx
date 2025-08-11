@@ -35,7 +35,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru">
-      <body className={`${montserrat.variable} ${inter.variable} ${roboto.variable} page_wrapper`}>
+      <body className={`${montserrat.variable} ${inter.variable} ${roboto.variable}`}>
         <div className="page_wrapper">
           <Header />
           <main>

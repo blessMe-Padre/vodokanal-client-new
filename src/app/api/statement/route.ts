@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import sendEmail from '@/app/utils/mailStatements';
 import makeDocx from '@/app/utils/makeDocx';
+import makeDocxLegal from '@/app/utils/makeDocxLegal';
 
 export async function POST(request: NextRequest) {
   try {
@@ -40,7 +41,19 @@ export async function POST(request: NextRequest) {
     );
 
     // отправляем всю форм дату в функцию которая сформирует docx файл
-    const docxPath = await makeDocx(formFields);
+    let docxPath: string = '';
+
+    if (formFields.form_name === 'zapros_individuals') {
+      docxPath = await makeDocx(formFields);
+    }
+    if (formFields.form_name === 'zapros_legal') {
+      docxPath = await makeDocxLegal(formFields);
+    }
+
+    // Проверяем, что docx файл был создан
+    if (!docxPath) {
+      throw new Error('Docx file was not created - invalid form type');
+    }
 
     // Читаем созданный docx файл
     const fullPath = path.join(process.cwd(), 'public', docxPath);
