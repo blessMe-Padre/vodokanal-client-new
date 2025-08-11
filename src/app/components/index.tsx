@@ -12,11 +12,17 @@ export { default as LoadMoreButton } from './Buttons/LoadMoreButton/LoadMoreButt
 export { default as Breadcrumbs } from './Breadcrumbs/Breadcrumbs';
 
 
-// Заявления
-export { default as StatementForm } from './StatementForm/StatementForm';
-export { default as StatementFormLegal } from './StatementFormLegal/StatementFormLegal';
-export { default as StatementFormSelf } from './StatementFormSelf/StatementFormSelf';
 
+// Запрос на технические условия
+export { default as StatementFormSelf } from './Statements/StatementFormSelf/StatementFormSelf';
+export { default as StatementForm } from './Statements/StatementForm/StatementForm';
+export { default as StatementFormLegal } from './Statements/StatementFormLegal/StatementFormLegal';
+
+
+// Заявление на заключение договора на доключение к сетям
+export { default as StatementFormPod } from './Statements/StatementFormPod/StatementFormPod';
+export { default as StatementFormLegalPod } from './Statements/StatementFormLegalPod/StatementFormLegalPod';
+export { default as StatementFormOrgansPod } from './Statements/StatementFormOrgansPod/StatementFormOrgansPod';
 
 // single item
 export { default as Cookies } from './Cookies/Cookies';

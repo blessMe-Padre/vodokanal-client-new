@@ -17,7 +17,7 @@ const items: Services[] = [
     {
         title: 'Передача показаний через сайт',
         desc: 'Достаточно лишь заполнить несколько полей и подтвердить смс кодом',
-        link: '/send-data'
+        link: '/transmission-of-readings'
     },
     {
         title: 'Вызвать контролера',
