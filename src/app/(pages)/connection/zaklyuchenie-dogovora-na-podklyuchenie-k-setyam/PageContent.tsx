@@ -1,10 +1,8 @@
 'use client'
 import { motion } from "framer-motion";
-import Link from "next/link";
 import { useState } from 'react';
 
-import { StatementForm } from "@/app/components";
-import StatementFormLegal from "@/app/components/Statements/StatementFormLegal/StatementFormLegal";
+import { StatementFormPod, StatementFormLegalPod, StatementFormOrgansPod } from "@/app/components";
 
 import styles from "../style.module.scss";
 
@@ -69,7 +67,7 @@ const PageContent = () => {
                 initial="hidden"
                 animate={activeTab === 0 ? "visible" : "hidden"}
             >
-                <StatementForm />
+                <StatementFormPod />
             </motion.div>
             <motion.div
                 layout
@@ -77,7 +75,7 @@ const PageContent = () => {
                 initial="hidden"
                 animate={activeTab === 1 ? "visible" : "hidden"}
             >
-                <StatementFormLegal />
+                <StatementFormLegalPod />
             </motion.div>
             <motion.div
                 layout
@@ -85,7 +83,7 @@ const PageContent = () => {
                 initial="hidden"
                 animate={activeTab === 2 ? "visible" : "hidden"}
             >
-                22222222222222222222
+                <StatementFormOrgansPod />
             </motion.div>
         </>
 

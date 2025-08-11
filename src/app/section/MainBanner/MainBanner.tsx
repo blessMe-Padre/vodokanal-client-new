@@ -15,7 +15,7 @@ export default function News() {
                     <h2>Находка-Водоканал — всегда на связи с городом</h2>
                     <p>Передайте показания, оплатите услуги  и получите поддержку — всё в пару кликов</p>
                     
-                    <LinkCustom href={'/send-data'} text='Передать показания' />
+                    <LinkCustom href={'/transmission-of-readings'} text='Передать показания' />
                 
                     <Image src={banner} className={styles.banner} alt='banner' />
                 </div>
