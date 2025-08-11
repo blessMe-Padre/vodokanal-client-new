@@ -3,15 +3,15 @@ import path from 'path';
 
 import { NextRequest, NextResponse } from 'next/server';
 
-import sendEmail from '@/app/utils/mailStatements/mailStatements';
-import sendEmailLegal from '@/app/utils/mailStatements/mailStatementsLegal';
-import sendEmailLegalPod from '@/app/utils/mailStatements/mailStatementsLegalPod';
-import sendEmailPod from '@/app/utils/mailStatements/mailStatementsPod';
+// import sendEmail from '@/app/utils/mailStatements/mailStatements';
+// import sendEmailLegal from '@/app/utils/mailStatements/mailStatementsLegal';
+// import sendEmailLegalPod from '@/app/utils/mailStatements/mailStatementsLegalPod';
+// import sendEmailPod from '@/app/utils/mailStatements/mailStatementsPod';
 import makeDocx from '@/app/utils/makeDocx/makeDocx';
+import makeDocxBorder from '@/app/utils/makeDocx/makeDocxBorder';
 import makeDocxLegal from '@/app/utils/makeDocx/makeDocxLegal';
 import makeDocxLegalPod from '@/app/utils/makeDocx/makeDocxLegalPod';
 import makeDocxPod from '@/app/utils/makeDocx/makeDocxPod';
-import makeDocxBorder from '@/app/utils/makeDocx/makeDocxBorder';
 import makeDocxUnit from '@/app/utils/makeDocx/makeDocxUnit';
 
 // Типы для форм

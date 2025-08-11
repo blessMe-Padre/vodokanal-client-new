@@ -1,10 +1,6 @@
 import { Breadcrumbs } from "@/app/components";
 
-import styles from "../style.module.scss";
-
 import PageContent from "./PageContent";
-
-
 
 export const metadata = {
     title: 'МУП "Находка-Водоканал" - Запрос на технические условия',

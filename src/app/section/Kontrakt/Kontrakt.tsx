@@ -5,10 +5,10 @@ import { useEffect, useState } from 'react'
 
 import { LinkCustom } from '@/app/components';
 import ContentRenderer from '@/app/components/ContentRenderer/ContentRenderer';
+import fetchData from '@/app/utils/fetchData';
 
 import styles from './style.module.scss'
 
-import fetchData from '@/app/utils/fetchData';
 
 
 interface PaymentItem {

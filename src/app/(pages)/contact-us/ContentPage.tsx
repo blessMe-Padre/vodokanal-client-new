@@ -114,7 +114,7 @@ export default function ContentPage() {
     );
 }
 
-const ComponentFormContactUs = ({ register, setValue, isSending, files, setFiles }: ComponentFormReadingsProps) => {
+const ComponentFormContactUs = ({ register, isSending, files, setFiles }: ComponentFormReadingsProps) => {
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newFiles = Array.from(e.target.files || []);

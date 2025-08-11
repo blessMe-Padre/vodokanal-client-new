@@ -4,13 +4,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react'
 
+import fetchData from '@/app/utils/fetchData';
 import formatDate from '@/app/utils/formatDate'
 
 import styles from './style.module.scss';
-
-import fetchData from '@/app/utils/fetchData';
-
-
 
 type NewsType = {
     id: number;
@@ -52,11 +49,9 @@ export type NewsItem = {
 
 export default function News() {
     const [news, setNews] = useState<NewsType[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
 
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [hasMore, setHasMore] = useState<boolean>(false);
-
     // для пагинации
     const PAGE_SIZE: number = 3; // количество новостей на странице
     const [page, setPage] = useState<number>(1);
@@ -134,7 +129,7 @@ export default function News() {
                             </li>
                             )
                         })) 
-                :  loading ? <p>Загрузка...</p> : <p>Новостей нет</p>}
+                :  isLoading ? <p>Загрузка...</p> : <p>Новостей нет</p>}
             </ul>
 
             {

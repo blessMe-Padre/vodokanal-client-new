@@ -2,8 +2,8 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { FieldErrors, FieldValues as ReactHookFormFieldValues, useForm, UseFormRegister, UseFormReturn } from 'react-hook-form';
 import React from 'react';
+import { FieldErrors, FieldValues as ReactHookFormFieldValues, useForm, UseFormRegister, UseFormReturn } from 'react-hook-form';
 
 import { Button, SuccessMessage } from '@/app/components';
 
@@ -48,7 +48,7 @@ interface FormData extends ReactHookFormFieldValues {
 }
 
 // Интерфейс для ошибок формы
-interface FormErrors extends FieldErrors<FormData> {}
+// interface FormErrors extends FieldErrors<FormData> {}
 
 // Интерфейс для состояния полей
 interface FieldState {
@@ -64,7 +64,7 @@ interface FieldValues {
 interface ComponentFormReadingsProps { 
     setStep: (step: FormStep) => void;
     register: UseFormRegister<FormData>;
-    errors: FormErrors;
+    errors: FieldErrors;
     error: string;
     isSending: boolean;
 }
@@ -73,14 +73,14 @@ interface ComponentFormReadingsProps {
 interface ComponentPhoneNumberProps { 
     setStep: (step: FormStep) => void;
     register: UseFormRegister<FormData>;
-    errors: FormErrors;
+    errors: FieldErrors;
 }
 
-// Интерфейс для ответа API
-interface ApiResponse {
-    message?: string;
-    success?: boolean;
-}
+// // Интерфейс для ответа API
+// interface ApiResponse {
+//     message?: string;
+//     success?: boolean;
+// }
 
 // Интерфейс для ошибки API
 interface ApiError {

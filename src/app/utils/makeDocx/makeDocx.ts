@@ -1,7 +1,6 @@
 import fs from 'fs';
 import path from 'path';
 
-import * as docx from "docx";
 import { Document, Paragraph, TextRun, AlignmentType, Packer } from "docx";
 
 // Вспомогательная функция для создания разделов документа
