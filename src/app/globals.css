@@ -146,10 +146,6 @@ a {
   color: #ffffff;
 }
 
-.error {
-  color: red;
-}
-
 .disabled {
   opacity: 0.5;
   cursor: npne;
@@ -214,6 +210,10 @@ a {
 
 .page_wrapper>main {
   flex: 1;
+}
+
+.absolute {
+  position: absolute;
 }
 
 /* Стили для валидации полей */

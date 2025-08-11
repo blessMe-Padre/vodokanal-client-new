@@ -29,8 +29,9 @@ export default function ContentPage() {
     const [isSuccess, setIsSuccess] = useState(false);
     const [error, setError] = useState('');
 
-
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors } } = useForm({
+        mode: 'onBlur'
+    });
     
     const handleFormSubmit = async (formData: FieldValues) => {
         setIsSending(true);
@@ -79,7 +80,7 @@ export default function ContentPage() {
                 <h1 className="title">Передача показаний через сайт</h1>
                 <div className="flex flex-col gap-[10px]">
                     {isSuccess ? (
-                        <>
+                        <div className={styles.success_wrapper}>
                             <SuccessMessage text="Спасибо! Ваши показания приняты в обработку." />
                             <Button
                                 text="На главную"
@@ -87,9 +88,9 @@ export default function ContentPage() {
                                     router.push('/');
                                 }}
                             />
-                        </>
+                        </div>
                     ) : (
-                        <form onSubmit={handleSubmit(handleFormSubmit)}>
+                        <form className={styles.form} onSubmit={handleSubmit(handleFormSubmit)}>
                             {step === 'phone_number'
                                 ?
                                     <ComponentPhoneNumber
@@ -115,7 +116,7 @@ export default function ContentPage() {
 }
 
 
-const ComponentPhoneNumber = ({ setStep, errors }: ComponentPhoneNumberProps) => {
+const ComponentPhoneNumber = ({ setStep, register, errors }: ComponentPhoneNumberProps) => {
     const [phone, setPhone] = useState('+7');
 
     const [touched, setTouched] = useState(false);
@@ -140,7 +141,7 @@ const ComponentPhoneNumber = ({ setStep, errors }: ComponentPhoneNumberProps) =>
     }
 
     return (
-        <div className='flex flex-row gap-[10px]'>
+        <div className={styles.wrapper}>
             <div>
                 <input
                     id='phone_number'
@@ -148,12 +149,21 @@ const ComponentPhoneNumber = ({ setStep, errors }: ComponentPhoneNumberProps) =>
                     className="appInput"
                     placeholder="+7XXXXXXXXXX"
                     value={phone}
-                    onChange={handlePhoneChange}
-                    onBlur={() => setTouched(true)}
+                    {...register('phone_number', {
+                        required: 'Номер телефона обязателен',
+                        validate: (value) => {
+                            if (phone.length !== 12) {
+                                return 'Номер должен содержать 10 цифр после +7';
+                            }
+                            return true;
+                        },
+                        onChange: handlePhoneChange,
+                        onBlur: () => setTouched(true)
+                    })}
                 />
 
                     {(errors.phone_number || (touched && phone.length < 12)) && (
-                        <p className="error">
+                        <p className="error absolute">
                         {errors?.phone_number?.message?.toString() || 'Номер должен содержать 10 цифр после +7'}
                         </p>
                     )}
@@ -169,7 +179,7 @@ const ComponentPhoneNumber = ({ setStep, errors }: ComponentPhoneNumberProps) =>
 }
 
 
-const ComponentFormReadings = ({ register, isSending }: ComponentFormReadingsProps) => { 
+const ComponentFormReadings = ({ register, errors, isSending }: ComponentFormReadingsProps) => { 
     const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({});
     const [fieldValues, setFieldValues] = useState<Record<string, string>>({});
 
@@ -213,8 +223,7 @@ const ComponentFormReadings = ({ register, isSending }: ComponentFormReadingsPro
                 <div className={styles.form_content}>
                     <div className={styles.form_content_item}>
                         <div>
-                            <p>Лицевой счет №*</p>
-                            <p>Шаблон ввода лицевого счета: «код улицы»-«номер дома»-«номер квартиры» Например: 052-001-025, 052-035а-025, 052-205б-001а, 052-205/1-101/2</p>
+                            <div>Лицевой счет №*</div>
                             <div className={styles.input_row}>
                                 <input 
                                     type="text" 
@@ -225,9 +234,14 @@ const ComponentFormReadings = ({ register, isSending }: ComponentFormReadingsPro
                                     )}
                                     placeholder='Код улицы (3 цифры)' 
                                     {...register('code_street', {
-                                        onChange: (e) => handleFieldChange('code_street', e.target.value)
+                                        required: 'Код улицы обязателен',
+                                        pattern: {
+                                            value: /^\d{3}$/,
+                                            message: 'Код улицы должен содержать 3 цифры'
+                                        },
+                                        onChange: (e) => handleFieldChange('code_street', e.target.value),
+                                        onBlur: () => handleFieldBlur('code_street')
                                     })}
-                                    onBlur={() => handleFieldBlur('code_street')}
                                 />
                                 <input 
                                     type="text" 
@@ -238,9 +252,14 @@ const ComponentFormReadings = ({ register, isSending }: ComponentFormReadingsPro
                                     )}
                                     placeholder='Номер дома' 
                                     {...register('house_number', {
-                                        onChange: (e) => handleFieldChange('house_number', e.target.value)
+                                        required: 'Номер дома обязателен',
+                                        pattern: {
+                                            value: /^[\dа-яА-Я\/]+$/,
+                                            message: 'Номер дома может содержать цифры, буквы и символ /'
+                                        },
+                                        onChange: (e) => handleFieldChange('house_number', e.target.value),
+                                        onBlur: () => handleFieldBlur('house_number')
                                     })}
-                                    onBlur={() => handleFieldBlur('house_number')}
                                 />
                                 <input 
                                     type="text" 
@@ -251,25 +270,50 @@ const ComponentFormReadings = ({ register, isSending }: ComponentFormReadingsPro
                                     )}
                                     placeholder='Номер квартиры' 
                                     {...register('apartment_number', {
-                                        onChange: (e) => handleFieldChange('apartment_number', e.target.value)
+                                        required: 'Номер квартиры обязателен',
+                                        pattern: {
+                                            value: /^[\dа-яА-Я]+$/,
+                                            message: 'Номер квартиры может содержать цифры и буквы'
+                                        },
+                                        onChange: (e) => handleFieldChange('apartment_number', e.target.value),
+                                        onBlur: () => handleFieldBlur('apartment_number')
                                     })}
-                                    onBlur={() => handleFieldBlur('apartment_number')}
                                 />
                             </div>
+                            {errors.code_street && <p className="error">{errors.code_street.message?.toString()}</p>}
+                            {errors.house_number && <p className="error">{errors.house_number.message?.toString()}</p>}
+                            {errors.apartment_number && <p className="error">{errors.apartment_number.message?.toString()}</p>}
+                            <div>Шаблон ввода лицевого счета: «код улицы»-«номер дома»-«номер квартиры» Например: 052-001-025, 052-035а-025, 052-205б-001а, 052-205/1-101/2</div>
                         </div>
                         <div>
                             <p>Фамилия, имя, отчество (нанимателя или собственника)*</p>
-                            <input type="text" className='appInput' placeholder='Введите ФИО' {...register('fio')} />  
+                            <input 
+                                type="text" 
+                                className='appInput' 
+                                placeholder='Введите ФИО' 
+                                {...register('fio', {
+                                    required: 'ФИО обязательно для заполнения'
+                                })} 
+                            />
+                            {errors.fio && <p className="error">{errors.fio.message?.toString()}</p>}
                         </div>
                         <div>
                             <p>Адрес (улица, дом, квартира)*</p>
-                            <input type="text" className='appInput' placeholder='Введите адрес' {...register('address')} />
+                            <input 
+                                type="text" 
+                                className='appInput' 
+                                placeholder='Введите адрес' 
+                                {...register('address', {
+                                    required: 'Адрес обязателен для заполнения'
+                                })}
+                            />
+                            {errors.address && <p className="error">{errors.address.message?.toString()}</p>}
                         </div>
                     </div>
                 </div>
                 <div className={styles.form_content}>
                     <div className={styles.form_content_item}>
-                        <p>Индивидуальные приборы учета воды</p>
+                        <p className={styles.sub_title}>Индивидуальные приборы учета воды</p>
                         {individualMeters.map(meter => (
                             <div key={meter.name} className={styles.form_row}>
                                 <label>{meter.label}</label>
@@ -282,11 +326,17 @@ const ComponentFormReadings = ({ register, isSending }: ComponentFormReadingsPro
                                     )}
                                     placeholder='00000.000' 
                                     {...register(meter.name, {
-                                        onChange: (e) => handleFieldChange(meter.name, e.target.value)
+                                        required: 'Показания обязательны для заполнения',
+                                        validate: (value) => {
+                                            if (!value) return true;
+                                            return /^\d{5}\.\d{3}$/.test(value) || 'Формат: 5 цифр до точки, 3 цифры после (например: 00120.000)';
+                                        },
+                                        onChange: (e) => handleFieldChange(meter.name, e.target.value),
+                                        onBlur: () => handleFieldBlur(meter.name)
                                     })}
-                                    onBlur={() => handleFieldBlur(meter.name)}
                                 />
-                                {touchedFields[meter.name] && !getMeterValidation(meter.name) && fieldValues[meter.name] && (
+                                {errors[meter.name] && <p className="error">{errors[meter.name]?.message?.toString()}</p>}
+                                {touchedFields[meter.name] && !getMeterValidation(meter.name) && fieldValues[meter.name] && !errors[meter.name] && (
                                     <p className="error">Формат: 5 цифр до точки, 3 цифры после (например: 00120.000)</p>
                                 )}
                             </div>
@@ -297,7 +347,7 @@ const ComponentFormReadings = ({ register, isSending }: ComponentFormReadingsPro
 
                 <div className={styles.form_content}>
                     <div className={styles.form_content_item}>
-                        <p>Водомер скважины для учёта стоков (частный сектор)</p>
+                        <p className={styles.sub_title}>Водомер скважины для учёта стоков (частный сектор)</p>
                         <div className={styles.form_row}>
                             <label>7 - ХВС скважина (показания, куб. м) например: 00120.000</label>
                             <input 
@@ -309,11 +359,17 @@ const ComponentFormReadings = ({ register, isSending }: ComponentFormReadingsPro
                                 )}
                                 placeholder='00000.000' 
                                 {...register('readings_6_double', {
-                                    onChange: (e) => handleFieldChange('readings_6_double', e.target.value)
+                                    required: 'Показания обязательны для заполнения',
+                                    validate: (value) => {
+                                        if (!value) return true;
+                                        return /^\d{5}\.\d{3}$/.test(value) || 'Формат: 5 цифр до точки, 3 цифры после (например: 00120.000)';
+                                    },
+                                    onChange: (e) => handleFieldChange('readings_6_double', e.target.value),
+                                    onBlur: () => handleFieldBlur('readings_6_double')
                                 })}
-                                onBlur={() => handleFieldBlur('readings_6_double')}
                             />
-                            {touchedFields['readings_6_double'] && !getMeterValidation('readings_6_double') && fieldValues['readings_6_double'] && (
+                            {errors.readings_6_double && <p className="error">{errors.readings_6_double.message?.toString()}</p>}
+                            {touchedFields['readings_6_double'] && !getMeterValidation('readings_6_double') && fieldValues['readings_6_double'] && !errors.readings_6_double && (
                                 <p className="error">Формат: 5 цифр до точки, 3 цифры после (например: 00120.000)</p>
                             )}
                         </div>
@@ -322,7 +378,7 @@ const ComponentFormReadings = ({ register, isSending }: ComponentFormReadingsPro
 
                 <div className={styles.form_content}>
                     <div className={styles.form_content_item}>
-                        <p>Общие квартирные приборы учета воды (групповые)</p>
+                        <p className={styles.sub_title}>Общие квартирные приборы учета воды (групповые)</p>
                         {groupMeters.map(meter => (
                           <div key={meter.name} className={styles.form_row}>
                             <label>{meter.label}</label>
@@ -335,11 +391,17 @@ const ComponentFormReadings = ({ register, isSending }: ComponentFormReadingsPro
                                 )}
                                 placeholder='00000.000' 
                                 {...register(meter.name, {
-                                    onChange: (e) => handleFieldChange(meter.name, e.target.value)
+                                    required: 'Показания обязательны для заполнения',
+                                    validate: (value) => {
+                                        if (!value) return true;
+                                        return /^\d{5}\.\d{3}$/.test(value) || 'Формат: 5 цифр до точки, 3 цифры после (например: 00120.000)';
+                                    },
+                                    onChange: (e) => handleFieldChange(meter.name, e.target.value),
+                                    onBlur: () => handleFieldBlur(meter.name)
                                 })}
-                                onBlur={() => handleFieldBlur(meter.name)}
                             />
-                            {touchedFields[meter.name] && !getMeterValidation(meter.name) && fieldValues[meter.name] && (
+                            {errors[meter.name] && <p className="error">{errors[meter.name]?.message?.toString()}</p>}
+                            {touchedFields[meter.name] && !getMeterValidation(meter.name) && fieldValues[meter.name] && !errors[meter.name] && (
                                 <p className="error">Формат: 5 цифр до точки, 3 цифры после (например: 00120.000)</p>
                             )}
                           </div>
