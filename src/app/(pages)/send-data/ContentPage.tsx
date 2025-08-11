@@ -2,62 +2,142 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { FieldErrors, FieldValues, useForm, UseFormRegister } from 'react-hook-form';
+import { FieldErrors, FieldValues as ReactHookFormFieldValues, useForm, UseFormRegister, UseFormReturn } from 'react-hook-form';
+import React from 'react';
 
 import { Button, SuccessMessage } from '@/app/components';
 
 import styles from './styles.module.scss';
 
+// Типы для шагов формы
+type FormStep = 'phone_number' | 'form_readings';
+
+// Типы для счетчиков
+type MeterType = 'individual' | 'group' | 'well';
+
+// Интерфейс для счетчика
+interface Meter {
+    label: string;
+    name: string;
+    type: MeterType;
+}
+
+// Интерфейс для данных формы
+interface FormData extends ReactHookFormFieldValues {
+    phone_number: string;
+    code_street: string;
+    house_number: string;
+    apartment_number: string;
+    fio: string;
+    address: string;
+    readings_1_i: string;
+    readings_2_i: string;
+    readings_3_i: string;
+    readings_4_i: string;
+    readings_5_i: string;
+    readings_6_i: string;
+    readings_6_double: string;
+    readings_7_g: string;
+    readings_8_g: string;
+    readings_9_g: string;
+    readings_10_g: string;
+    readings_11_g: string;
+    readings_12_g: string;
+    readings_14_g: string;
+    date: string;
+}
+
+// Интерфейс для ошибок формы
+interface FormErrors extends FieldErrors<FormData> {}
+
+// Интерфейс для состояния полей
+interface FieldState {
+    [key: string]: boolean;
+}
+
+// Интерфейс для значений полей
+interface FieldValues {
+    [key: string]: string;
+}
+
+// Интерфейс для пропсов компонента формы показаний
 interface ComponentFormReadingsProps { 
-    setStep: (step: 'phone_number' | 'form_readings') => void;
-    register: UseFormRegister<FieldValues>;
-    errors: FieldErrors<FieldValues>;
+    setStep: (step: FormStep) => void;
+    register: UseFormRegister<FormData>;
+    errors: FormErrors;
     error: string;
     isSending: boolean;
 }
 
+// Интерфейс для пропсов компонента номера телефона
 interface ComponentPhoneNumberProps { 
-  setStep: (step: 'phone_number' | 'form_readings') => void;
-  register: ReturnType<typeof useForm>['register'];
-  errors: ReturnType<typeof useForm>['formState']['errors'];
+    setStep: (step: FormStep) => void;
+    register: UseFormRegister<FormData>;
+    errors: FormErrors;
 }
 
-export default function ContentPage() {
-    const router = useRouter();
-    const [step, setStep] = useState('phone_number');
-    const [isSending, setIsSending] = useState(false);
-    const [isSuccess, setIsSuccess] = useState(false);
-    const [error, setError] = useState('');
+// Интерфейс для ответа API
+interface ApiResponse {
+    message?: string;
+    success?: boolean;
+}
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
+// Интерфейс для ошибки API
+interface ApiError {
+    message: string;
+}
+
+// Тип для функции валидации
+type ValidationFunction = (value: string) => boolean | string;
+
+// Тип для функции изменения поля
+type FieldChangeHandler = (fieldName: string, value: string) => void;
+
+// Тип для функции потери фокуса поля
+type FieldBlurHandler = (fieldName: string) => void;
+
+// Тип для функции получения валидации счетчика
+type MeterValidationHandler = (meterName: string) => boolean;
+
+// Тип для функции получения класса input
+type InputClassFunction = (isValid: boolean, isTouched: boolean, baseClass: string) => string;
+
+export default function ContentPage(): React.JSX.Element {
+    const router = useRouter();
+    const [step, setStep] = useState<FormStep>('phone_number');
+    const [isSending, setIsSending] = useState<boolean>(false);
+    const [isSuccess, setIsSuccess] = useState<boolean>(false);
+    const [error, setError] = useState<string>('');
+
+    const { register, handleSubmit, formState: { errors } }: UseFormReturn<FormData> = useForm<FormData>({
         mode: 'onBlur'
     });
     
-    const handleFormSubmit = async (formData: FieldValues) => {
+    const handleFormSubmit = async (formData: FormData): Promise<void> => {
         setIsSending(true);
         setError('');
         setIsSuccess(false);
 
-        const date = new Date().toLocaleDateString('ru-RU', {
+        const date: string = new Date().toLocaleDateString('ru-RU', {
             day: '2-digit',
             month: '2-digit',
             year: 'numeric'
         });
 
-        formData = { ...formData, date };
+        const dataWithDate: FormData = { ...formData, date };
 
         try {
-            const response = await fetch('/api/send-data-readings', {
+            const response: Response = await fetch('/api/send-data-readings', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData),
+                body: JSON.stringify(dataWithDate),
             });
 
-            const contentType = response.headers.get('content-type') || '';
+            const contentType: string = response.headers.get('content-type') || '';
 
             if (!response.ok) {
                 if (contentType.includes('application/json')) {
-                    const errorData = await response.json();
+                    const errorData: ApiError = await response.json();
                     throw new Error(errorData.message || 'Ошибка сервера');
                 }
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -65,8 +145,8 @@ export default function ContentPage() {
             
             setIsSuccess(true);
 
-        } catch (err) {
-            const errorMessage = err instanceof Error ? err.message : 'Неизвестная ошибка';
+        } catch (err: unknown) {
+            const errorMessage: string = err instanceof Error ? err.message : 'Неизвестная ошибка';
             setError(errorMessage);
             console.error('Ошибка при отправке:', errorMessage);
         } finally {
@@ -116,13 +196,12 @@ export default function ContentPage() {
 }
 
 
-const ComponentPhoneNumber = ({ setStep, register, errors }: ComponentPhoneNumberProps) => {
-    const [phone, setPhone] = useState('+7');
+const ComponentPhoneNumber = ({ setStep, register, errors }: ComponentPhoneNumberProps): React.JSX.Element => {
+    const [phone, setPhone] = useState<string>('+7');
+    const [touched, setTouched] = useState<boolean>(false);
 
-    const [touched, setTouched] = useState(false);
-
-    const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
+    const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        const value: string = e.target.value;
 
         if (value.startsWith('+7') && /^\+7\d{0,10}$/.test(value)) {
             setPhone(value);
@@ -132,7 +211,7 @@ const ComponentPhoneNumber = ({ setStep, register, errors }: ComponentPhoneNumbe
         setTouched(true);
     };
 
-    const handleNext = () => {
+    const handleNext = (): void => {
         setTouched(true);
     
         if (phone.length === 12) { 
@@ -151,7 +230,7 @@ const ComponentPhoneNumber = ({ setStep, register, errors }: ComponentPhoneNumbe
                     value={phone}
                     {...register('phone_number', {
                         required: 'Номер телефона обязателен',
-                        validate: (value) => {
+                        validate: (value: string) => {
                             if (phone.length !== 12) {
                                 return 'Номер должен содержать 10 цифр после +7';
                             }
@@ -179,42 +258,41 @@ const ComponentPhoneNumber = ({ setStep, register, errors }: ComponentPhoneNumbe
 }
 
 
-const ComponentFormReadings = ({ register, errors, isSending }: ComponentFormReadingsProps) => { 
-    const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({});
-    const [fieldValues, setFieldValues] = useState<Record<string, string>>({});
+const ComponentFormReadings = ({ register, errors, isSending }: ComponentFormReadingsProps): JSX.Element => { 
+    const [touchedFields, setTouchedFields] = useState<FieldState>({});
+    const [fieldValues, setFieldValues] = useState<FieldValues>({});
 
-
-    const handleFieldChange = (fieldName: string, value: string) => { 
+    const handleFieldChange: FieldChangeHandler = (fieldName: string, value: string) => { 
         setFieldValues(prev => ({ ...prev, [fieldName]: value }));
         setTouchedFields(prev => ({ ...prev, [fieldName]: true }));
     }
 
-    const handleFieldBlur = (fieldName: string) => { 
+    const handleFieldBlur: FieldBlurHandler = (fieldName: string) => { 
         setTouchedFields(prev => ({ ...prev, [fieldName]: true }));
     }
 
-    const getMeterValidation = (meterName: string) => { 
-        const value = fieldValues[meterName] || '';
+    const getMeterValidation: MeterValidationHandler = (meterName: string): boolean => { 
+        const value: string = fieldValues[meterName] || '';
         return validateMeterReading(value);
     }
     
-    const individualMeters = [
-      { label: '1 - ХВС санузел (показания, куб. м) например: 00120.000', name: 'readings_1_i' },
-      { label: '2 - ГВС санузел (показания, куб. м) например: 00120.000', name: 'readings_2_i' },
-      { label: '3 - ХВС кухня (показания, куб. м) например: 00120.000', name: 'readings_3_i' },
-      { label: '4 - ГВС кухня (показания, куб. м) например: 00120.000', name: 'readings_4_i' },
-      { label: '5 - ХВС санузел (показания, куб. м) например: 00120.000', name: 'readings_5_i' },
-      { label: '6 - ГВС санузел (показания, куб. м) например: 00120.000', name: 'readings_6_i' },
+    const individualMeters: Meter[] = [
+      { label: '1 - ХВС санузел (показания, куб. м) например: 00120.000', name: 'readings_1_i', type: 'individual' },
+      { label: '2 - ГВС санузел (показания, куб. м) например: 00120.000', name: 'readings_2_i', type: 'individual' },
+      { label: '3 - ХВС кухня (показания, куб. м) например: 00120.000', name: 'readings_3_i', type: 'individual' },
+      { label: '4 - ГВС кухня (показания, куб. м) например: 00120.000', name: 'readings_4_i', type: 'individual' },
+      { label: '5 - ХВС санузел (показания, куб. м) например: 00120.000', name: 'readings_5_i', type: 'individual' },
+      { label: '6 - ГВС санузел (показания, куб. м) например: 00120.000', name: 'readings_6_i', type: 'individual' },
     ];
 
-    const groupMeters = [
-      { label: '7 - ХВС санузел-групповой (показания, куб. м) например: 00120.000', name: 'readings_7_g' },
-      { label: '8 - ХВС кухня-групповой (показания, куб. м) например: 00120.000', name: 'readings_8_g' },
-      { label: '9 - ГВС санузел-групповой (показания, куб. м) например: 00120.000', name: 'readings_9_g' },
-      { label: '10 - ГВС кухня-групповой (показания, куб. м) например: 00120.000', name: 'readings_10_g' },
-      { label: '11 - ХВС туалет-групповой (показания, куб. м) например: 00120.000', name: 'readings_11_g' },
-      { label: '12 - ХВС ванна, титан-групповой (показания, куб. м) например: 00120.000', name: 'readings_12_g' },
-      { label: '14 - ГВС туалет-групповой (показания, куб. м) например: 00120.000', name: 'readings_14_g' },
+    const groupMeters: Meter[] = [
+      { label: '7 - ХВС санузел-групповой (показания, куб. м) например: 00120.000', name: 'readings_7_g', type: 'group' },
+      { label: '8 - ХВС кухня-групповой (показания, куб. м) например: 00120.000', name: 'readings_8_g', type: 'group' },
+      { label: '9 - ГВС санузел-групповой (показания, куб. м) например: 00120.000', name: 'readings_9_g', type: 'group' },
+      { label: '10 - ГВС кухня-групповой (показания, куб. м) например: 00120.000', name: 'readings_10_g', type: 'group' },
+      { label: '11 - ХВС туалет-групповой (показания, куб. м) например: 00120.000', name: 'readings_11_g', type: 'group' },
+      { label: '12 - ХВС ванна, титан-групповой (показания, куб. м) например: 00120.000', name: 'readings_12_g', type: 'group' },
+      { label: '14 - ГВС туалет-групповой (показания, куб. м) например: 00120.000', name: 'readings_14_g', type: 'group' },
     ];
 
     return (
@@ -239,7 +317,7 @@ const ComponentFormReadings = ({ register, errors, isSending }: ComponentFormRea
                                             value: /^\d{3}$/,
                                             message: 'Код улицы должен содержать 3 цифры'
                                         },
-                                        onChange: (e) => handleFieldChange('code_street', e.target.value),
+                                        onChange: (e: React.ChangeEvent<HTMLInputElement>) => handleFieldChange('code_street', e.target.value),
                                         onBlur: () => handleFieldBlur('code_street')
                                     })}
                                 />
@@ -257,7 +335,7 @@ const ComponentFormReadings = ({ register, errors, isSending }: ComponentFormRea
                                             value: /^[\dа-яА-Я\/]+$/,
                                             message: 'Номер дома может содержать цифры, буквы и символ /'
                                         },
-                                        onChange: (e) => handleFieldChange('house_number', e.target.value),
+                                        onChange: (e: React.ChangeEvent<HTMLInputElement>) => handleFieldChange('house_number', e.target.value),
                                         onBlur: () => handleFieldBlur('house_number')
                                     })}
                                 />
@@ -275,7 +353,7 @@ const ComponentFormReadings = ({ register, errors, isSending }: ComponentFormRea
                                             value: /^[\dа-яА-Я]+$/,
                                             message: 'Номер квартиры может содержать цифры и буквы'
                                         },
-                                        onChange: (e) => handleFieldChange('apartment_number', e.target.value),
+                                        onChange: (e: React.ChangeEvent<HTMLInputElement>) => handleFieldChange('apartment_number', e.target.value),
                                         onBlur: () => handleFieldBlur('apartment_number')
                                     })}
                                 />
@@ -314,7 +392,7 @@ const ComponentFormReadings = ({ register, errors, isSending }: ComponentFormRea
                 <div className={styles.form_content}>
                     <div className={styles.form_content_item}>
                         <p className={styles.sub_title}>Индивидуальные приборы учета воды</p>
-                        {individualMeters.map(meter => (
+                        {individualMeters.map((meter: Meter) => (
                             <div key={meter.name} className={styles.form_row}>
                                 <label>{meter.label}</label>
                                 <input 
@@ -325,18 +403,18 @@ const ComponentFormReadings = ({ register, errors, isSending }: ComponentFormRea
                                         'appInput'
                                     )}
                                     placeholder='00000.000' 
-                                    {...register(meter.name, {
+                                    {...register(meter.name as keyof FormData, {
                                         required: 'Показания обязательны для заполнения',
-                                        validate: (value) => {
+                                        validate: (value: string) => {
                                             if (!value) return true;
                                             return /^\d{5}\.\d{3}$/.test(value) || 'Формат: 5 цифр до точки, 3 цифры после (например: 00120.000)';
                                         },
-                                        onChange: (e) => handleFieldChange(meter.name, e.target.value),
+                                        onChange: (e: React.ChangeEvent<HTMLInputElement>) => handleFieldChange(meter.name, e.target.value),
                                         onBlur: () => handleFieldBlur(meter.name)
                                     })}
                                 />
-                                {errors[meter.name] && <p className="error">{errors[meter.name]?.message?.toString()}</p>}
-                                {touchedFields[meter.name] && !getMeterValidation(meter.name) && fieldValues[meter.name] && !errors[meter.name] && (
+                                {errors[meter.name as keyof FormData] && <p className="error">{errors[meter.name as keyof FormData]?.message?.toString()}</p>}
+                                {touchedFields[meter.name] && !getMeterValidation(meter.name) && fieldValues[meter.name] && !errors[meter.name as keyof FormData] && (
                                     <p className="error">Формат: 5 цифр до точки, 3 цифры после (например: 00120.000)</p>
                                 )}
                             </div>
@@ -360,11 +438,11 @@ const ComponentFormReadings = ({ register, errors, isSending }: ComponentFormRea
                                 placeholder='00000.000' 
                                 {...register('readings_6_double', {
                                     required: 'Показания обязательны для заполнения',
-                                    validate: (value) => {
+                                    validate: (value: string) => {
                                         if (!value) return true;
                                         return /^\d{5}\.\d{3}$/.test(value) || 'Формат: 5 цифр до точки, 3 цифры после (например: 00120.000)';
                                     },
-                                    onChange: (e) => handleFieldChange('readings_6_double', e.target.value),
+                                    onChange: (e: React.ChangeEvent<HTMLInputElement>) => handleFieldChange('readings_6_double', e.target.value),
                                     onBlur: () => handleFieldBlur('readings_6_double')
                                 })}
                             />
@@ -379,7 +457,7 @@ const ComponentFormReadings = ({ register, errors, isSending }: ComponentFormRea
                 <div className={styles.form_content}>
                     <div className={styles.form_content_item}>
                         <p className={styles.sub_title}>Общие квартирные приборы учета воды (групповые)</p>
-                        {groupMeters.map(meter => (
+                        {groupMeters.map((meter: Meter) => (
                           <div key={meter.name} className={styles.form_row}>
                             <label>{meter.label}</label>
                             <input 
@@ -390,18 +468,18 @@ const ComponentFormReadings = ({ register, errors, isSending }: ComponentFormRea
                                     'appInput'
                                 )}
                                 placeholder='00000.000' 
-                                {...register(meter.name, {
+                                {...register(meter.name as keyof FormData, {
                                     required: 'Показания обязательны для заполнения',
-                                    validate: (value) => {
+                                    validate: (value: string) => {
                                         if (!value) return true;
                                         return /^\d{5}\.\d{3}$/.test(value) || 'Формат: 5 цифр до точки, 3 цифры после (например: 00120.000)';
                                     },
-                                    onChange: (e) => handleFieldChange(meter.name, e.target.value),
+                                    onChange: (e: React.ChangeEvent<HTMLInputElement>) => handleFieldChange(meter.name, e.target.value),
                                     onBlur: () => handleFieldBlur(meter.name)
                                 })}
                             />
-                            {errors[meter.name] && <p className="error">{errors[meter.name]?.message?.toString()}</p>}
-                            {touchedFields[meter.name] && !getMeterValidation(meter.name) && fieldValues[meter.name] && !errors[meter.name] && (
+                            {errors[meter.name as keyof FormData] && <p className="error">{errors[meter.name as keyof FormData]?.message?.toString()}</p>}
+                            {touchedFields[meter.name] && !getMeterValidation(meter.name) && fieldValues[meter.name] && !errors[meter.name as keyof FormData] && (
                                 <p className="error">Формат: 5 цифр до точки, 3 цифры после (например: 00120.000)</p>
                             )}
                           </div>
@@ -427,7 +505,7 @@ const ComponentFormReadings = ({ register, errors, isSending }: ComponentFormRea
 
 
 // Валидация лицевого счета
-// const validateAccountNumber = (code: string, house: string, apartment: string) => {
+// const validateAccountNumber = (code: string, house: string, apartment: string): boolean => {
 //     if (!code || !house || !apartment) return false;
     
 //     // Проверяем код улицы (3 цифры)
@@ -442,13 +520,13 @@ const ComponentFormReadings = ({ register, errors, isSending }: ComponentFormRea
 //     return true;
 // };
 
-const validateMeterReading = (value: string) => { 
+const validateMeterReading: ValidationFunction = (value: string): boolean => { 
     if(!value) return true;
     return /^\d{5}\.\d{3}$/.test(value);
 }
 
 
-const inputClass = (isValid: boolean, isTouched: boolean, baseClass: string) => {
+const inputClass: InputClassFunction = (isValid: boolean, isTouched: boolean, baseClass: string): string => {
     if(!isTouched) return baseClass;
     return `${baseClass} ${isValid ? 'valid-input' : 'invalid-input'}`;
 } 

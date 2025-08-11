@@ -48,6 +48,9 @@ export default function StatementFormPod() {
             formDataToSend.append(`files`, file);
         });
 
+        formDataToSend.append('form_name', 'zapros_individuals_pod');
+
+
         try {
             const response = await fetch('/api/statement', {
                 method: 'POST',

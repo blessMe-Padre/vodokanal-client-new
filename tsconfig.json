@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/utils/mailStatements/mailStatementsPod.js", "src/app/utils/mailStatements/mailStatementsLegalPod.js", "src/app/utils/mailStatements/mailStatementsLegal.js", "src/app/utils/mailStatements/mailStatements.js"],
   "exclude": ["node_modules"]
 }

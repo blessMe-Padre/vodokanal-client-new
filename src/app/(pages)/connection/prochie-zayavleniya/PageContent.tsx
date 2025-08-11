@@ -2,7 +2,8 @@
 import { motion } from "framer-motion";
 import { useState } from 'react';
 
-import { StatementFormPod, StatementFormLegalPod, StatementFormSelfPod } from "@/app/components";
+import { StatementFormBorder } from "@/app/components/";
+import { StatementFormUnit } from "@/app/components/";
 
 import styles from "../style.module.scss";
 
@@ -25,10 +26,6 @@ const PageContent = () => {
             opacity: 1,
             height: "auto",
             visibility: 'visible',
-            transition: {
-                when: "beforeChildren",
-                staggerChildren: 0.1,
-            },
         },
         hidden: {
             opacity: 0,
@@ -41,20 +38,13 @@ const PageContent = () => {
         <>
             <ul className={styles.list}>
                 <li className={`${styles.item} ${activeTab === 0 ? styles.item_active : ""}`} tabIndex={0} data-index="0" onClick={openTab}>
-                    <span>Для физических лиц и ИЖС</span>
+                    <span>Заявление на узел учета</span>
                     <svg width="15" height="12" viewBox="0 0 15 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M13.8025 6.98638C14.0954 6.69349 14.0954 6.21862 13.8025 5.92572L9.02958 1.15275C8.73668 0.85986 8.26181 0.85986 7.96892 1.15275C7.67602 1.44565 7.67602 1.92052 7.96892 2.21341L12.2116 6.45605L7.96892 10.6987C7.67602 10.9916 7.67602 11.4665 7.96892 11.7594C8.26181 12.0522 8.73668 12.0522 9.02958 11.7594L13.8025 6.98638ZM0.345703 6.45605V7.20605H13.2722V6.45605V5.70605H0.345703V6.45605Z" />
                     </svg>
                 </li>
                 <li className={`${styles.item} ${activeTab === 1 ? styles.item_active : ""}`} tabIndex={0} data-index="1" onClick={openTab}>
-                    <span>Для юридических лиц</span>
-                    <svg width="15" height="12" viewBox="0 0 15 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M13.8025 6.98638C14.0954 6.69349 14.0954 6.21862 13.8025 5.92572L9.02958 1.15275C8.73668 0.85986 8.26181 0.85986 7.96892 1.15275C7.67602 1.44565 7.67602 1.92052 7.96892 2.21341L12.2116 6.45605L7.96892 10.6987C7.67602 10.9916 7.67602 11.4665 7.96892 11.7594C8.26181 12.0522 8.73668 12.0522 9.02958 11.7594L13.8025 6.98638ZM0.345703 6.45605V7.20605H13.2722V6.45605V5.70605H0.345703V6.45605Z" />
-                    </svg>
-                </li>
-                <li className={`${styles.item} ${activeTab === 2 ? styles.item_active : ""}`} tabIndex={0} data-index="2" onClick={openTab}>
-                    <span>Для органов власти
-                        и самоуправления</span>
+                    <span>Заявление на границы</span>
                     <svg width="15" height="12" viewBox="0 0 15 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M13.8025 6.98638C14.0954 6.69349 14.0954 6.21862 13.8025 5.92572L9.02958 1.15275C8.73668 0.85986 8.26181 0.85986 7.96892 1.15275C7.67602 1.44565 7.67602 1.92052 7.96892 2.21341L12.2116 6.45605L7.96892 10.6987C7.67602 10.9916 7.67602 11.4665 7.96892 11.7594C8.26181 12.0522 8.73668 12.0522 9.02958 11.7594L13.8025 6.98638ZM0.345703 6.45605V7.20605H13.2722V6.45605V5.70605H0.345703V6.45605Z" />
                     </svg>
@@ -67,7 +57,7 @@ const PageContent = () => {
                 initial="hidden"
                 animate={activeTab === 0 ? "visible" : "hidden"}
             >
-                <StatementFormPod />
+                <StatementFormUnit />
             </motion.div>
             <motion.div
                 layout
@@ -75,15 +65,7 @@ const PageContent = () => {
                 initial="hidden"
                 animate={activeTab === 1 ? "visible" : "hidden"}
             >
-                <StatementFormLegalPod />
-            </motion.div>
-            <motion.div
-                layout
-                variants={variants}
-                initial="hidden"
-                animate={activeTab === 2 ? "visible" : "hidden"}
-            >
-                <StatementFormSelfPod />
+                <StatementFormBorder />
             </motion.div>
         </>
 

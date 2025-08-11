@@ -1,5 +1,6 @@
 import { Breadcrumbs } from "@/app/components";
 
+import PageContent from "./PageContent";
 import styles from "./style.module.scss";
 
 export const metadata = {
@@ -17,7 +18,7 @@ export default async function page() {
                     thirdLabel="Прочие заявления"
                 />
                 <h1 className='title'>Прочие заявления</h1>
-
+                <PageContent />
             </div>
         </section>
     )

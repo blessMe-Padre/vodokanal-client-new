@@ -22,7 +22,11 @@ export { default as StatementFormLegal } from './Statements/StatementFormLegal/S
 // Заявление на заключение договора на доключение к сетям
 export { default as StatementFormPod } from './Statements/StatementFormPod/StatementFormPod';
 export { default as StatementFormLegalPod } from './Statements/StatementFormLegalPod/StatementFormLegalPod';
-export { default as StatementFormOrgansPod } from './Statements/StatementFormOrgansPod/StatementFormOrgansPod';
+export { default as StatementFormSelfPod } from './Statements/StatementFormSelfPod/StatementFormSelfPod';
+
+// Прочие заявления
+export { default as StatementFormUnit } from './Statements/StatementFormUnit/StatementFormUnit';
+export { default as StatementFormBorder } from './Statements/StatementFormBorder/StatementFormBorder'
 
 // single item
 export { default as Cookies } from './Cookies/Cookies';

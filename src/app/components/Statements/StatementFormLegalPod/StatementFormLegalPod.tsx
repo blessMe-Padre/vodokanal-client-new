@@ -21,7 +21,7 @@ interface FormData {
     email?: string;
     message?: string;
     date?: string;
-    files?: FileList;
+    files2?: FileList;
     information?: string;
 }
 
@@ -50,6 +50,8 @@ export default function StatementFormLegalPod() {
         files.forEach((file) => {
             formDataToSend.append(`files`, file);
         });
+
+        formDataToSend.append('form_name', 'zapros_legal_pod');
 
         try {
             const response = await fetch('/api/statement', {
@@ -94,7 +96,7 @@ export default function StatementFormLegalPod() {
             // Обновляем значение в форме
             const dataTransfer = new DataTransfer();
             updatedFiles.forEach(file => dataTransfer.items.add(file));
-            setValue("files", dataTransfer.files);
+            setValue("files2", dataTransfer.files);
             return updatedFiles;
         });
     };
@@ -105,7 +107,7 @@ export default function StatementFormLegalPod() {
             // Обновляем значение в форме
             const dataTransfer = new DataTransfer();
             newFiles.forEach(file => dataTransfer.items.add(file));
-            setValue("files", dataTransfer.files);
+            setValue("files2", dataTransfer.files);
             return newFiles;
         });
     };
@@ -300,7 +302,7 @@ export default function StatementFormLegalPod() {
 
                     
                     <div className={styles.form_row}>
-                        <label htmlFor='information'> 7. Информация  о  предельных  параметрах  разрешенного  строительства (реконструкции) подключаемого объекта</label>
+                        <label htmlFor='information'> 8. Информация  о  предельных  параметрах  разрешенного  строительства (реконструкции) подключаемого объекта</label>
                         <div className={styles.input_wrapper}>
                             <input
                                 id='information'
@@ -317,16 +319,16 @@ export default function StatementFormLegalPod() {
                         <h2>Прикрепить документы</h2>
                         <div className={styles.documents_wrapper}>
                             <div className={styles.label_wrapper}>
-                                <label htmlFor='files' className={styles.file_label}>
+                                <label htmlFor='files2' className={styles.file_label}>
                                     <svg width="38" height="48" viewBox="0 0 38 48" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M25.75 0.375364H26.4925C26.9107 0.376455 27.3136 0.532811 27.6231 0.814114L37.0056 9.25161C37.1804 9.40939 37.3203 9.602 37.4162 9.81706C37.5121 10.0321 37.5619 10.2649 37.5625 10.5004H27.4375C26.9899 10.5004 26.5607 10.3226 26.2443 10.0061C25.9278 9.68964 25.75 9.26042 25.75 8.81286V0.375364ZM37.5625 13.8754V42.5629C37.5054 43.952 36.9028 45.2626 35.8856 46.2103C34.8683 47.1581 33.5185 47.6665 32.1288 47.6254H5.87125C4.48154 47.6665 3.13165 47.1581 2.11442 46.2103C1.09718 45.2626 0.494636 43.952 0.4375 42.5629V5.43786C0.494636 4.04872 1.09718 2.73813 2.11442 1.79039C3.13165 0.842654 4.48154 0.334212 5.87125 0.375364H22.375V8.81286C22.375 10.1555 22.9084 11.4432 23.8578 12.3926C24.8072 13.342 26.0948 13.8754 27.4375 13.8754H37.5625ZM25.2606 22.8022L20.1981 17.7397C20.0412 17.5816 19.8546 17.456 19.649 17.3704C19.4433 17.2847 19.2228 17.2406 19 17.2406C18.7772 17.2406 18.5567 17.2847 18.351 17.3704C18.1454 17.456 17.9587 17.5816 17.8019 17.7397L12.7394 22.8022C12.4216 23.12 12.2431 23.551 12.2431 24.0004C12.2431 24.4497 12.4216 24.8807 12.7394 25.1985C13.0571 25.5163 13.4881 25.6948 13.9375 25.6948C14.3869 25.6948 14.8179 25.5163 15.1356 25.1985L17.3125 23.0047V34.1254C17.3125 34.5729 17.4903 35.0021 17.8068 35.3186C18.1232 35.6351 18.5524 35.8129 19 35.8129C19.4476 35.8129 19.8768 35.6351 20.1932 35.3186C20.5097 35.0021 20.6875 34.5729 20.6875 34.1254V23.0047L22.8644 25.1985C23.0213 25.3567 23.2079 25.4822 23.4135 25.5679C23.6192 25.6535 23.8397 25.6976 24.0625 25.6976C24.2853 25.6976 24.5058 25.6535 24.7115 25.5679C24.9171 25.4822 25.1037 25.3567 25.2606 25.1985C25.4188 25.0416 25.5443 24.855 25.63 24.6493C25.7157 24.4437 25.7598 24.2231 25.7598 24.0004C25.7598 23.7776 25.7157 23.557 25.63 23.3514C25.5443 23.1458 25.4188 22.9591 25.2606 22.8022Z" fill="#9AADBB" />
                                     </svg>
                                     <input
-                                        id='files'
+                                        id='files2'
                                         type="file"
                                         multiple
                                         className='visually-hidden'
-                                        {...register(`files`)}
+                                        {...register(`files2`)}
                                         onChange={handleFileChange}
                                     />
                                 </label>
