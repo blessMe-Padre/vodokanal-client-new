@@ -19,7 +19,7 @@
     margin: 40px 0;
 }
 
-.item {
+.item a {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -50,7 +50,7 @@
 }
 
 
-.item_active {
+.item_active a {
     background-color: var(--main-color);
     color: #ffffff;
 
@@ -59,12 +59,12 @@
     }
 }
 
-.item:hover {
+.item a:hover {
     background-color: var(--main-color);
     color: #ffffff;
 }
 
-.item:hover svg {
+.item a:hover svg {
     fill: #ffffff;
     transform: rotate(-45deg);
 }
