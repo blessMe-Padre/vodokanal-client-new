@@ -70,7 +70,7 @@ export default function ContentPage() {
                 <h1 className="title">Вызов контролера</h1>
                 <div className="flex flex-col gap-[10px]">
                     {isSuccess ? (
-                        <>
+                        <div className={styles.success_wrapper}>
                             <SuccessMessage text="Спасибо! Ваша заявка принята в обработку." />
                             <Button
                                 text="На главную"
@@ -78,7 +78,7 @@ export default function ContentPage() {
                                     router.push('/');
                                 }}
                             />
-                        </>
+                        </div>
                     ) : (
                         <>
                         
@@ -90,7 +90,7 @@ export default function ContentPage() {
                             <p>- Внимание! Причина вызова «Опломбирование вводов» означает их полное перекрытие! Выбирайте её ТОЛЬКО, КОГДА вы водой по указанному адресу не пользуетесь (В ЖИЛЬЕ НИКТО НЕ ПРОЖИВАЕТ). После опломбирования вам не придётся передавать показания или менять водомер даже с истёкшим МПИ.</p>
                             <p>- Выбирайте причину «ВВОД установленного водомера В ЭКСПЛУАТАЦИЮ», если вы впервые установили водомер или заменили его после окончания МПИ. А также если сорвали пломбу без предварительного вызова контролёра.</p>
 
-                            <form onSubmit={handleSubmit(handleFormSubmit)}>
+                            <form className={styles.form} onSubmit={handleSubmit(handleFormSubmit)}>
                                 <ComponentFormCallController
                                     register={register}
                                     errors={errors}
@@ -122,33 +122,53 @@ const ComponentFormCallController = ({ register, isSending }: ComponentFormReadi
             <div>
                 <div className={styles.form_content}>
                     <div className={styles.form_content_item}>
-                        <p>Причина вызова</p>
+                        <p className={styles.sub_title}>Причина вызова</p>
                         <div>
                             <p>Причина вызова контролера</p>
                         </div>
         
-                    </div>
-                    <div className={styles.form_content_item}>
-                        <div>
-                        <select className="border block max-h-[35px] min-h-35px py-2 w-full pl-2" {...register('call_reason')}>
-                            <option value="" defaultValue={''}>Выберите причину вызова</option>
-                            <option value="Ввод установленного водомера в эксплуатацию">Ввод установленного водомера в эксплуатацию</option>
-                            <option value="Контрольное снятие показаний водомеров">Контрольное снятие показаний водомеров</option>
-                            <option value="У водомера скоро окончится МПИ">У водомера скоро окончится МПИ</option>
-                            <option value="Водомер вышел из строя">Водомер вышел из строя</option>
-                        </select>
+                        <div className={styles.form_content_item}>
+                            <div>
+                            <select className={styles.form_select} {...register('call_reason')}>
+                                <option value="" defaultValue={''}>Выберите причину вызова</option>
+                                <option value="Ввод установленного водомера в эксплуатацию">Ввод установленного водомера в эксплуатацию</option>
+                                <option value="Контрольное снятие показаний водомеров">Контрольное снятие показаний водомеров</option>
+                                <option value="У водомера скоро окончится МПИ">У водомера скоро окончится МПИ</option>
+                                <option value="Водомер вышел из строя">Водомер вышел из строя</option>
+                            </select>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div className={styles.form_content}>
                     <div className={styles.form_content_item}>
-                        <p>Индивидуальные приборы учета воды</p>
-                        {data.map(i => (
-                            <div key={i.name} className={styles.form_row}>
-                            <label>{i.label}</label>
-                            <input type="text" className='appInput' placeholder='' {...register(i.name)} required />
-                          </div>
-                        ))}
+                        <p className={styles.sub_title}>Индивидуальные приборы учета воды</p>
+                        {data.map((i, idx) => {
+                            if (idx !== 1 && idx !== 4) {       
+                                return (
+                                    <div key={idx} className={styles.form_row}>
+                                        <label>{i.label}</label>
+                                        <input 
+                                            type="text" 
+                                            className='appInput' 
+                                            placeholder='' {...register(i.name)}
+                                            required
+                                        />
+                                    </div>
+                            )
+                            } else {
+                                return (
+                                     <div key={idx} className={styles.form_row}>
+                                        <label>{i.label}</label>
+                                        <input 
+                                            type="text" 
+                                            className='appInput' 
+                                            placeholder='' {...register(i.name)}
+                                        />
+                                    </div>
+                                )
+                        }
+                        })}
                     </div>
                 </div>
 
