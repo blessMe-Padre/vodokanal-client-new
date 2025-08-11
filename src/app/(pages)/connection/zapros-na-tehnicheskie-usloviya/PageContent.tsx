@@ -1,10 +1,9 @@
 'use client'
 import { motion } from "framer-motion";
-import Link from "next/link";
 import { useState } from 'react';
 
 import { StatementForm } from "@/app/components";
-import StatementFormLegal from "@/app/components/StatementFormLegal/StatementFormLegal";
+import { StatementFormLegal } from "@/app/components";
 
 import styles from "../style.module.scss";
 

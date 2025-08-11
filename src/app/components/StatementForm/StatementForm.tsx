@@ -43,6 +43,9 @@ export default function StatementForm() {
             }
         });
         formDataToSend.append('date', date);
+        // добавляем id формы
+        formDataToSend.append('form_name', 'zapros_individuals');
+
         files.forEach((file) => {
             formDataToSend.append(`files`, file);
         });

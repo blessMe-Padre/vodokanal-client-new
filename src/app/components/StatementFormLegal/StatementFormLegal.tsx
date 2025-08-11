@@ -7,6 +7,7 @@ import styles from './style.module.scss';
 interface FormData {
     client_name: string;
     client_phone?: string;
+    organization_contact?: string;
     address?: string;
     full_name?: string;
     client_request?: string;
@@ -23,10 +24,8 @@ interface FormData {
 
 export default function StatementFormLegal() {
     const [isSending, setIsSending] = useState(false);
-
     const [files, setFiles] = useState<File[]>([]);
     const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormData>();
-
 
     const handleFormSubmit = async (formData: FormData) => {
         setIsSending(true);
@@ -43,6 +42,11 @@ export default function StatementFormLegal() {
             }
         });
         formDataToSend.append('date', date);
+
+        // добавляем id формы
+        formDataToSend.append('form_name', 'zapros_legal');
+
+
         files.forEach((file) => {
             formDataToSend.append(`files`, file);
         });
@@ -171,7 +175,7 @@ export default function StatementFormLegal() {
                     </div>
 
                     <div className={styles.form_row}>
-                        <label htmlFor='full_name'>1. Сведения о лице, обратившемся с запросом:</label>
+                        <label htmlFor='full_name'>1. Сведения об огранизании:</label>
                         <div className={styles.input_wrapper}>
                             <input
                                 id='full_name'
@@ -181,11 +185,11 @@ export default function StatementFormLegal() {
                             />
                             {errors.full_name && <span className={styles.error}>{errors.full_name.message}</span>}
                         </div>
-                        <p className={styles.form_row_description}>(фамилия, имя, отчество)</p>
+                        <p className={styles.form_row_description}>(полное или сокращенное наименование)</p>
                     </div>
 
                     <div className={styles.form_row}>
-                        <label htmlFor='address'>2. Контактные данные лица, обратившегося за выдачей технических условий:</label>
+                        <label htmlFor='address'>Реквизиты нормативного правового акта, в соответствии с которым осуществляется деятельность:</label>
                         <div className={styles.input_wrapper}>
                             <input
                                 id='address'
@@ -195,11 +199,25 @@ export default function StatementFormLegal() {
                             />
                             {errors.address && <span className={styles.error}>{errors.address.message}</span>}
                         </div>
+                        <p className={styles.form_row_description}>(ИНН, КПП, ОГРН)</p>
+                    </div>
+
+                    <div className={styles.form_row}>
+                        <label htmlFor='client_request'>3. Контактные данные организации: </label>
+                        <div className={styles.input_wrapper}>
+                            <input
+                                id='organization_contact'
+                                type="text"
+                                className='appInput'
+                                {...register('organization_contact', { required: 'Поле обязательно для заполнения' })}
+                            />
+                            {errors.organization_contact && <span className={styles.error}>{errors.organization_contact.message}</span>}
+                        </div>
                         <p className={styles.form_row_description}>(адрес регистрации, контактный телефон, адрес электронной почты)</p>
                     </div>
 
                     <div className={styles.form_row}>
-                        <label htmlFor='client_request'>3. Требуется подключение к централизованной системе:</label>
+                        <label htmlFor='client_request'>4. Требуется подключение к централизованной системе:</label>
                         <div className={styles.input_wrapper}>
                             <input
                                 id='client_request'
@@ -213,7 +231,7 @@ export default function StatementFormLegal() {
                     </div>
 
                     <div className={styles.form_row}>
-                        <label htmlFor='object_address'>4. Адрес и кадастровый номер подключаемого объекта:</label>
+                        <label htmlFor='object_address'>5. Адрес и кадастровый номер подключаемого объекта:</label>
                         <div className={styles.input_wrapper}>
                             <input
                                 id='object_address'
@@ -226,7 +244,7 @@ export default function StatementFormLegal() {
                     </div>
 
                     <div className={styles.form_row}>
-                        <label htmlFor='object_name'>5. Наименование объекта:</label>
+                        <label htmlFor='object_name'>6. Наименование объекта:</label>
                         <div className={styles.input_wrapper}>
                             <input
                                 id='object_name'
@@ -239,7 +257,7 @@ export default function StatementFormLegal() {
                     </div>
 
                     <div className={styles.form_row}>
-                        <label htmlFor='power'>6. Планируемая величина максимальной необходимой мощности (нагрузки) составляет для потребления холодной</label>
+                        <label htmlFor='power'>7. Планируемая величина максимальной необходимой мощности (нагрузки) составляет для потребления холодной</label>
                         <div className={styles.input_wrapper}>
                             <input
                                 id='power'
@@ -253,7 +271,7 @@ export default function StatementFormLegal() {
                     </div>
 
                     <div className={styles.form_row}>
-                        <label htmlFor='firefighting'>6.1 в том числе на нужды  пожаротушения</label>
+                        <label htmlFor='firefighting'>7.1 в том числе на нужды  пожаротушения</label>
                         <div className={styles.input_wrapper}>
                             <input
                                 id='firefighting'
@@ -267,7 +285,7 @@ export default function StatementFormLegal() {
                     </div>
 
                     <div className={styles.form_row}>
-                        <label htmlFor='water_drainage'>6.2 водоотведения</label>
+                        <label htmlFor='water_drainage'>7.2 водоотведения</label>
                         <div className={styles.input_wrapper}>
                             <input
                                 id='water_drainage'
