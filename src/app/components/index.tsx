@@ -15,6 +15,7 @@ export { default as Breadcrumbs } from './Breadcrumbs/Breadcrumbs';
 // Заявления
 export { default as StatementForm } from './StatementForm/StatementForm';
 export { default as StatementFormLegal } from './StatementFormLegal/StatementFormLegal';
+export { default as StatementFormSelf } from './StatementFormSelf/StatementFormSelf';
 
 
 // single item

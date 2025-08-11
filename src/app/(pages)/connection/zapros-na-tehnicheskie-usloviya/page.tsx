@@ -13,17 +13,15 @@ export const metadata = {
 
 export default async function page() {
     return (
-        <section className={styles.section}>
-            <div className="container">
-                <Breadcrumbs
-                    secondLabel="Подключение к сетям"
-                    secondLink='/connection'
-                    thirdLabel="Запрос на технические условия"
-                />
-                <h1 className='title'>Запрос на технические условия</h1>
+        <div className="container">
+            <Breadcrumbs
+                secondLabel="Подключение к сетям"
+                secondLink='/connection'
+                thirdLabel="Запрос на технические условия"
+            />
+            <h1 className='title'>Запрос на технические условия</h1>
 
-                <PageContent />
-            </div>
-        </section>
+            <PageContent />
+        </div>
     )
 } 

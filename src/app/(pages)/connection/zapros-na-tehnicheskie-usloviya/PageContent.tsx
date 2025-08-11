@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 import { StatementForm } from "@/app/components";
 import { StatementFormLegal } from "@/app/components";
+import { StatementFormSelf } from "@/app/components";
 
 import styles from "../style.module.scss";
 
@@ -26,10 +27,10 @@ const PageContent = () => {
             opacity: 1,
             height: "auto",
             visibility: 'visible',
-            transition: {
-                when: "beforeChildren",
-                staggerChildren: 0.1,
-            },
+            // transition: {
+            //     when: "beforeChildren",
+            //     staggerChildren: 0.1,
+            // },
         },
         hidden: {
             opacity: 0,
@@ -84,7 +85,7 @@ const PageContent = () => {
                 initial="hidden"
                 animate={activeTab === 2 ? "visible" : "hidden"}
             >
-                22222222222222222222
+                <StatementFormSelf />
             </motion.div>
         </>
 
