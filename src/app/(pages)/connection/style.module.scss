@@ -19,7 +19,8 @@
     margin: 40px 0;
 }
 
-.item a {
+.item,
+.item_link a {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -50,7 +51,7 @@
 }
 
 
-.item_active a {
+.item_active {
     background-color: var(--main-color);
     color: #ffffff;
 
@@ -59,12 +60,14 @@
     }
 }
 
-.item a:hover {
+.item:hover,
+.item_link a:hover {
     background-color: var(--main-color);
     color: #ffffff;
 }
 
-.item a:hover svg {
+.item:hover svg,
+.item_link a:hover svg {
     fill: #ffffff;
     transform: rotate(-45deg);
 }
