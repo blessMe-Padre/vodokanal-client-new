@@ -1,12 +1,9 @@
 @use '@/app/mixins' as *;
 
-
 .breadcrumbs {
-
     font-weight: 500;
     font-size: 12px;
     letter-spacing: 0.04em;
-    // text-transform: uppercase;
     color: var(--black);
     padding-bottom: 30px;
     @include adaptiv-value("font-size", 16, 13);
@@ -16,17 +13,24 @@
         padding-bottom: 20px;
     }
 
-
     ul {
         list-style: none;
         display: flex;
         gap: 10px;
+        white-space: nowrap;
+        overflow: hidden;
 
-        li {
+        .crumb {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
 
             &::after {
-                content: "/";
+                content: "●"; 
                 margin-left: 10px;
+                flex-shrink: 0;
+                font-size: 0.8em;
+                vertical-align: middle;
             }
 
             &:last-child::after {
@@ -36,10 +40,12 @@
             a {
                 text-decoration: none;
                 font-weight: 400;
-                font-size: 16px;
+                @include adaptiv-value("font-size", 16, 13);
                 letter-spacing: 0.04em;
-                // text-transform: uppercase;
                 color: var(--light-blue);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
 
                 &:hover {
                     text-decoration: underline;
@@ -50,9 +56,38 @@
         .active {
             color: var(--blue);
         }
+
+        .lastCrumb {
+            flex-shrink: 1;
+            min-width: 0;
+
+            span {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: block;
+            }
+        }
     }
 
     @media (max-width: 480px) {
         margin-top: 0;
+        
+        ul {
+            width: 100%;
+            
+            .crumb {
+                &:not(.lastCrumb) {
+                    flex-shrink: 0;
+                    max-width: 30%;
+                    
+                    a, span {
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+                }
+            }
+        }
     }
 }

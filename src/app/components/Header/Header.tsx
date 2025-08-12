@@ -47,6 +47,10 @@ const navLinks: NavLink[] = [
     },
     {
         title: "Раскрытие информации",
+        href: "/disclosure"
+    },
+    {
+        title: "Реквизиты",
         href: "/requisites"
     }
 ]

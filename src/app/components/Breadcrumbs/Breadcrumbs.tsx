@@ -1,11 +1,10 @@
 'use client';
+
 import Link from 'next/link';
 
 import styles from './style.module.scss';
 
 import type { FC } from 'react';
-
-
 
 interface BreadcrumbsProps {
     secondLink?: string;
@@ -17,11 +16,11 @@ const Breadcrumbs: FC<BreadcrumbsProps> = ({ secondLink = '/', secondLabel, thir
     return (
         <nav className={styles.breadcrumbs}>
             <ul>
-                <li>
+                <li className={styles.crumb}>
                     <Link href="/">Главная</Link>
                 </li>
                 {secondLabel && (
-                    <li>
+                    <li className={styles.crumb}>
                         {thirdLabel ? (
                             <Link href={secondLink}>{secondLabel}</Link>
                         ) : (
@@ -30,7 +29,9 @@ const Breadcrumbs: FC<BreadcrumbsProps> = ({ secondLink = '/', secondLabel, thir
                     </li>
                 )}
                 {thirdLabel && (
-                    <li className={styles.active}>{thirdLabel}</li>
+                    <li className={`${styles.crumb} ${styles.active} ${styles.lastCrumb}`}>
+                        <span>{thirdLabel}</span>
+                    </li>
                 )}
             </ul>
         </nav>
