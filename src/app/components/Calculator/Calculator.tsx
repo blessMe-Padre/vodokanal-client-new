@@ -40,6 +40,7 @@ export default function Calculator() {
         if (asphalt) base += asphaltStoimost * length;
         return base;
     };
+
     // Расчет стоимости
     const calcNetworkWater = () => {
         if (diameter === 0) return 0;
@@ -91,11 +92,16 @@ export default function Calculator() {
 
     return (
         <div className={styles.tabs}>
+            <div className={styles.header}>
+                <h2 className={styles.title}>Калькулятор стоимости подключения</h2>
+                <p>Калькулятор осуществляет предварительный неполный расчет, требующий уточнения нашего инженера.</p>
+            </div>
+
             <div className={styles.tabs_header}>
                 {tabsButton.map((item, index) => (
                     <button
                         key={index}
-                        className={styles.tabButton}
+                        className={`${styles.tabButton} ${activeTab === index ? styles.tabButton_active : ''}`}
                         data-index={index}
                         onClick={openTab}
                     >
@@ -110,67 +116,74 @@ export default function Calculator() {
                 initial="hidden"
                 animate={activeTab === 0 ? "visible" : "hidden"}
             >
-                <h2>Расчет подключения водоснабжения</h2>
+                <div className={styles.tab_item}>
+                    <h2>Расчет подключения водоснабжения</h2>
+                    <div className={styles.tab_item_inner}>
+                        <div>
+                            <h3>Подключение</h3>
+                            <div className={styles.input_wrapper}>
+                                <label htmlFor="consumption">Предполагаемый расход (кубометров в сутки):</label>
+                                <input type="number" id="consumption" value={consumption} onChange={e => setConsumption(+e.target.value)} placeholder="" />
+                            </div>
+                        </div>
 
-                <div className={styles.input_group}>
-                    <h3>Подключение</h3>
-                    <div className={styles.input_wrapper}>
-                        <label htmlFor="consumption">Предполагаемый расход (кубометров в сутки):</label>
-                        <input type="number" id="consumption" value={consumption} onChange={e => setConsumption(+e.target.value)} />
-                    </div>
-                </div>
-                <div className={styles.input_group}>
-                    <h3>Прокладка сети</h3>
-                    <div className={styles.input_wrapper}>
-                        <label htmlFor="length">Предполагаемая длина сети (метров):</label>
-                        <input type="number" id="length" value={length} onChange={e => setLength(+e.target.value)} />
-                    </div>
-                    <div className={styles.input_wrapper}>
-                        <label htmlFor="diameter">Предполагаемый диаметр cети (мм.):</label>
-                        <select name="" id="diameter" value={diameter} onChange={e => setDiameter(+e.target.value)}>
-                            <option value="0">- Выбирите диаметр -</option>
-                            <option value="1">До 100 мм.</option>
-                            <option value="2">От 100 до 125 мм.</option>
-                            <option value="3">От 125 до 150 мм.</option>
-                        </select>
+                        <div>
+                            <h3>Прокладка сети</h3>
+                            <div className={styles.tab_item_row}>
+                                <div className={styles.input_group}>
+                                    <div className={styles.input_wrapper}>
+                                        <label htmlFor="length">Предполагаемая длина сети (метров):</label>
+                                        <input type="number" id="length" value={length} onChange={e => setLength(+e.target.value)} />
+                                    </div>
+                                </div>
+
+                                <div className={styles.input_wrapper}>
+                                    <label htmlFor="diameter">Предполагаемый диаметр cети (мм.):</label>
+                                    <select name="" id="diameter" value={diameter} onChange={e => setDiameter(+e.target.value)}>
+                                        <option value="0">- Выбирите диаметр -</option>
+                                        <option value="1">До 100 мм.</option>
+                                        <option value="2">От 100 до 125 мм.</option>
+                                        <option value="3">От 125 до 150 мм.</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className={styles.input_checkbox_wrapper}>
+                            <input type="checkbox" id="asphalt" value="20000" name="asphalt" checked={asphalt} onChange={e => setAsphalt(e.target.checked)} />
+                            <label htmlFor="asphalt">Учитывать работы по восстановлению асфальтового покрытия</label>
+                        </div>
                     </div>
 
-                    <div className={styles.input_wrapper}>
-                        <input type="checkbox" id="asphalt" value="20000" name="asphalt" checked={asphalt} onChange={e => setAsphalt(e.target.checked)} />
-                        <label htmlFor="asphalt">Учитывать работы по восстановлению асфальтового покрытия</label>
-                    </div>
-                </div>
 
-                <div className={styles.result}>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th rowSpan={2} style={{ width: '25%' }}>Расчеты</th>
-                                <th colSpan={2}>Расчетная стоимость</th>
-                            </tr>
-                            <tr>
-                                <th>Без НДС, руб.</th>
-                                <th>С НДС, руб.</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Подключение:</td>
-                                <td>{totalConsumption.toLocaleString()}</td>
-                                <td>{totalConsumptionNDC.toLocaleString()}</td>
-                            </tr>
-                            <tr>
-                                <td>Сеть:</td>
-                                <td>{network.toLocaleString()}</td>
-                                <td>{networkNDC.toLocaleString()}</td>
-                            </tr>
-                            <tr>
-                                <td>Итого:</td>
-                                <td>{total.toLocaleString()}</td>
-                                <td>{totalNDC.toLocaleString()}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div className={styles.result}>
+                        <div className={styles.result_table}>
+                            <div className={styles.result_total}>
+                                <h3>Расчеты </h3>
+                                <p>Подключение: <span>{totalConsumptionNDC.toLocaleString()}</span></p>
+                                <p>Сеть: <span>{networkNDC.toLocaleString()}</span></p>
+                                <p>Итого: <span>{totalNDC.toLocaleString()}</span></p>
+                            </div>
+                            <div className={styles.result_cost}>
+                                <h2>Расчетная стоимость</h2>
+                                <div className={styles.result_inner}>
+                                    <div className={styles.result_inner_item}>
+                                        <h3>Без НДС, руб</h3>
+                                        <p>{totalConsumption.toLocaleString()}</p>
+                                        <p>{network.toLocaleString()}</p>
+                                        <p>{total.toLocaleString()}</p>
+                                    </div>
+                                    <div className={styles.result_inner_item}>
+                                        <h3>С НДС, руб</h3>
+                                        <p>{totalConsumptionNDC.toLocaleString()}</p>
+                                        <p>{networkNDC.toLocaleString()}</p>
+                                        <p>{totalNDC.toLocaleString()}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </motion.div>
 
@@ -180,7 +193,7 @@ export default function Calculator() {
                 initial="hidden"
                 animate={activeTab === 1 ? "visible" : "hidden"}
             >
-                <div className={styles.tabContent}>
+                <div className={styles.tab_item}>
                     <h2>Расчет водоотведение</h2>
 
                     <div className={styles.input_group}>

@@ -39,8 +39,6 @@ export default async function Connection() {
 
                 <ContentRenderer content={page?.data?.content} />
             </section>
-            <h2 className='title'>Калькулятор стоимости подключения</h2>
-            <p>Калькулятор осуществляет предварительный неполный расчет, требующий уточнения нашего инженера.</p>
 
             <Calculator />
         </div>
