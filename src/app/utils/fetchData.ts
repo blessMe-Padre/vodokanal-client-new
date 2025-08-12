@@ -1,4 +1,4 @@
-export default async function fetchData<T = unknown>(url:string): Promise<T> {
+export default async function fetchData<T = any>(url:string): Promise<T> {
     const domain = `${process.env.NEXT_PUBLIC_API_SERVER}`;
     try {
         const response = await fetch(domain + url, {
