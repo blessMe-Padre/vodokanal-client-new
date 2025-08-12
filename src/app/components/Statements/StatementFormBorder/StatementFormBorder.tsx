@@ -167,10 +167,8 @@ export default function StatementFormBorder() {
                     </header>
 
                     <div className={styles.statement_title}>
-                        <h3>ЗАПРОС</h3>
-                        <p>о выдаче технических условий на подключение
-                            (технологическое присоединение) к централизованным системам
-                            холодного водоснабжения и (или) водоотведения</p>
+                        <h3>Заявление</h3>
+                     
                     </div>
 
                     <div className={styles.form_row}>

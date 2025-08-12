@@ -1,5 +1,4 @@
 @use '@/app/mixins' as *;
-// @include adaptiv-value("font-size", 24, 13);
 
 .title {
     @include adaptiv-value("font-size", 46, 22);
@@ -14,7 +13,6 @@
     margin: 0;
     padding: 0;
     list-style: none;
-
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
@@ -29,47 +27,52 @@
     gap: 10px;
     height: 100%;
     cursor: pointer;
-
     padding: 30px;
     box-shadow: 4px 4px 20px 0 rgba(34, 99, 131, 0.2);
     border-radius: 20px;
-
     font-family: "Montserrat", sans-serif;
     font-weight: 600;
     @include adaptiv-value("font-size", 20, 16);
     line-height: 1.2;
-
-    transition: background-color 0.3s ease-in, color 0.3s ease-in;
+    transition: all 0.3s ease-in-out;
+    position: relative; // Для плавных переходов
 
     @media (max-width: 560px) {
         padding: 16px 20px;
     }
 
     svg {
-        transition: all 0.3s ease-in;
+        transition: transform 0.3s ease-in-out, fill 0.2s linear;
         align-self: flex-end;
         fill: #1B4965;
     }
 }
 
-
 .item_active {
     background-color: var(--main-color);
     color: #ffffff;
-
+    
     svg {
         fill: #ffffff;
+        transform: rotate(-45deg); // Добавляем вращение для активного состояния
     }
 }
 
-.item:hover,
-.item_link a:hover {
-    background-color: var(--main-color);
-    color: #ffffff;
-}
-
-.item:hover svg,
-.item_link a:hover svg {
-    fill: #ffffff;
-    transform: rotate(-45deg);
+// Контейнеры для контента табов
+.tab-content {
+    overflow: hidden;
+    transition: opacity 0.2s ease-in-out;
+    
+    &[data-active="true"] {
+        opacity: 1;
+        height: auto;
+        visibility: visible;
+    }
+    
+    &[data-active="false"] {
+        opacity: 0;
+        height: 0;
+        visibility: hidden;
+        position: absolute; // Убираем из потока документа
+    }
 }
