@@ -188,7 +188,7 @@ export default function StatementFormLegalPod() {
                             />
                             {errors.full_name && <span className={styles.error}>{errors.full_name.message}</span>}
                         </div>
-                        <p className={styles.form_row_description}>(фамилия, имя, отчество)</p>
+                        <p className={styles.form_row_description}>(полное или сокращенное наименование)</p>
                     </div>
 
                     <div className={styles.form_row}>
@@ -202,7 +202,7 @@ export default function StatementFormLegalPod() {
                             />
                             {errors.details && <span className={styles.error}>{errors.details.message}</span>}
                         </div>
-                        <p className={styles.form_row_description}>(адрес регистрации, контактный телефон, адрес электронной почты)</p>
+                        <p className={styles.form_row_description}>(ИНН, КПП, ОГРН)</p>
                     </div>
 
                     <div className={styles.form_row}>

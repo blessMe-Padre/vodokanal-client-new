@@ -21,22 +21,25 @@ const PageContent = () => {
             setActiveTab(parseInt(index) as TabIndex);
         }
     };
-
+    
     const variants: Variants = {
         visible: {
             opacity: 1,
-            height: "auto",
-            visibility: 'visible',
-            // transition: {
-            //     when: "beforeChildren",
-            //     staggerChildren: 0.1,
-            // },
+            display: "block",
+            transition: {
+            opacity: { duration: 0.3 },
+            scaleY: { duration: 0.2 }
+            }
         },
         hidden: {
             opacity: 0,
-            height: 0,
-            visibility: 'hidden',
-        },
+            
+            transition: {
+            opacity: { duration: 0.3 },
+            scaleY: { duration: 0.2 }
+            },
+            transitionEnd: { display: "none" }
+        }
     };
 
     return (

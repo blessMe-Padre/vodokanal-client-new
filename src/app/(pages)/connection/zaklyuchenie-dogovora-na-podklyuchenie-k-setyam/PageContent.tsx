@@ -20,21 +20,24 @@ const PageContent = () => {
         }
     };
 
-    const variants: Variants = {
+   const variants: Variants = {
         visible: {
             opacity: 1,
-            height: "auto",
-            visibility: 'visible',
+            display: "block",
             transition: {
-                when: "beforeChildren",
-                staggerChildren: 0.1,
-            },
+            opacity: { duration: 0.3 },
+            scaleY: { duration: 0.2 }
+            }
         },
         hidden: {
             opacity: 0,
-            height: 0,
-            visibility: 'hidden',
-        },
+            
+            transition: {
+            opacity: { duration: 0.3 },
+            scaleY: { duration: 0.2 }
+            },
+            transitionEnd: { display: "none" }
+        }
     };
 
     return (
