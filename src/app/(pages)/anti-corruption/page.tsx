@@ -33,7 +33,6 @@ export default async function AntiCorruption() {
     const sections: AntiCorruptionSections[] = data?.data?.content;
     console.log(sections);
 
-
     return (
         <section className={styles.section}>
             <div className="container">
