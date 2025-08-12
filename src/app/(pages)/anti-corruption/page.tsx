@@ -4,15 +4,23 @@ import fetchData from "@/app/utils/fetchData";
 
 import styles from "./style.module.scss";
 
-type AntiCorruptionList = {
+interface Document {
     title: string;
+    link: string;
     file: {
         url: string;
     };
 }
 
-type AntiCorruptionResponse = {
-    data: AntiCorruptionList[];
+interface AntiCorruptionSections {
+    section_title: string;
+    documents: Document[];
+}
+
+interface AntiCorruptionResponse {
+    data: {
+        content: AntiCorruptionSections[];
+    };
 }
 
 export const metadata = {
@@ -21,28 +29,34 @@ export const metadata = {
 }
 
 export default async function AntiCorruption() {
-    const data: AntiCorruptionResponse = await fetchData('/api/anti-corruption?populate=*');
-    const antiCorruptionList: AntiCorruptionList[] = data.data;
+    const data: AntiCorruptionResponse = await fetchData('/api/stranicza-protivodejstvie-korrupczii?populate[content][populate]=*');
+    const sections: AntiCorruptionSections[] = data?.data?.content;
+    console.log(sections);
+
 
     return (
         <section className={styles.section}>
             <div className="container">
-                <Breadcrumbs secondLabel="Противодействие коррупции"/>
+                <Breadcrumbs secondLabel="Противодействие коррупции" />
                 <h1 className='title'>Противодействие коррупции</h1>
-                <p className={styles.desc}>
-                    В данном разделе размещены документы, регламентирующие деятельность МУП «Находка-Водоканал» 
-                    в сфере противодействия коррупции.
-                </p>
-                <ul className={styles.documentsList}>
-                    {antiCorruptionList?.length > 0 &&
-                        antiCorruptionList.map((document, index) => (
-                            <DocumentComponent
-                                key={index}
-                                title={document?.title}
-                                link={`${process.env.NEXT_PUBLIC_API_SERVER}${document?.file?.url}`}
-                            />
-                        ))}
-                </ul>
+
+                {sections && sections.length > 0 &&
+                    sections.map((section, index) => (
+                        <section key={index}>
+                            <h2>{section?.section_title}</h2>
+                            <ul className={styles.documents_list}>
+                                {section.documents && section.documents.length > 0 &&
+                                    section.documents.map((document, index) => (
+                                        <DocumentComponent
+                                            key={index}
+                                            title={document?.title}
+                                            link={`${process.env.NEXT_PUBLIC_API_SERVER}${document?.link}`}
+                                        />
+                                    ))}
+                            </ul>
+                        </section>
+                    ))
+                }
             </div>
         </section>
     )
