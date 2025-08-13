@@ -8,6 +8,7 @@ import { useState, useEffect, useRef } from "react";
 import logo from '@/../public/logo.svg'
 import phone from '@/../public/phone.svg';
 import uslugi from '@/../public/uslugi.png'
+import fetchData from "@/app/utils/fetchData";
 
 import Search from "../Search/Search";
 
@@ -15,9 +16,18 @@ import styles from "./style.module.scss";
 
 import type { Variants } from "framer-motion";
 
+
 type NavLink = {
     title: string;
     href: string;
+}
+
+type Contact = {
+    phone_name: string,
+    phone_bot_1: string,
+    phone_bot_2: string,
+    phone_1: string,
+    phone_2: string,
 }
 
 const navLinks: NavLink[] = [
@@ -58,6 +68,7 @@ const navLinks: NavLink[] = [
 export default function Header() {
     const [searchOpened, setSearchOpened] = useState(false);
     const [mobileMenuOpened, setMobileMenuOpened] = useState(false);
+    const [contacts, setContacts] = useState<Contact[]>([]);
 
     // закрываем поиск при клике вне попапа
     useEffect(() => {
@@ -83,6 +94,23 @@ export default function Header() {
             document.removeEventListener("sliderClick", handleSliderClick);
         };
     }, [searchOpened]);
+
+    useEffect(() => {
+        const fetchContacts = async () => {
+            try {
+                const response = await fetchData<{data: Contact[]}>('/api/kontakties');
+                if (response?.data[0].kontakty) {
+                    setContacts(response?.data[0].kontakty);
+                } else {
+                    console.error('Неверный формат ответа от API');
+                }
+            } catch (error) {
+                console.error('Ошибка при загрузке контактов:', error);
+            }
+        };
+
+        fetchContacts();
+    }, []);
 
     const buttonRef = useRef<HTMLButtonElement>(null);
     const menuRef = useRef<HTMLDivElement>(null);
@@ -173,27 +201,31 @@ export default function Header() {
                     </Link>
                     
                     <div className={styles.desktop_contacts}>
-                        <div className={styles.wrapper_contact_info}>
-                            <Image src={phone} width={25} height={25} alt="phone" />
-                            <div>
-                                <p>Для жителей многоквартирных домов</p>
-                                <a href="+7 984 195 8355, 745-582">+7 984 195 8355, 745-582</a>
+                        {contacts.map((contact, index) => (
+                            <div className={styles.wrapper_contact_info} key={index}>
+                                <Image 
+                                    src={phone} 
+                                    width={20} 
+                                    height={20} 
+                                    alt={`Иконка телефона ${contact.phone_name}`} 
+                                />
+                                <div>
+                                    <p>{contact.phone_name}</p>
+                                    <div className={styles.phone_numbers}>
+                                        <Link href={`tel:${contact.phone_bot_1}`}>
+                                            {contact.phone_1}
+                                        </Link>
+                                        {contact.phone_bot_2 && (
+                                            <>
+                                                <Link href={`tel:${contact.phone_bot_2}`}>
+                                                    {contact.phone_2}
+                                                </Link>
+                                            </>
+                                        )}
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div className={styles.wrapper_contact_info}>
-                            <Image src={phone} width={25} height={25} alt="phone" />
-                            <div>
-                                <p>Для жителей частного сектора</p>
-                                <a href="+7 914 719 6831, 634-132">+7 914 719 6831, 634-132</a>
-                            </div>
-                        </div>
-                        <div className={styles.wrapper_contact_info}>
-                            <Image src={phone} width={25} height={25} alt="phone" />
-                            <div>
-                                <p>Для юридических лиц</p>
-                                <a href="+7 914 716 5619, 744-539">+7 914 716 5619, 744-539</a>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
 
@@ -241,27 +273,31 @@ export default function Header() {
                     </nav>
 
                     <div className={styles.mobile_contacts}>
-                        <div className={styles.wrapper_contact_info}>
-                            <Image src={phone} width={20} height={20} alt="phone" />
-                            <div>
-                                <p>Для жителей многоквартирных домов</p>
-                                <a href="+7 984 195 8355, 745-582">+7 984 195 8355, 745-582</a>
+                        {contacts.map((contact, index) => (
+                            <div className={styles.wrapper_contact_info} key={index}>
+                                <Image 
+                                    src={phone} 
+                                    width={20} 
+                                    height={20} 
+                                    alt={`Иконка телефона ${contact.phone_name}`} 
+                                />
+                                <div>
+                                    <p>{contact.phone_name}</p>
+                                    <div className={styles.phone_numbers}>
+                                        <Link href={`tel:${contact.phone_bot_1}`}>
+                                            {contact.phone_1}
+                                        </Link>
+                                        {contact.phone_bot_2 && (
+                                            <>
+                                            <Link href={`tel:${contact.phone_bot_2}`}>
+                                                {contact.phone_2}
+                                            </Link>
+                                            </>
+                                        )}
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div className={styles.wrapper_contact_info}>
-                            <Image src={phone} width={20} height={20} alt="phone" />
-                            <div>
-                                <p>Для жителей частного сектора</p>
-                                <a href="+7 914 719 6831, 634-132">+7 914 719 6831, 634-132</a>
-                            </div>
-                        </div>
-                        <div className={styles.wrapper_contact_info}>
-                            <Image src={phone} width={20} height={20} alt="phone" />
-                            <div>
-                                <p>Для юридических лиц</p>
-                                <a href="+7 914 716 5619, 744-539">+7 914 716 5619, 744-539</a>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </motion.div>
 

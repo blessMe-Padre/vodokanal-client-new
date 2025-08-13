@@ -2,14 +2,23 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useState, useEffect } from "react";
 
 import logo from '@/../public/logo_w.svg'
 import phone from '@/../public/phone_w.svg';
 import uslugi from '@/../public/uslugi.png'
 import { Cookies } from "@/app/components";
+import fetchData from '@/app/utils/fetchData';
 
 import styles from "./style.module.scss";
 
+type Contact = {
+    phone_name: string,
+    phone_bot_1: string,
+    phone_bot_2: string,
+    phone_1: string,
+    phone_2: string,
+}
 
 type NavLink = {
     title: string;
@@ -57,6 +66,25 @@ const navLinks: NavLink[] = [
 
 export default function Footer() {
     const pathname = usePathname();
+    const [contacts, setContacts] = useState<Contact[]>([]);
+
+
+    useEffect(() => {
+        const fetchContacts = async () => {
+            try {
+                const response = await fetchData<{data: Contact[]}>('/api/kontakties');
+                if (response?.data[0].kontakty) {
+                    setContacts(response?.data[0].kontakty);
+                } else {
+                    console.error('Неверный формат ответа от API');
+                }
+            } catch (error) {
+                console.error('Ошибка при загрузке контактов:', error);
+            }
+        };
+
+        fetchContacts();
+    }, []);
 
     return (
         <footer className={styles.footer}>
@@ -92,27 +120,32 @@ export default function Footer() {
 
                     {/* Третья колонка - контакты */}
                     <div className={styles.contacts_column}>
-                        <div className={styles.wrapper_contact_info}>
-                            <Image src={phone} width={25} height={25} alt="phone" />
-                            <div>
-                                <p>Для жителей многоквартирных домов</p>
-                                <a href="+7 984 195 8355, 745-582">+7 984 195 8355, 745-582</a>
+                        {contacts.map((contact, index) => (
+                            <div className={styles.wrapper_contact_info} key={index}>
+                                <Image 
+                                    src={phone} 
+                                    width={20} 
+                                    height={20} 
+                                    alt={`Иконка телефона ${contact.phone_name}`} 
+                                />
+                                <div>
+                                    <p>{contact.phone_name}</p>
+                                    <div className={styles.phone_numbers}>
+                                        <Link href={`tel:${contact.phone_bot_1}`}>
+                                            {contact.phone_1}
+                                        </Link> 
+                                        <span> , </span>
+                                        {contact.phone_bot_2 && (
+                                            <>
+                                                <Link href={`tel:${contact.phone_bot_2}`}>
+                                                    {contact.phone_2}
+                                                </Link>
+                                            </>
+                                        )}
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div className={styles.wrapper_contact_info}>
-                            <Image src={phone} width={25} height={25} alt="phone" />
-                            <div>
-                                <p>Для жителей частного сектора</p>
-                                <a href="+7 914 719 6831, 634-132">+7 914 719 6831, 634-132</a>
-                            </div>
-                        </div>
-                        <div className={styles.wrapper_contact_info}>
-                            <Image src={phone} width={25} height={25} alt="phone" />
-                            <div>
-                                <p>Для юридических лиц</p>
-                                <a href="+7 914 716 5619, 744-539">+7 914 716 5619, 744-539</a>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
 
