@@ -155,7 +155,6 @@ export default function Calculator() {
                         </div>
                     </div>
 
-
                     <div className={styles.result}>
                         <div className={styles.result_table}>
                             <div className={styles.result_total}>
@@ -183,7 +182,6 @@ export default function Calculator() {
                             </div>
                         </div>
                     </div>
-
                 </div>
             </motion.div>
 
@@ -195,67 +193,82 @@ export default function Calculator() {
             >
                 <div className={styles.tab_item}>
                     <h2>Расчет водоотведение</h2>
-
-                    <div className={styles.input_group}>
-                        <h3>Подключение</h3>
-                        <div className={styles.input_wrapper}>
-                            <label htmlFor="consumption">Предполагаемый расход (кубометров в сутки):</label>
-                            <input type="number" id="consumption" value={consumptionWater} onChange={e => setConsumptionWater(+e.target.value)} />
-                        </div>
-                    </div>
-                    <div className={styles.input_group}>
-                        <h3>Прокладка сети</h3>
-                        <div className={styles.input_wrapper}>
-                            <label htmlFor="length">Предполагаемая длина сети (метров):</label>
-                            <input type="number" id="length" value={length} onChange={e => setLength(+e.target.value)} />
-                        </div>
-                        <div className={styles.input_wrapper}>
-                            <label htmlFor="diameter">Предполагаемый диаметр cети (мм.):</label>
-                            <select name="" id="diameter" value={diameter} onChange={e => setDiameter(+e.target.value)}>
-                                <option value="0">- Выбирите диаметр -</option>
-                                <option value="1">До 160 мм.</option>
-                            </select>
+                    <div className={styles.tab_item_inner}>
+                        <div>
+                            <h3>Подключение</h3>
+                            <div className={styles.input_wrapper}>
+                                <label htmlFor="consumption">Предполагаемый расход (кубометров в сутки):</label>
+                                <input type="number" id="consumption" value={consumptionWater} onChange={e => setConsumptionWater(+e.target.value)} />
+                            </div>
                         </div>
 
-                        <div className={styles.input_wrapper}>
+                        <div>
+                            <h3>Прокладка сети</h3>
+                            <div className={styles.tab_item_row}>
+                                <div className={styles.input_group}>
+                                    <div className={styles.input_wrapper}>
+                                        <label htmlFor="length">Предполагаемая длина сети (метров):</label>
+                                        <input type="number" id="length" value={length} onChange={e => setLength(+e.target.value)} />
+                                    </div>
+                                </div>
+
+                                <div className={styles.input_wrapper}>
+                                    <label htmlFor="diameter">Предполагаемый диаметр cети (мм.):</label>
+                                    <select name="" id="diameter" value={diameter} onChange={e => setDiameter(+e.target.value)}>
+                                        <option value="0">- Выбирите диаметр -</option>
+                                        <option value="1">До 160 мм.</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className={styles.input_checkbox_wrapper}>
                             <input type="checkbox" id="asphalt" value="20000" name="asphalt" checked={asphalt} onChange={e => setAsphalt(e.target.checked)} />
                             <label htmlFor="asphalt">Учитывать работы по восстановлению асфальтового покрытия</label>
                         </div>
                     </div>
 
                     <div className={styles.result}>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th rowSpan={2} style={{ width: '25%' }}>Расчеты</th>
-                                    <th colSpan={2}>Расчетная стоимость</th>
-                                </tr>
-                                <tr>
-                                    <th>Без НДС, руб.</th>
-                                    <th>С НДС, руб.</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Подключение:</td>
-                                    <td>{totalConsumptionWater.toLocaleString()}</td>
-                                    <td>{totalConsumptionWaterNDC.toLocaleString()}</td>
-                                </tr>
-                                <tr>
-                                    <td>Сеть:</td>
-                                    <td>{networkWater.toLocaleString()}</td>
-                                    <td>{networkWaterNDC.toLocaleString()}</td>
-                                </tr>
-                                <tr>
-                                    <td>Итого:</td>
-                                    <td>{totalWater.toLocaleString()}</td>
-                                    <td>{totalWaterNDC.toLocaleString()}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div className={styles.result_table}>
+                            <div className={styles.result_total}>
+                                <h3>Расчеты </h3>
+                                <p>Подключение: <span>{totalConsumptionWaterNDC.toLocaleString()}</span></p>
+                                <p>Сеть: <span>{networkWaterNDC.toLocaleString()}</span></p>
+                                <p>Итого: <span>{totalWaterNDC.toLocaleString()}</span></p>
+                            </div>
+                            <div className={styles.result_cost}>
+                                <h2>Расчетная стоимость</h2>
+                                <div className={styles.result_inner}>
+                                    <div className={styles.result_inner_item}>
+                                        <h3>Без НДС, руб</h3>
+                                        <p>{totalConsumptionWater.toLocaleString()}</p>
+                                        <p>{networkWater.toLocaleString()}</p>
+                                        <p>{totalWater.toLocaleString()}</p>
+                                    </div>
+                                    <div className={styles.result_inner_item}>
+                                        <h3>С НДС, руб</h3>
+                                        <p>{totalConsumptionWaterNDC.toLocaleString()}</p>
+                                        <p>{networkWaterNDC.toLocaleString()}</p>
+                                        <p>{totalWaterNDC.toLocaleString()}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
-            </motion.div>
-        </div>
+
+
+
+            </motion.div >
+        </div >
     )
 }
+
+
+// totalConsumptionWater
+// totalConsumptionWaterNDC
+// networkWater
+// networkWaterNDC
+// totalWater
+// totalWaterNDC
