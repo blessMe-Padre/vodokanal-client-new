@@ -16,7 +16,7 @@ export default function News() {
                     <p>Передайте показания, оплатите услуги  и получите поддержку — всё в пару кликов</p>
                     
                     <LinkCustom href={'/transmission-of-readings'} text='Передать показания' />
-                
+                    
                     <Image src={banner} className={styles.banner} alt='banner' />
                 </div>
                 <Image src={banner_s} className={styles.banner_small} alt='banner small' />

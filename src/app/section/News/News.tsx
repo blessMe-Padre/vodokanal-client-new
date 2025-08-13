@@ -114,7 +114,9 @@ export default function News() {
                                             blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQ0MiIgaGVpZ2h0PSIxMTg5IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNjY2MiIC8+PC9zdmc+"
                                             />
                                     </div>
-                                    <h3 className={styles.item_title}>{item?.title}</h3>
+                                    <Link href={`/news/${item.documentId}`}>
+                                        <h3 className={styles.item_title}>{item?.title}</h3>
+                                    </Link>
                                     <p className={styles.item_description}>{item?.description}</p>
 
                                     <footer className={styles.news_footer}>
