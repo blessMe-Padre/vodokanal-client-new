@@ -13,8 +13,8 @@ import { AnimateElementProps } from './types';
 /**
  * @param element - html тег, который будет анимирован
  * @param animationName - имя анимации (fadeUp, fadeDown, fadeLeft, fadeRight)
+ * @param animationDelay - задержка анимации (ms) 1000 = 1s
  * @param className - добавить класс для элемента
- * @param content - контент для элемента
  * @returns html тег с анимацией
  */
 
@@ -22,8 +22,9 @@ import { AnimateElementProps } from './types';
   const AnimateElement: React.FC<AnimateElementProps> = ({
     element,
     animationName = styles.fadeUp,
+    animationDelay = '100',
     className,
-    content,
+    children,
   }) => {
     const [isVisible, setIsVisible] = useState(false);
     const elementRef = useRef<HTMLElement>(null);
@@ -70,7 +71,7 @@ import { AnimateElementProps } from './types';
         ref={elementRef}
         className={`${className} ${animationName} ${isVisible ? styles.active : ''}`}
       >
-        {content}
+        {children}
       </Tag>
     );
   };

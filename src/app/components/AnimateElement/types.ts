@@ -1,6 +1,7 @@
 export interface AnimateElementProps {
     element: keyof React.JSX.IntrinsicElements;
     animationName?: string;
+    animationDelay?: string;
     className?: string;
-    content?: React.ReactNode;
+    children?: React.ReactNode;
 }

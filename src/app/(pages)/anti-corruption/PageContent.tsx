@@ -14,8 +14,9 @@ export default function PageContent({ pageData }: PageContentProps) {
                     element="h2" 
                     animationName='fadeUp'
                     className="title"
-                    content={pageData?.title_1} 
-                />
+                >
+                    {pageData?.title_1}
+                </AnimateElement>
                 <ul className={styles.documents_list}>
                     {pageData?.documents && pageData?.documents.length > 0 &&
                         pageData.documents.map((document) => (
@@ -34,8 +35,9 @@ export default function PageContent({ pageData }: PageContentProps) {
                     element="h2" 
                     animationName='fadeUp'
                     className="title"
-                    content={pageData?.title_2} 
-                />
+                >
+                    {pageData?.title_2}
+                </AnimateElement>
                 <ul className={styles.documents_list}>
                     {pageData?.documents_2 && pageData?.documents_2.length > 0 &&
                         pageData.documents_2.map((document) => (
@@ -54,8 +56,9 @@ export default function PageContent({ pageData }: PageContentProps) {
                     element="h2" 
                     animationName='fadeUp'
                     className="title"
-                    content={pageData?.title_3} 
-                />
+                >
+                    {pageData?.title_3}
+                </AnimateElement>
                 <ul className={styles.documents_list}>
                     {pageData?.documents_3 && pageData?.documents_3.length > 0 &&
                         pageData.documents_3.map((document) => (
@@ -74,8 +77,9 @@ export default function PageContent({ pageData }: PageContentProps) {
                     element="h2" 
                     animationName='fadeUp'
                     className="title"
-                    content={pageData?.title_4} 
-                />
+                >
+                    {pageData?.title_4}
+                </AnimateElement>
                 <ul className={styles.documents_list}>
                     {pageData?.documents_4 && pageData?.documents_4.length > 0 &&
                         pageData.documents_4.map((document) => (
@@ -94,17 +98,25 @@ export default function PageContent({ pageData }: PageContentProps) {
                     element="h2" 
                     animationName='fadeUp'
                     className="title"
-                    content={pageData?.title_5} 
-                />
+                >
+                 {pageData?.title_5}
+                </AnimateElement>
                 <ul className={styles.documents_list}>
                     {pageData?.documents_5 && pageData?.documents_5.length > 0 &&
                         pageData.documents_5.map((document) => (
-                            <li key={document?.id}>
-                            <DocumentComponent
-                                title={document?.title}
-                                link={`${process.env.NEXT_PUBLIC_API_SERVER}${document?.file?.url}`}
-                            />
-                            </li>
+                            <AnimateElement
+                                element="h2" 
+                                animationName='fadeUp'
+                                className="title"
+                                key={document?.id}
+                            >
+                                <li key={document?.id}>
+                                <DocumentComponent
+                                    title={document?.title}
+                                    link={`${process.env.NEXT_PUBLIC_API_SERVER}${document?.file?.url}`}
+                                    />
+                                </li>
+                                </AnimateElement>
                         ))}
                 </ul>
             </section> 
