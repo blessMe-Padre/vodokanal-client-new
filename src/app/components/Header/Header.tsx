@@ -3,13 +3,13 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 
 import logo from '@/../public/logo.svg'
 import phone from '@/../public/phone.svg';
 import uslugi from '@/../public/uslugi.png'
 
-import Search from "../Search/Search";
+// import Search from "../Search/Search";
 
 import styles from "./style.module.scss";
 
@@ -56,56 +56,56 @@ const navLinks: NavLink[] = [
 ]
 
 export default function Header() {
-    const [searchOpened, setSearchOpened] = useState(false);
+    // const [searchOpened, setSearchOpened] = useState(false);
     const [mobileMenuOpened, setMobileMenuOpened] = useState(false);
 
     // закрываем поиск при клике вне попапа
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (!searchOpened) return;
+    // useEffect(() => {
+    //     const handleClickOutside = (event: MouseEvent) => {
+    //         if (!searchOpened) return;
 
-            const isClickOutsideMenu = !menuRef.current || !menuRef.current.contains(event.target as Node);
-            const isClickOutsideButton = !buttonRef.current || !buttonRef.current.contains(event.target as Node);
+    //         const isClickOutsideMenu = !menuRef.current || !menuRef.current.contains(event.target as Node);
+    //         const isClickOutsideButton = !buttonRef.current || !buttonRef.current.contains(event.target as Node);
 
-            if (isClickOutsideMenu && isClickOutsideButton) {
-                setSearchOpened(false);
-            }
-        };
+    //         if (isClickOutsideMenu && isClickOutsideButton) {
+    //             setSearchOpened(false);
+    //         }
+    //     };
 
-        const handleSliderClick = () => {
-            setSearchOpened(false);
-        };
+    //     const handleSliderClick = () => {
+    //         setSearchOpened(false);
+    //     };
 
-        document.addEventListener("mousedown", handleClickOutside);
-        document.addEventListener("sliderClick", handleSliderClick);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-            document.removeEventListener("sliderClick", handleSliderClick);
-        };
-    }, [searchOpened]);
+    //     document.addEventListener("mousedown", handleClickOutside);
+    //     document.addEventListener("sliderClick", handleSliderClick);
+    //     return () => {
+    //         document.removeEventListener("mousedown", handleClickOutside);
+    //         document.removeEventListener("sliderClick", handleSliderClick);
+    //     };
+    // }, [searchOpened]);
 
-    const buttonRef = useRef<HTMLButtonElement>(null);
-    const menuRef = useRef<HTMLDivElement>(null);
+    // const buttonRef = useRef<HTMLButtonElement>(null);
+    // const menuRef = useRef<HTMLDivElement>(null);
     const mobileMenuRef = useRef<HTMLDivElement>(null);
     const pathname = usePathname();
 
     // Работа с поиском
-    const variants: Variants = {
-        visible: {
-            opacity: 1,
-            height: "auto",
-            visibility: "visible",
-            transition: {
-                when: "beforeChildren",
-                staggerChildren: 0.1,
-            },
-        },
-        hidden: {
-            opacity: 0,
-            height: 0,
-            visibility: "hidden",
-        },
-    };
+    // const variants: Variants = {
+    //     visible: {
+    //         opacity: 1,
+    //         height: "auto",
+    //         visibility: "visible",
+    //         transition: {
+    //             when: "beforeChildren",
+    //             staggerChildren: 0.1,
+    //         },
+    //     },
+    //     hidden: {
+    //         opacity: 0,
+    //         height: 0,
+    //         visibility: "hidden",
+    //     },
+    // };
 
     // Работа с мобильным меню
     const mobileMenuVariants: Variants = {
@@ -265,16 +265,16 @@ export default function Header() {
                     </div>
                 </motion.div>
 
-                <button
+                {/* <button
                     ref={buttonRef}
                     className={`${styles.button}`}
                     onClick={() => setSearchOpened(!searchOpened)}
                     title='Поиск'
                 >
-                    <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.57129 0.799805C12.9077 0.799805 16.3926 4.22886 16.3926 8.42188C16.3926 12.6149 12.9077 16.0439 8.57129 16.0439C4.23496 16.0439 0.75 12.6149 0.75 8.42188C0.750013 4.2289 4.23497 0.799878 8.57129 0.799805Z" strokeWidth="1.5"></path><path d="M14.1426 14.2822L17.9997 18.0497" strokeWidth="1.5" strokeLinecap="round"></path></svg>
-                </button>
+                    <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.57129 0.799805C12.9077 0.799805 16.3926 4.22886 16.3926 8.42188C16.3926 12.6149 12.9077 16.0439 8.57129 16.0439C4.23496 16.0439 0.75 12.6149 0.75 8.42188C0.750013 4.2289 4.23497 0.799878 8.57129 0.799805Z" strokeWidth="1.5" stroke="#1B4965"></path><path d="M14.1426 14.2822L17.9997 18.0497" strokeWidth="1.5" strokeLinecap="round" stroke="#1B4965"></path></svg>
+                </button> */}
 
-                <motion.div
+                {/* <motion.div
                     ref={menuRef}
                     layout
                     variants={variants}
@@ -283,7 +283,7 @@ export default function Header() {
                     className="overflow-hidden"
                 >
                     <Search />
-                </motion.div>
+                </motion.div> */}
 
             </div>
         </header>
