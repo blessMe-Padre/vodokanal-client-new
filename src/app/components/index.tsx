@@ -34,5 +34,7 @@ export { default as Cookies } from './Cookies/Cookies';
 // микро компоненты
 // чекбоксы, input, btn
 export { default as SuccessMessage } from './SuccessMessage/SuccessMessage';
+export { default as AnimateElement } from './AnimateElement/AnimateElement';
+export { default as DocumentComponent } from './DocumentComponent/DocumentComponent';
 
 // timer
