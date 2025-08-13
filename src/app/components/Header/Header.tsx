@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import logo from '@/../public/logo.svg'
 import phone from '@/../public/phone.svg';
@@ -101,9 +101,10 @@ export default function Header() {
     useEffect(() => {
         const fetchContacts = async () => {
             try {
-                const response = await fetchData<{data: Contact[]}>('/api/kontakties');
-                if (response?.data[0].kontakty) {
-                    setContacts(response?.data[0].kontakty);
+                const response = await fetchData<{ data: { [key: number]: { kontakty: Contact[] } } }>('/api/kontakties');
+
+                if (response?.data[0]?.kontakty) {
+                    setContacts(response?.data[0]?.kontakty as Contact[]);
                 } else {
                     console.error('Неверный формат ответа от API');
                 }
@@ -115,8 +116,8 @@ export default function Header() {
         fetchContacts();
     }, []);
 
-    const buttonRef = useRef<HTMLButtonElement>(null);
-    const menuRef = useRef<HTMLDivElement>(null);
+    // const buttonRef = useRef<HTMLButtonElement>(null);
+    // const menuRef = useRef<HTMLDivElement>(null);
 
     const mobileMenuRef = useRef<HTMLDivElement>(null);
     const pathname = usePathname();
@@ -199,19 +200,19 @@ export default function Header() {
                             <h1 className={`${styles.logo_title} font-inter font-me`}>МУП Находка-Водоканал</h1>
                         </div>
                     </Link>
-                        
+
                     <Link href={'https://gosuslugi.primorsky.ru/main.htm'} className={styles.mobile_logos} target="_blank">
                         <Image src={uslugi} width={120} height={30} alt="uslugi" />
                     </Link>
-                    
+
                     <div className={styles.desktop_contacts}>
                         {contacts.map((contact, index) => (
                             <div className={styles.wrapper_contact_info} key={index}>
-                                <Image 
-                                    src={phone} 
-                                    width={20} 
-                                    height={20} 
-                                    alt={`Иконка телефона ${contact.phone_name}`} 
+                                <Image
+                                    src={phone}
+                                    width={20}
+                                    height={20}
+                                    alt={`Иконка телефона ${contact.phone_name}`}
                                 />
                                 <div>
                                     <p>{contact.phone_name}</p>
@@ -279,11 +280,11 @@ export default function Header() {
                     <div className={styles.mobile_contacts}>
                         {contacts.map((contact, index) => (
                             <div className={styles.wrapper_contact_info} key={index}>
-                                <Image 
-                                    src={phone} 
-                                    width={20} 
-                                    height={20} 
-                                    alt={`Иконка телефона ${contact.phone_name}`} 
+                                <Image
+                                    src={phone}
+                                    width={20}
+                                    height={20}
+                                    alt={`Иконка телефона ${contact.phone_name}`}
                                 />
                                 <div>
                                     <p>{contact.phone_name}</p>
@@ -293,9 +294,9 @@ export default function Header() {
                                         </Link>
                                         {contact.phone_bot_2 && (
                                             <>
-                                            <Link href={`tel:${contact.phone_bot_2}`}>
-                                                {contact.phone_2}
-                                            </Link>
+                                                <Link href={`tel:${contact.phone_bot_2}`}>
+                                                    {contact.phone_2}
+                                                </Link>
                                             </>
                                         )}
                                     </div>

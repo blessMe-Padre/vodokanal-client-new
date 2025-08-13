@@ -45,6 +45,7 @@
         background-color: var(--light-gray);
         padding: 20px;
         border-radius: 20px;
+        margin-bottom: 20px;
     }
 }
 
@@ -256,7 +257,7 @@
     div {
         display: flex;
         flex-direction: column;
-        
+
         gap: 4px;
     }
 
