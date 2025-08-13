@@ -1,32 +1,9 @@
 import { Breadcrumbs } from "@/app/components";
-import DocumentComponent from "@/app/components/DocumentComponent/DocumentComponent";
 import fetchData from "@/app/utils/fetchData";
 
+import PageContent from "./PageContent";
 import styles from "./style.module.scss";
-
-interface Document {
-    id: number;
-    title: string;
-    link: string;
-    file: {
-        url: string;
-    };
-}
-
-interface AntiCorruptionResponse {
-    data: {
-        title_1: string;
-        title_2: string;
-        title_3: string;
-        title_4: string;
-        title_5: string;
-        documents: Document[];
-        documents_2: Document[];
-        documents_3: Document[];
-        documents_4: Document[];
-        documents_5: Document[];
-    };
-}
+import { AntiCorruptionResponse } from "./types";
 
 export const metadata = {
     title: 'МУП "Находка-Водоканал" - Противодействие коррупции',
@@ -69,80 +46,8 @@ const requestUrl =
                 <Breadcrumbs secondLabel="Противодействие коррупции" />
                 <h1 className='title'>Противодействие коррупции</h1>
 
-                <section className={styles.section_item}>
-                    <h2>{pageData?.title_1}</h2>
-                    <ul className={styles.documents_list}>
-                        {pageData?.documents && pageData?.documents.length > 0 &&
-                            pageData.documents.map((document) => (
-                                <li key={document?.id}>
-                                <DocumentComponent
-                                    title={document?.title}
-                                    link={`${process.env.NEXT_PUBLIC_API_SERVER}${document?.file?.url}`}
-                                />
-                                </li>
-                            ))}
-                    </ul>
-                </section>
-
-                <section className={styles.section_item}>
-                    <h2>{pageData?.title_2}</h2>
-                    <ul className={styles.documents_list}>
-                        {pageData?.documents_2 && pageData?.documents_2.length > 0 &&
-                            pageData.documents_2.map((document) => (
-                                <li key={document?.id}>
-                                <DocumentComponent
-                                    title={document?.title}
-                                    link={`${process.env.NEXT_PUBLIC_API_SERVER}${document?.file?.url}`}
-                                />
-                                </li>
-                            ))}
-                    </ul>
-                </section>
-
-                <section className={styles.section_item}>
-                    <h2>{pageData?.title_3}</h2>
-                    <ul className={styles.documents_list}>
-                        {pageData?.documents_3 && pageData?.documents_3.length > 0 &&
-                            pageData.documents_3.map((document) => (
-                                <li key={document?.id}>
-                                <DocumentComponent
-                                    title={document?.title}
-                                    link={`${process.env.NEXT_PUBLIC_API_SERVER}${document?.file?.url}`}
-                                />
-                                </li>
-                            ))}
-                    </ul>
-                </section>
-
-                <section className={styles.section_item}>
-                    <h2>{pageData?.title_4}</h2>
-                    <ul className={styles.documents_list}>
-                        {pageData?.documents_4 && pageData?.documents_4.length > 0 &&
-                            pageData.documents_4.map((document) => (
-                                <li key={document?.id}>
-                                <DocumentComponent
-                                    title={document?.title}
-                                    link={`${process.env.NEXT_PUBLIC_API_SERVER}${document?.file?.url}`}
-                                />
-                                </li>
-                            ))}
-                    </ul>
-                </section>
-
-                <section className={styles.section_item}>
-                    <h2>{pageData?.title_5}</h2>
-                    <ul className={styles.documents_list}>
-                        {pageData?.documents_5 && pageData?.documents_5.length > 0 &&
-                            pageData.documents_5.map((document) => (
-                                <li key={document?.id}>
-                                <DocumentComponent
-                                    title={document?.title}
-                                    link={`${process.env.NEXT_PUBLIC_API_SERVER}${document?.file?.url}`}
-                                />
-                                </li>
-                            ))}
-                    </ul>
-                </section>  
+                <PageContent pageData={pageData} />
+ 
             </div>
         </section>
     )
