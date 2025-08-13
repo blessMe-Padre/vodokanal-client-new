@@ -17,7 +17,7 @@ export default function Requisites() {
                     <div className={styles.infoBlock}>
                         <h2 className={styles.subtitle}>Муниципальное унитарное предприятие «Находка-Водоканал»</h2>
                         
-                        <div className={styles.details}>
+                        {/* <div className={styles.details}>
                             <div className={styles.detailItem}>
                                 <span className={styles.label}>Юридический адрес:</span>
                                 <span className={styles.value}>692900, Приморский край, г. Находка, ул. Владивостокская, 1</span>
@@ -87,7 +87,7 @@ export default function Requisites() {
                                 <span className={styles.label}>Генеральный директор:</span>
                                 <span className={styles.value}>Иванов Иван Иванович</span>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
