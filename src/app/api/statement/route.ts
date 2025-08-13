@@ -7,6 +7,8 @@ import { NextRequest, NextResponse } from 'next/server';
 // import sendEmailLegal from '@/app/utils/mailStatements/mailStatementsLegal';
 // import sendEmailLegalPod from '@/app/utils/mailStatements/mailStatementsLegalPod';
 // import sendEmailPod from '@/app/utils/mailStatements/mailStatementsPod';
+// import mailEmailUnit from '@/app/utils/mailStatements/mailStatementsPodUnit';
+// import sendEmailBorder from '@/app/utils/mailStatements/mailStatementsBorder';
 import makeDocx from '@/app/utils/makeDocx/makeDocx';
 import makeDocxBorder from '@/app/utils/makeDocx/makeDocxBorder';
 import makeDocxLegal from '@/app/utils/makeDocx/makeDocxLegal';
@@ -152,6 +154,14 @@ export async function POST(request: NextRequest): Promise<NextResponse<ApiRespon
       
       case 'zapros_legal_pod':
         // emailResult = await sendEmailLegalPod(formFields, allAttachments);
+        break;
+      
+      case 'zapros_unit':
+        // emailResult = await sendEmailUnit(formFields, allAttachments);
+        break;
+      
+      case 'zapros_border':
+        // emailResult = await sendEmailBorder(formFields, allAttachments);
         break;
     }
 

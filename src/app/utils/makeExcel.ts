@@ -3,6 +3,8 @@ import path from 'path';
 
 import * as XLSX from 'xlsx';
 
+import { logger } from './logger';
+
 interface ReadingsData {
   date: string;
   code_street: number;
@@ -27,15 +29,22 @@ interface ReadingsData {
 }
 
 export const makeExcel = (body: ReadingsData) => {
-    
-    // путь до файа
+  try {
+
+    const now = new Date();
+    const currentMonth = now.getMonth() + 1;
+    const currentYear = now.getFullYear();
+
+     // Формируем имя файла с месяцем и годом
+    const fileName = `Readings_${currentYear}_${currentMonth.toString().padStart(2, '0')}.xlsx`;
     const tempDir = path.join(process.cwd(), 'tmp');
-    const fileName = `Readings.xlsx`;
     const filePath = path.join(tempDir, fileName);
 
+    logger.info(`Начало обработки файла для ${currentMonth}.${currentYear}: ${fileName}`);
     // создаем папку если ее нет
     if (!fs.existsSync(tempDir)) {
       fs.mkdirSync(tempDir, { recursive: true });
+      logger.info(`Создана временная директория: ${tempDir}`);
     }
 
     let workbook: XLSX.WorkBook;
@@ -43,13 +52,20 @@ export const makeExcel = (body: ReadingsData) => {
     let excelData: Record<string, string | number>[] = [];
 
     // Проверяем, существует ли уже файл
-    if(fs.existsSync(filePath)) {
-      const fileBuffer = fs.readFileSync(filePath);
-      workbook = XLSX.read(fileBuffer, { type: 'buffer' });
-      worksheet = workbook.Sheets[workbook.SheetNames[0]];
-      
-      excelData = XLSX.utils.sheet_to_json(worksheet);
+    if (fs.existsSync(filePath)) {
+      logger.info(`Файл ${fileName} существует, загружаем для обновления`);
+      try {
+        const fileBuffer = fs.readFileSync(filePath);
+        workbook = XLSX.read(fileBuffer, { type: 'buffer' });
+        worksheet = workbook.Sheets[workbook.SheetNames[0]];
+        excelData = XLSX.utils.sheet_to_json(worksheet);
+        logger.info(`Файл успешно загружен, записей: ${excelData.length}`);
+      } catch (error) {
+        logger.error(`Ошибка при чтении файла ${filePath}`, error);
+        throw error;
+      }
     } else {
+      logger.info(`Файл ${fileName} не существует, создаем новый`);
       workbook = XLSX.utils.book_new();
     }
 
@@ -66,7 +82,7 @@ export const makeExcel = (body: ReadingsData) => {
       '(5)ХВС с/у': body.readings_5_i || 0.000,
       '(6)ГВС с/у': body.readings_6_i || 0.000,
       'Вд №': 0,
-      '(6)ХВС (скваж)': body.readings_6_double || 0.000,	
+      '(6)ХВС (скваж)': body.readings_6_double || 0.000,
       '(7)ХВС с/у(гр)': body.readings_7_g || 0.000,
       '(8)ХВС кух(гр)': body.readings_8_g || 0.000,
       '(9)ГВС с/у(гр)': body.readings_9_g || 0.000,
@@ -77,21 +93,30 @@ export const makeExcel = (body: ReadingsData) => {
     };
 
     excelData.push(newRecord);
+
+    logger.info(`Добавлена новая запись`, { 
+      record: {
+        date: newRecord['Дата подачи'],
+        account: newRecord['л/с №'],
+        address: newRecord['Адрес']
+      } 
+    });
+    
     worksheet = XLSX.utils.json_to_sheet(excelData);
     
     const numFormat = '0.000';
+
     if (worksheet['!ref']) {
       const range = XLSX.utils.decode_range(worksheet['!ref']);
       for (let R = range.s.r; R <= range.e.r; ++R) {
         for (let C = 4; C <= 18; ++C) { // Колонки с числами (нумерация с 0)
-          const cellAddress = XLSX.utils.encode_cell({r: R, c: C});
+          const cellAddress = XLSX.utils.encode_cell({ r: R, c: C });
           if (worksheet[cellAddress] && typeof worksheet[cellAddress].v === 'number') {
             worksheet[cellAddress].z = numFormat;
           }
         }
       }
     }
-
 
     worksheet['!cols'] = [
       { wch: 12 },  // 'Дата подачи' - ширина 12 символов
@@ -113,18 +138,40 @@ export const makeExcel = (body: ReadingsData) => {
       { wch: 15 },  // '(11)ХВС туалет(гр)'
       { wch: 30 },  // '(12)ХВС ванна, титан(гр)'
       { wch: 15 }   // '(14)ГВС туалет(гр)'
-  ];
+    ];
 
     // Если это новый файл, добавляем worksheet в workbook
-    if(!workbook.SheetNames || workbook.SheetNames.length === 0) {
+    if (!workbook.SheetNames || workbook.SheetNames.length === 0) {
       XLSX.utils.book_append_sheet(workbook, worksheet, "Показания");
+      logger.info(`Создан новый лист "Показания" в книге`);
     } else {
       workbook.Sheets[workbook.SheetNames[0]] = worksheet;
     }
 
-   // Записываем файл
-    const excelBuffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
-    fs.writeFileSync(filePath, excelBuffer);
+    // Записываем файл
+    try {
+
+      const excelBuffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
+      fs.writeFileSync(filePath, excelBuffer);
+
+      logger.info(`Файл успешно сохранен`, { 
+        path: filePath,
+        size: `${(excelBuffer.length / 1024).toFixed(2)} KB`
+      });
+      
+      
+    } catch (error: any) {
+      logger.error(`Ошибка при сохранении файла`, { 
+        path: filePath,
+        error: error.message 
+      });
+      throw error;
+    }
 
     return [filePath, fileName];
+
+  } catch (error) {
+    logger.error(`Критическая ошибка в функции makeExcel`, error);
+      throw error;
+  }
 }

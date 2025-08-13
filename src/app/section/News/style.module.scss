@@ -63,6 +63,18 @@
 .news_image_wrapper {
     height: 330px;
     margin-bottom: 25px;
+    border-radius: 16px;
+
+
+    overflow: hidden;
+
+    img {
+        transition: all 0.3s ease-in-out;
+
+        &:hover {
+            scale: 1.04;
+        }
+    }
 
     @media (max-width: 1023px) {
         height: 240px;
@@ -73,7 +85,6 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 16px;
 }
 
 .item_title {
@@ -89,6 +100,12 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
     overflow: hidden;
+
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+        color: #357398;
+    }
 
     @media (max-width: 1023px) {
         margin-bottom: 10px;
