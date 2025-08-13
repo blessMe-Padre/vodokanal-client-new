@@ -6,15 +6,14 @@ import { AnimateElementProps } from './types';
 
 /**
  * TODO:
- * - Добавить задержку анимации
  * - Добавить children для элемента
  */
 
 /**
- * @param element - html тег, который будет анимирован
- * @param animationName - имя анимации (fadeUp, fadeDown, fadeLeft, fadeRight)
- * @param animationDelay - задержка анимации (ms) 1000 = 1s
- * @param className - добавить класс для элемента
+ * @param string element - html тег, который будет анимирован
+ * @param string animationName - имя анимации (fadeUp, fadeDown, fadeLeft, fadeRight)
+ * @param number animationDelay - задержка анимации (ms) 1000 = 1s
+ * @param string className - добавить класс для элемента
  * @returns html тег с анимацией
  */
 
@@ -22,11 +21,12 @@ import { AnimateElementProps } from './types';
   const AnimateElement: React.FC<AnimateElementProps> = ({
     element,
     animationName = styles.fadeUp,
-    animationDelay = '100',
+    animationDelay = 100,
     className,
     children,
   }) => {
     const [isVisible, setIsVisible] = useState(false);
+    const [isAnimationStarted, setIsAnimationStarted] = useState(false);
     const elementRef = useRef<HTMLElement>(null);
 
     switch (animationName) {
@@ -52,7 +52,17 @@ import { AnimateElementProps } from './types';
         ([entry]) => {
           if (entry.isIntersecting && !isVisible) {
             setIsVisible(true);
-            elementRef.current?.classList.add('active');
+            
+            // Применяем задержку анимации
+            if (animationDelay > 0) {
+              setTimeout(() => {
+                setIsAnimationStarted(true);
+                elementRef.current?.classList.add('active');
+              }, animationDelay);
+            } else {
+              setIsAnimationStarted(true);
+              elementRef.current?.classList.add('active');
+            }
           }
         },
         { threshold: 0.2 }
@@ -62,14 +72,17 @@ import { AnimateElementProps } from './types';
         observer.observe(elementRef.current);
       }
       return () => observer.disconnect();
-    }, [isVisible]);
+    }, [isVisible, animationDelay]);
   
     const Tag = element as React.ElementType;
   
     return (
       <Tag
         ref={elementRef}
-        className={`${className} ${animationName} ${isVisible ? styles.active : ''}`}
+        className={`${className} ${animationName} ${isAnimationStarted ? styles.active : ''}`}
+        style={{
+          '--animation-delay': `${animationDelay}ms`
+        } as React.CSSProperties}
       >
         {children}
       </Tag>

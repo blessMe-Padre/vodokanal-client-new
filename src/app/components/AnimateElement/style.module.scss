@@ -4,6 +4,7 @@
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.5s ease, transform 0.5s ease;
+    transition-delay: var(--animation-delay, 0s);
 
     &.active {
         opacity: 1;
@@ -15,6 +16,7 @@
     opacity: 0;
     transform: translateX(20px);
     transition: opacity 0.5s ease, transform 0.5s ease;
+    transition-delay: var(--animation-delay, 0s);
 
     &.active {
         opacity: 1;
@@ -26,6 +28,7 @@
     opacity: 0;
     transform: translateX(-20px);
     transition: opacity 0.5s ease, transform 0.5s ease;
+    transition-delay: var(--animation-delay, 0s);
 
     &.active {
         opacity: 1;
@@ -37,6 +40,7 @@
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.5s ease, transform 0.5s ease;
+    transition-delay: var(--animation-delay, 0s);
 
     &.active {
         opacity: 1;
