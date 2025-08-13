@@ -12,14 +12,18 @@ interface Document {
     };
 }
 
-interface AntiCorruptionSections {
-    section_title: string;
-    documents: Document[];
-}
-
 interface AntiCorruptionResponse {
     data: {
-        content: AntiCorruptionSections[];
+        title_1: string;
+        title_2: string;
+        title_3: string;
+        title_4: string;
+        title_5: string;
+        documents: Document[];
+        documents_2: Document[];
+        documents_3: Document[];
+        documents_4: Document[];
+        documents_5: Document[];
     };
 }
 
@@ -28,10 +32,18 @@ export const metadata = {
     description: 'Документы по противодействию коррупции в МУП "Находка-Водоканал"',
 }
 
-export default async function AntiCorruption() {
-    const data: AntiCorruptionResponse = await fetchData('/api/stranicza-protivodejstvie-korrupczii?populate[content][populate]=*');
-    const sections: AntiCorruptionSections[] = data?.data?.content;
-    console.log(sections);
+const requestUrl = 
+    "/api/stranicza-protivodejstvie-korrupczii?" +
+    "populate[documents][populate][file][fields][0]=url" +
+    "&populate[documents_2][populate][file][fields][0]=url" +
+    "&populate[documents_3][populate][file][fields][0]=url" +
+    "&populate[documents_4][populate][file][fields][0]=url" +
+    "&populate[documents_5][populate][file][fields][0]=url"
+
+    
+    export default async function AntiCorruption() {
+        const data: AntiCorruptionResponse = await fetchData(requestUrl);
+        const pageData = data?.data;
 
     return (
         <section className={styles.section}>
@@ -39,23 +51,80 @@ export default async function AntiCorruption() {
                 <Breadcrumbs secondLabel="Противодействие коррупции" />
                 <h1 className='title'>Противодействие коррупции</h1>
 
-                {sections && sections.length > 0 &&
-                    sections.map((section, index) => (
-                        <section key={index}>
-                            <h2>{section?.section_title}</h2>
-                            <ul className={styles.documents_list}>
-                                {section.documents && section.documents.length > 0 &&
-                                    section.documents.map((document, index) => (
-                                        <DocumentComponent
-                                            key={index}
-                                            title={document?.title}
-                                            link={`${process.env.NEXT_PUBLIC_API_SERVER}${document?.link}`}
-                                        />
-                                    ))}
-                            </ul>
-                        </section>
-                    ))
-                }
+                <section className={styles.section_item}>
+                    <h2>{pageData?.title_1}</h2>
+                    <ul className={styles.documents_list}>
+                        {pageData?.documents && pageData?.documents.length > 0 &&
+                            pageData?.documents.map((document, index) => (
+                                <li key={index}>
+                                <DocumentComponent
+                                    title={document?.title}
+                                    link={`${process.env.NEXT_PUBLIC_API_SERVER}${document?.link}`}
+                                />
+                                </li>
+                            ))}
+                    </ul>
+                </section>
+
+                <section className={styles.section_item}>
+                    <h2>{pageData?.title_2}</h2>
+                    <ul className={styles.documents_list}>
+                        {pageData?.documents_2 && pageData?.documents_2.length > 0 &&
+                            pageData?.documents_2.map((document, index) => (
+                                <li key={index}>
+                                <DocumentComponent
+                                    title={document?.title}
+                                    link={`${process.env.NEXT_PUBLIC_API_SERVER}${document?.link}`}
+                                />
+                                </li>
+                            ))}
+                    </ul>
+                </section>
+
+                <section className={styles.section_item}>
+                    <h2>{pageData?.title_3}</h2>
+                    <ul className={styles.documents_list}>
+                        {pageData?.documents_3 && pageData?.documents_3.length > 0 &&
+                            pageData?.documents_3.map((document, index) => (
+                                <li key={index}>
+                                <DocumentComponent
+                                    title={document?.title}
+                                    link={`${process.env.NEXT_PUBLIC_API_SERVER}${document?.link}`}
+                                />
+                                </li>
+                            ))}
+                    </ul>
+                </section>
+
+                <section className={styles.section_item}>
+                    <h2>{pageData?.title_4}</h2>
+                    <ul className={styles.documents_list}>
+                        {pageData?.documents_4 && pageData?.documents_4.length > 0 &&
+                            pageData?.documents_4.map((document, index) => (
+                                <li key={index}>
+                                <DocumentComponent
+                                    title={document?.title}
+                                    link={`${process.env.NEXT_PUBLIC_API_SERVER}${document?.link}`}
+                                />
+                                </li>
+                            ))}
+                    </ul>
+                </section>
+
+                <section className={styles.section_item}>
+                    <h2>{pageData?.title_5}</h2>
+                    <ul className={styles.documents_list}>
+                        {pageData?.documents_5 && pageData?.documents_5.length > 0 &&
+                            pageData?.documents_5.map((document, index) => (
+                                <li key={index}>
+                                <DocumentComponent
+                                    title={document?.title}
+                                    link={`${process.env.NEXT_PUBLIC_API_SERVER}${document?.link}`}
+                                />
+                                </li>
+                            ))}
+                    </ul>
+                </section>  
             </div>
         </section>
     )
