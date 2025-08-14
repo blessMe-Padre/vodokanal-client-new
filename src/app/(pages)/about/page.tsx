@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import { AnimateElement } from "@/app/components";
 import Breadcrumbs from "@/app/components/Breadcrumbs/Breadcrumbs";
 import ContentRenderer, { ContentItem } from "@/app/components/ContentRenderer/ContentRenderer";
 import Counter from "@/app/components/Counter/Counter";
@@ -91,11 +92,13 @@ export default async function About() {
                         blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQ0MiIgaGVpZ2h0PSIxMTg5IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNjY2MiIC8+PC9zdmc+"
                     />
                 </div>
-                <div>
-                    {page?.data?.attributes?.content && (
-                        <ContentRenderer content={page.data.attributes.content} />
-                    )}
-                </div>
+
+                <AnimateElement
+                    element="div"
+                    animationName='fadeRight'
+                >
+                    <ContentRenderer content={page?.data?.content} />
+                </AnimateElement>
             </section>
 
             <News />

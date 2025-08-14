@@ -51,24 +51,45 @@
 .item_active {
     background-color: var(--main-color);
     color: #ffffff;
-    
+
+    svg {
+        fill: #ffffff;
+        transform: rotate(90deg); // Добавляем вращение для активного состояния
+    }
+}
+
+.item_link a:hover {
+    background-color: var(--main-color);
+    color: #ffffff;
+
     svg {
         fill: #ffffff;
         transform: rotate(-45deg); // Добавляем вращение для активного состояния
     }
 }
 
+.item:hover {
+    background-color: var(--main-color);
+    color: #ffffff;
+
+    svg {
+        fill: #ffffff;
+        transform: rotate(-45deg); // Добавляем вращение для активного состояния
+    }
+}
+
+
 // Контейнеры для контента табов
 .tab-content {
     overflow: hidden;
     transition: opacity 0.2s ease-in-out;
-    
+
     &[data-active="true"] {
         opacity: 1;
         height: auto;
         visibility: visible;
     }
-    
+
     &[data-active="false"] {
         opacity: 0;
         height: 0;
