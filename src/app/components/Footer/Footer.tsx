@@ -72,7 +72,8 @@ export default function Footer() {
     useEffect(() => {
         const fetchContacts = async () => {
             try {
-                const response = await fetchData<{data: Contact[]}>('/api/kontakties');
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const response = await fetchData<{data: Contact[]}>('/api/kontakties') as any;
                 if (response?.data[0].kontakty) {
                     setContacts(response?.data[0].kontakty);
                 } else {

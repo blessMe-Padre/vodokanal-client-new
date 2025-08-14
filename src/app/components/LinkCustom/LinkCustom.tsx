@@ -19,6 +19,7 @@ const LinkCustom: FC<LinkButtonProps> = ({ href, text, style, width }) => {
             style={customStyle}
             className={`${styles.appLink} ${style === 'noBg' ? `${styles.noBg}` : ''}`}
             href={href}
+            target="_blank"
         >
             {text}
         </Link>

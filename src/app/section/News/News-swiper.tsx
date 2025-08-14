@@ -34,7 +34,8 @@ export default function News() {
         const fetchNews = async () => {
             setLoading(true);
             try {
-                const news = await fetchData('/api/novostis?populate=*&filters[display_on_site][$eq]=true&sort=createdAt:desc');
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const news = await fetchData('/api/novostis?populate=*&filters[display_on_site][$eq]=true&sort=createdAt:desc') as any;
                 setNews(news.data);
             } catch (error) {
                 console.log('Произошла ошибка при получении новостей', error);

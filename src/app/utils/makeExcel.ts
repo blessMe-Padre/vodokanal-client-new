@@ -32,6 +32,8 @@ interface ReadingsData {
 interface ErrorDetail {
   message: string;
   stack?: string;
+  path?: string;  
+  [key: string]: unknown;
 }
 
 export const makeExcel = (body: ReadingsData): [string, string] => {
@@ -100,13 +102,13 @@ export const makeExcel = (body: ReadingsData): [string, string] => {
 
     excelData.push(newRecord);
 
-    logger.info(`Добавлена новая запись`, { 
-      record: {
+    logger.info(
+      `Добавлена новая запись: ${JSON.stringify({
         date: newRecord['Дата подачи'],
         account: newRecord['л/с №'],
         address: newRecord['Адрес']
-      } 
-    });
+      })}`
+    );
     
     worksheet = XLSX.utils.json_to_sheet(excelData);
     const numFormat = '0.000';
@@ -153,10 +155,12 @@ export const makeExcel = (body: ReadingsData): [string, string] => {
         message: error instanceof Error ? error.message : 'Unknown error',
         stack: error instanceof Error ? error.stack : undefined
       };
-      logger.error(`Ошибка при сохранении файла`, { 
-        path: filePath,
-        error: errorDetail 
-      });
+
+      logger.error(`Ошибка при сохранении файла`, {
+        ...errorDetail, 
+        path: filePath  
+      } as ErrorDetail);
+      
       throw error;
     }
   } catch (error) {

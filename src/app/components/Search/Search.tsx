@@ -88,10 +88,11 @@ export default function Search() {
 
 
                 const [newsResult, tariffsResult] = await Promise.all([
-                    fetchData(newsUrl),
-                    fetchData(tariffsUrl)
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    fetchData(newsUrl) as any,
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    fetchData(tariffsUrl) as any
                 ]);
-
                 const combinedData = [
                     ...(newsResult?.data || []),
                     ...(tariffsResult?.data || [])

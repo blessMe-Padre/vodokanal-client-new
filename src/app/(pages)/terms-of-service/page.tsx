@@ -10,7 +10,8 @@ export const metadata = {
 }
 
 export default async function TermsOfService() {
-    const page = await fetchData(`/api/stranicza-polzovatelskoe-soglashenie?populate=*`);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const page = await fetchData(`/api/stranicza-polzovatelskoe-soglashenie?populate=*`) as any;
 
     return (
         <section className={styles.section}>

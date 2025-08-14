@@ -22,7 +22,8 @@ interface ContractItem {
   id: number;
   documentId: string;
   title: string;
-  desc: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  desc: any;
   list_of_payments: PaymentItem[];
   link: string | null;
   img?: {
@@ -49,7 +50,7 @@ export default function Kontrakt() {
 
     return (
         <section>
-            <div className="container">
+            <div>
                 <div className={styles.contract_wrapper}>
                     {kontrakts && kontrakts?.map((item, idx) => {
                         return (
