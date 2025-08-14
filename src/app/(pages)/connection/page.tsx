@@ -2,10 +2,19 @@ import Link from "next/link";
 
 import { Breadcrumbs } from "@/app/components";
 import Calculator from '@/app/components/Calculator/Calculator';
-import ContentRenderer from "@/app/components/ContentRenderer/ContentRenderer";
+import ContentRenderer, { ContentItem } from "@/app/components/ContentRenderer/ContentRenderer";
 import fetchData from "@/app/utils/fetchData";
 
 import styles from "./style.module.scss";
+
+interface ApiResponse {
+    data: {
+        id: number;
+        attributes: {
+            content?: ContentItem[];
+        };
+    };
+}
 
 export const metadata = {
     title: 'МУП "Находка-Водоканал" - Подключение к сетям',
@@ -13,7 +22,7 @@ export const metadata = {
 }
 
 export default async function Connection() {
-    const page = await fetchData(`/api/stranicza-podklyuchenie-k-setyam?populate=*`);
+    const page = await fetchData<ApiResponse>(`/api/stranicza-podklyuchenie-k-setyam?populate=*`);
     return (
         <div className="container">
             <section className={styles.section}>
@@ -37,7 +46,9 @@ export default async function Connection() {
                         </svg></Link></li>
                 </ul>
 
-                <ContentRenderer content={page?.data?.content} />
+                {page?.data?.attributes?.content && (
+                    <ContentRenderer content={page.data.attributes.content} />
+                )}
             </section>
 
             <Calculator />

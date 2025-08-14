@@ -16,6 +16,28 @@ export default function Counter({ endValue, duration = 2000, className = '' }: C
     const counterRef = useRef<HTMLSpanElement>(null);
 
     useEffect(() => {
+        const animateCounter = () => {
+            const startTime = Date.now();
+            const startValue = 0;
+    
+            const updateCounter = () => {
+                const currentTime = Date.now();
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+                const currentValue = Math.floor(startValue + (endValue - startValue) * easeOutQuart);
+    
+                setCount(currentValue);
+    
+                if (progress < 1) {
+                    requestAnimationFrame(updateCounter);
+                }
+            };
+    
+            requestAnimationFrame(updateCounter);
+        };
+
+
         const observer = new IntersectionObserver(
             ([entry]) => {
                 if (entry.isIntersecting && !isVisible) {
@@ -31,31 +53,9 @@ export default function Counter({ endValue, duration = 2000, className = '' }: C
         }
 
         return () => observer.disconnect();
-    }, [isVisible]);
+    }, [isVisible, endValue, duration]); 
 
-    const animateCounter = () => {
-        const startTime = Date.now();
-        const startValue = 0;
-
-        const updateCounter = () => {
-            const currentTime = Date.now();
-            const elapsed = currentTime - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-
-            // Используем easeOutQuart для более плавной анимации
-            const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-            const currentValue = Math.floor(startValue + (endValue - startValue) * easeOutQuart);
-
-            setCount(currentValue);
-
-            if (progress < 1) {
-                requestAnimationFrame(updateCounter);
-            }
-        };
-
-        requestAnimationFrame(updateCounter);
-    };
-
+    
     return (
         <span ref={counterRef} className={`${styles.counter} ${className}`}>
             {Intl.NumberFormat('ru-RU').format(count)}

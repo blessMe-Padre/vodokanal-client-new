@@ -28,20 +28,24 @@ interface ReadingsData {
   readings_14_g?: number;
 }
 
-export const makeExcel = (body: ReadingsData) => {
-  try {
+// Правильное определение типа для ошибки
+interface ErrorDetail {
+  message: string;
+  stack?: string;
+}
 
+export const makeExcel = (body: ReadingsData): [string, string] => {
+  try {
     const now = new Date();
     const currentMonth = now.getMonth() + 1;
     const currentYear = now.getFullYear();
 
-     // Формируем имя файла с месяцем и годом
     const fileName = `Readings_${currentYear}_${currentMonth.toString().padStart(2, '0')}.xlsx`;
     const tempDir = path.join(process.cwd(), 'tmp');
     const filePath = path.join(tempDir, fileName);
 
     logger.info(`Начало обработки файла для ${currentMonth}.${currentYear}: ${fileName}`);
-    // создаем папку если ее нет
+    
     if (!fs.existsSync(tempDir)) {
       fs.mkdirSync(tempDir, { recursive: true });
       logger.info(`Создана временная директория: ${tempDir}`);
@@ -49,19 +53,22 @@ export const makeExcel = (body: ReadingsData) => {
 
     let workbook: XLSX.WorkBook;
     let worksheet: XLSX.WorkSheet;
-    let excelData: Record<string, string | number>[] = [];
+    let excelData: Array<Record<string, string | number>> = [];
 
-    // Проверяем, существует ли уже файл
     if (fs.existsSync(filePath)) {
       logger.info(`Файл ${fileName} существует, загружаем для обновления`);
       try {
         const fileBuffer = fs.readFileSync(filePath);
         workbook = XLSX.read(fileBuffer, { type: 'buffer' });
         worksheet = workbook.Sheets[workbook.SheetNames[0]];
-        excelData = XLSX.utils.sheet_to_json(worksheet);
+        excelData = XLSX.utils.sheet_to_json<Record<string, string | number>>(worksheet);
         logger.info(`Файл успешно загружен, записей: ${excelData.length}`);
       } catch (error) {
-        logger.error(`Ошибка при чтении файла ${filePath}`, error);
+        const errorDetail: ErrorDetail = {
+          message: error instanceof Error ? error.message : 'Unknown error',
+          stack: error instanceof Error ? error.stack : undefined
+        };
+        logger.error(`Ошибка при чтении файла ${filePath}`, errorDetail);
         throw error;
       }
     } else {
@@ -69,27 +76,26 @@ export const makeExcel = (body: ReadingsData) => {
       workbook = XLSX.utils.book_new();
     }
 
-    // Создаем новую запись из body
     const newRecord = {
       'Дата подачи': body.date,
       'л/с №': `${body.code_street}-${body.house_number}-${body.apartment_number}`,
       'ФИО': body.fio,
       'Адрес': body.address,
-      '(1)ХВС с/у': body.readings_1_i || 0.000,
-      '(2)ГВС с/у': body.readings_2_i || 0.000,
-      '(3)ХВС кух': body.readings_3_i || 0.000,
-      '(4)ГВС кух': body.readings_4_i || 0.000,
-      '(5)ХВС с/у': body.readings_5_i || 0.000,
-      '(6)ГВС с/у': body.readings_6_i || 0.000,
+      '(1)ХВС с/у': body.readings_1_i ?? 0.000,
+      '(2)ГВС с/у': body.readings_2_i ?? 0.000,
+      '(3)ХВС кух': body.readings_3_i ?? 0.000,
+      '(4)ГВС кух': body.readings_4_i ?? 0.000,
+      '(5)ХВС с/у': body.readings_5_i ?? 0.000,
+      '(6)ГВС с/у': body.readings_6_i ?? 0.000,
       'Вд №': 0,
-      '(6)ХВС (скваж)': body.readings_6_double || 0.000,
-      '(7)ХВС с/у(гр)': body.readings_7_g || 0.000,
-      '(8)ХВС кух(гр)': body.readings_8_g || 0.000,
-      '(9)ГВС с/у(гр)': body.readings_9_g || 0.000,
-      '(10)ГВС кух(гр)': body.readings_10_g || 0.000,
-      '(11)ХВС туалет(гр)': body.readings_11_g || 0.000,
-      '(12)ХВС ванна, титан(гр)': body.readings_12_g || 0.000,
-      '(14)ГВС туалет(гр)': body.readings_14_g || 0.000,
+      '(6)ХВС (скваж)': body.readings_6_double ?? 0.000,
+      '(7)ХВС с/у(гр)': body.readings_7_g ?? 0.000,
+      '(8)ХВС кух(гр)': body.readings_8_g ?? 0.000,
+      '(9)ГВС с/у(гр)': body.readings_9_g ?? 0.000,
+      '(10)ГВС кух(гр)': body.readings_10_g ?? 0.000,
+      '(11)ХВС туалет(гр)': body.readings_11_g ?? 0.000,
+      '(12)ХВС ванна, титан(гр)': body.readings_12_g ?? 0.000,
+      '(14)ГВС туалет(гр)': body.readings_14_g ?? 0.000,
     };
 
     excelData.push(newRecord);
@@ -103,13 +109,12 @@ export const makeExcel = (body: ReadingsData) => {
     });
     
     worksheet = XLSX.utils.json_to_sheet(excelData);
-    
     const numFormat = '0.000';
 
     if (worksheet['!ref']) {
       const range = XLSX.utils.decode_range(worksheet['!ref']);
       for (let R = range.s.r; R <= range.e.r; ++R) {
-        for (let C = 4; C <= 18; ++C) { // Колонки с числами (нумерация с 0)
+        for (let C = 4; C <= 18; ++C) {
           const cellAddress = XLSX.utils.encode_cell({ r: R, c: C });
           if (worksheet[cellAddress] && typeof worksheet[cellAddress].v === 'number') {
             worksheet[cellAddress].z = numFormat;
@@ -119,28 +124,13 @@ export const makeExcel = (body: ReadingsData) => {
     }
 
     worksheet['!cols'] = [
-      { wch: 12 },  // 'Дата подачи' - ширина 12 символов
-      { wch: 20 },  // 'л/с №' - ширина 20 символов (двойная ширина)
-      { wch: 40 },  // 'ФИО'
-      { wch: 40 },  // 'Адрес'
-      { wch: 10 },  // '(1)ХВС с/у'
-      { wch: 10 },  // '(2)ГВС с/у'
-      { wch: 10 },  // '(3)ХВС кух'
-      { wch: 10 },  // '(4)ГВС кух'
-      { wch: 10 },  // '(5)ХВС с/у'
-      { wch: 10 },  // '(6)ГВС с/у'
-      { wch: 8 },   // 'Вд №'
-      { wch: 15 },  // '(6)ХВС (скваж)'
-      { wch: 15 },  // '(7)ХВС с/у(гр)'
-      { wch: 15 },  // '(8)ХВС кух(гр)'
-      { wch: 15 },  // '(9)ГВС с/у(гр)'
-      { wch: 15 },  // '(10)ГВС кух(гр)'
-      { wch: 15 },  // '(11)ХВС туалет(гр)'
-      { wch: 30 },  // '(12)ХВС ванна, титан(гр)'
-      { wch: 15 }   // '(14)ГВС туалет(гр)'
+      { wch: 12 }, { wch: 20 }, { wch: 40 }, { wch: 40 },
+      { wch: 10 }, { wch: 10 }, { wch: 10 }, { wch: 10 },
+      { wch: 10 }, { wch: 10 }, { wch: 8 }, { wch: 15 },
+      { wch: 15 }, { wch: 15 }, { wch: 15 }, { wch: 15 },
+      { wch: 15 }, { wch: 30 }, { wch: 15 }
     ];
 
-    // Если это новый файл, добавляем worksheet в workbook
     if (!workbook.SheetNames || workbook.SheetNames.length === 0) {
       XLSX.utils.book_append_sheet(workbook, worksheet, "Показания");
       logger.info(`Создан новый лист "Показания" в книге`);
@@ -148,9 +138,7 @@ export const makeExcel = (body: ReadingsData) => {
       workbook.Sheets[workbook.SheetNames[0]] = worksheet;
     }
 
-    // Записываем файл
     try {
-
       const excelBuffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
       fs.writeFileSync(filePath, excelBuffer);
 
@@ -159,19 +147,24 @@ export const makeExcel = (body: ReadingsData) => {
         size: `${(excelBuffer.length / 1024).toFixed(2)} KB`
       });
       
-      
-    } catch (error: any) {
+      return [filePath, fileName];
+    } catch (error) {
+      const errorDetail: ErrorDetail = {
+        message: error instanceof Error ? error.message : 'Unknown error',
+        stack: error instanceof Error ? error.stack : undefined
+      };
       logger.error(`Ошибка при сохранении файла`, { 
         path: filePath,
-        error: error.message 
+        error: errorDetail 
       });
       throw error;
     }
-
-    return [filePath, fileName];
-
   } catch (error) {
-    logger.error(`Критическая ошибка в функции makeExcel`, error);
-      throw error;
+    const errorDetail: ErrorDetail = {
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined
+    };
+    logger.error(`Критическая ошибка в функции makeExcel`, errorDetail);
+    throw error;
   }
-}
+};

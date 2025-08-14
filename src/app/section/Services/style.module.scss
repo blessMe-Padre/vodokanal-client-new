@@ -131,8 +131,8 @@
 
 .service_arrow {
     display: flex;
-    justify-content: end;
-    align-items: end;
+    justify-content: flex-end;
+    align-items: flex-end;
     color: var(--light-blue);
     transition: color 0.3s ease-in-out;
 

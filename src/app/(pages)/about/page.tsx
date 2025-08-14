@@ -1,12 +1,33 @@
 import Image from "next/image";
 
 import Breadcrumbs from "@/app/components/Breadcrumbs/Breadcrumbs";
-import ContentRenderer from "@/app/components/ContentRenderer/ContentRenderer";
+import ContentRenderer, { ContentItem } from "@/app/components/ContentRenderer/ContentRenderer";
 import Counter from "@/app/components/Counter/Counter";
 import { News } from "@/app/section/index";
 import fetchData from "@/app/utils/fetchData";
 
 import styles from './style.module.scss';
+
+interface ImageData {
+    url: string;
+    alternativeText?: string;
+    width?: number;
+    height?: number;
+}
+
+interface ApiResponse {
+    data: {
+        id: number;
+        attributes: {
+            image?: {
+                data?: {
+                    attributes?: ImageData;
+                };
+            };
+            content?: ContentItem[];
+        };
+    };
+}
 
 export const metadata = {
     title: 'МУП "Находка-Водоканал" - О компании',
@@ -14,7 +35,7 @@ export const metadata = {
 }
 
 export default async function About() {
-    const page = await fetchData(`/api/stranicza-o-kompanii?populate=*`);
+    const page = await fetchData<ApiResponse>(`/api/stranicza-o-kompanii?populate=*`);
 
     return (
 
@@ -60,10 +81,10 @@ export default async function About() {
             <section className={styles.features}>
                 <div className='image-wrapper'>
                     <Image
-                        src={page?.data?.image?.url ? `${process.env.NEXT_PUBLIC_API_SERVER}${page.data.image.url}` : '/placeholder.svg'}
-                        alt={page?.data?.image?.alternativeText ?? 'image'}
-                        width={page?.data?.image?.width}
-                        height={page?.data?.image?.height}
+                        src={page?.data?.attributes?.image?.data?.attributes?.url ? `${process.env.NEXT_PUBLIC_API_SERVER}${page.data.attributes.image.data.attributes.url}` : '/placeholder.svg'}
+                        alt={page?.data?.attributes?.image?.data?.attributes?.alternativeText ?? 'image'}
+                        width={page?.data?.attributes?.image?.data?.attributes?.width}
+                        height={page?.data?.attributes?.image?.data?.attributes?.height}
                         loading="lazy"
                         // priority
                         placeholder="blur"
@@ -71,7 +92,9 @@ export default async function About() {
                     />
                 </div>
                 <div>
-                    <ContentRenderer content={page?.data?.content} />
+                    {page?.data?.attributes?.content && (
+                        <ContentRenderer content={page.data.attributes.content} />
+                    )}
                 </div>
             </section>
 

@@ -1,17 +1,31 @@
 import Image from "next/image";
 
 import Breadcrumbs from "@/app/components/Breadcrumbs/Breadcrumbs";
-import ContentRenderer from "@/app/components/ContentRenderer/ContentRenderer";
+import ContentRenderer, { ContentItem } from "@/app/components/ContentRenderer/ContentRenderer";
 import fetchData from "@/app/utils/fetchData";
 import formatDate from '@/app/utils/formatDate'
 
 import styles from "../style.module.scss"
 
+interface NewsData {
+    title: string;
+    description?: string;
+    image?: {
+        url: string;
+    };
+    content?: ContentItem[];
+    publishedAt: string;
+}
+
+interface ApiResponse {
+    data: NewsData;
+}
+
 export const revalidate = 600; // 10 минут
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
-    const page = await fetchData(`/api/novostis/${id}?populate=*`);
+    const page = await fetchData<ApiResponse>(`/api/novostis/${id}?populate=*`);
 
     return {
         title: `МУП "Находка-Водоканал | ${page?.data?.title}`,
@@ -33,7 +47,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
-    const page = await fetchData(`/api/novostis/${id}?populate=*`);
+    const page = await fetchData<ApiResponse>(`/api/novostis/${id}?populate=*`);
 
     return (
         <div className="container">
@@ -53,7 +67,9 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
                 <div className={styles.article_content}>
                     <div>
                         <h1 className={styles.article_title}>{page?.data?.title}</h1>
-                        <ContentRenderer content={page?.data?.content} />
+                        {page?.data?.content && (
+                            <ContentRenderer content={page.data.content} />
+                        )}
                     </div>
                     <p className={styles.item_date}>{formatDate(page?.data?.publishedAt)}</p>
                 </div>

@@ -1,5 +1,5 @@
 'use client'
-import { motion } from "framer-motion";
+// import { motion } from "framer-motion";
 import { useState } from 'react';
 
 import { StatementFormPod, StatementFormLegalPod, StatementFormSelfPod } from "@/app/components";
@@ -17,8 +17,6 @@ const PageContent = () => {
             setActiveTab(parseInt(index) as TabIndex);
         }
     };
-
-  
 
     return (
             <>

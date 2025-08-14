@@ -3,12 +3,12 @@ import path from 'path';
 
 import { NextRequest, NextResponse } from 'next/server';
 
-// import sendEmail from '@/app/utils/mailStatements/mailStatements';
-// import sendEmailLegal from '@/app/utils/mailStatements/mailStatementsLegal';
-// import sendEmailLegalPod from '@/app/utils/mailStatements/mailStatementsLegalPod';
-// import sendEmailPod from '@/app/utils/mailStatements/mailStatementsPod';
-// import mailEmailUnit from '@/app/utils/mailStatements/mailStatementsPodUnit';
-// import sendEmailBorder from '@/app/utils/mailStatements/mailStatementsBorder';
+import sendEmail from '@/app/utils/mailStatements/mailStatements';
+import sendEmailBorder from '@/app/utils/mailStatements/mailStatementsBorder';
+import sendEmailLegal from '@/app/utils/mailStatements/mailStatementsLegal';
+import sendEmailLegalPod from '@/app/utils/mailStatements/mailStatementsLegalPod';
+import sendEmailPod from '@/app/utils/mailStatements/mailStatementsPod';
+import sendEmailUnit from '@/app/utils/mailStatements/mailStatementsUnit';
 import makeDocx from '@/app/utils/makeDocx/makeDocx';
 import makeDocxBorder from '@/app/utils/makeDocx/makeDocxBorder';
 import makeDocxLegal from '@/app/utils/makeDocx/makeDocxLegal';
@@ -137,38 +137,38 @@ export async function POST(request: NextRequest): Promise<NextResponse<ApiRespon
     const allAttachments: FileAttachment[] = [...fileBuffers, docxAttachment];
 
     // Отправляем письмо со всеми вложениями в зависимости от типа формы
-    const emailResult: EmailResult | null = null;
+    let emailResult: EmailResult | null = null;
 
     switch (formFields.form_name) {
       case 'zapros_individuals':
-        // emailResult = await sendEmail(formFields, allAttachments);
+        emailResult = await sendEmail(formFields, allAttachments);
         break;
       
       case 'zapros_legal':
-        // emailResult = await sendEmailLegal(formFields, allAttachments);
+        emailResult = await sendEmailLegal(formFields, allAttachments);
         break;
       
       case 'zapros_individuals_pod':
-        // emailResult = await sendEmailPod(formFields, allAttachments);
+        emailResult = await sendEmailPod(formFields, allAttachments);
         break;
       
       case 'zapros_legal_pod':
-        // emailResult = await sendEmailLegalPod(formFields, allAttachments);
+        emailResult = await sendEmailLegalPod(formFields, allAttachments);
         break;
       
       case 'zapros_unit':
-        // emailResult = await sendEmailUnit(formFields, allAttachments);
+        emailResult = await sendEmailUnit(formFields, allAttachments);
         break;
       
       case 'zapros_border':
-        // emailResult = await sendEmailBorder(formFields, allAttachments);
+        emailResult = await sendEmailBorder(formFields, allAttachments);
         break;
     }
 
     return NextResponse.json({
       status: 'success',
       message: 'Данные успешно отправлены',
-      emailResult: null,
+      emailResult: emailResult,
       details: {
         formFields,
         filesCount: allFiles.length,

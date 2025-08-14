@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import React from 'react';
-import { FieldErrors, FieldValues as ReactHookFormFieldValues, useForm, UseFormRegister, UseFormReturn } from 'react-hook-form';
+import { FieldErrors, useForm, UseFormRegister, UseFormReturn } from 'react-hook-form';
 
 import { Button, SuccessMessage } from '@/app/components';
 
@@ -18,12 +18,12 @@ type MeterType = 'individual' | 'group' | 'well';
 // Интерфейс для счетчика
 interface Meter {
     label: string;
-    name: string;
+    name: keyof FormData;
     type: MeterType;
 }
 
 // Интерфейс для данных формы
-interface FormData extends ReactHookFormFieldValues {
+interface FormData {
     phone_number: string;
     code_street: string;
     house_number: string;
@@ -88,16 +88,16 @@ interface ApiError {
 }
 
 // Тип для функции валидации
-type ValidationFunction = (value: string) => boolean | string;
+type ValidationFunction = (value: string) => boolean;
 
 // Тип для функции изменения поля
-type FieldChangeHandler = (fieldName: string, value: string) => void;
+type FieldChangeHandler = (fieldName: keyof FormData, value: string) => void;
 
 // Тип для функции потери фокуса поля
-type FieldBlurHandler = (fieldName: string) => void;
+type FieldBlurHandler = (fieldName: keyof FormData) => void;
 
 // Тип для функции получения валидации счетчика
-type MeterValidationHandler = (meterName: string) => boolean;
+type MeterValidationHandler = (meterName: keyof FormData) => boolean;
 
 // Тип для функции получения класса input
 type InputClassFunction = (isValid: boolean, isTouched: boolean, baseClass: string) => string;
@@ -231,7 +231,7 @@ const ComponentPhoneNumber = ({ setStep, register, errors }: ComponentPhoneNumbe
                     {...register('phone_number', {
                         required: 'Номер телефона обязателен',
                         validate: (value: string) => {
-                            if (phone.length !== 12) {
+                            if (value && phone.length !== 12) {
                                 return 'Номер должен содержать 10 цифр после +7';
                             }
                             return true;
@@ -258,20 +258,20 @@ const ComponentPhoneNumber = ({ setStep, register, errors }: ComponentPhoneNumbe
 }
 
 
-const ComponentFormReadings = ({ register, errors, isSending }: ComponentFormReadingsProps): JSX.Element => { 
+const ComponentFormReadings = ({ register, errors, isSending }: ComponentFormReadingsProps): React.JSX.Element => { 
     const [touchedFields, setTouchedFields] = useState<FieldState>({});
     const [fieldValues, setFieldValues] = useState<FieldValues>({});
 
-    const handleFieldChange: FieldChangeHandler = (fieldName: string, value: string) => { 
+    const handleFieldChange: FieldChangeHandler = (fieldName: keyof FormData, value: string) => { 
         setFieldValues(prev => ({ ...prev, [fieldName]: value }));
         setTouchedFields(prev => ({ ...prev, [fieldName]: true }));
     }
 
-    const handleFieldBlur: FieldBlurHandler = (fieldName: string) => { 
+    const handleFieldBlur: FieldBlurHandler = (fieldName: keyof FormData) => { 
         setTouchedFields(prev => ({ ...prev, [fieldName]: true }));
     }
 
-    const getMeterValidation: MeterValidationHandler = (meterName: string): boolean => { 
+    const getMeterValidation: MeterValidationHandler = (meterName: keyof FormData): boolean => { 
         const value: string = fieldValues[meterName] || '';
         return validateMeterReading(value);
     }
@@ -390,7 +390,7 @@ const ComponentFormReadings = ({ register, errors, isSending }: ComponentFormRea
                     </div>
                 </div>
                 <div className={styles.form_content}>
-                    <div className={styles.form_content_item}>
+                                        <div className={styles.form_content_item}>
                         <p className={styles.sub_title}>Индивидуальные приборы учета воды</p>
                         {individualMeters.map((meter: Meter) => (
                             <div key={meter.name} className={styles.form_row}>
@@ -403,7 +403,7 @@ const ComponentFormReadings = ({ register, errors, isSending }: ComponentFormRea
                                         'appInput'
                                     )}
                                     placeholder='00000.000' 
-                                    {...register(meter.name as keyof FormData, {
+                                    {...register(meter.name, {
                                         required: 'Показания обязательны для заполнения',
                                         validate: (value: string) => {
                                             if (!value) return true;
@@ -468,7 +468,7 @@ const ComponentFormReadings = ({ register, errors, isSending }: ComponentFormRea
                                     'appInput'
                                 )}
                                 placeholder='00000.000' 
-                                {...register(meter.name as keyof FormData, {
+                                                                {...register(meter.name, {
                                     required: 'Показания обязательны для заполнения',
                                     validate: (value: string) => {
                                         if (!value) return true;
