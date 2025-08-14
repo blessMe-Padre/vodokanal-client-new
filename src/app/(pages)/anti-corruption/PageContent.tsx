@@ -11,7 +11,7 @@ export default function PageContent({ pageData }: PageContentProps) {
         <>
             <section className={styles.section_item}>
                 <AnimateElement
-                    element="h2" 
+                    element="h2"
                     animationName='fadeUp'
                     className="title"
                 >
@@ -19,20 +19,25 @@ export default function PageContent({ pageData }: PageContentProps) {
                 </AnimateElement>
                 <ul className={styles.documents_list}>
                     {pageData?.documents && pageData?.documents.length > 0 &&
-                        pageData.documents.map((document) => (
-                            <li key={document?.id}>
-                            <DocumentComponent
-                                title={document?.title}
-                                link={`${process.env.NEXT_PUBLIC_API_SERVER}${document?.file?.url}`}
-                            />
-                            </li>
+                        pageData.documents.map((document, index) => (
+                            <AnimateElement
+                                element="li"
+                                animationName='fadeRight'
+                                animationDelay={index * 100}
+                                key={document?.id}
+                            >
+                                <DocumentComponent
+                                    title={document?.title}
+                                    link={`${process.env.NEXT_PUBLIC_API_SERVER}${document?.file?.url}`}
+                                />
+                            </AnimateElement>
                         ))}
                 </ul>
             </section>
 
             <section className={styles.section_item}>
                 <AnimateElement
-                    element="h2" 
+                    element="h2"
                     animationName='fadeUp'
                     className="title"
                 >
@@ -40,20 +45,25 @@ export default function PageContent({ pageData }: PageContentProps) {
                 </AnimateElement>
                 <ul className={styles.documents_list}>
                     {pageData?.documents_2 && pageData?.documents_2.length > 0 &&
-                        pageData.documents_2.map((document) => (
-                            <li key={document?.id}>
-                            <DocumentComponent
-                                title={document?.title}
-                                link={`${process.env.NEXT_PUBLIC_API_SERVER}${document?.file?.url}`}
-                            />
-                            </li>
+                        pageData.documents_2.map((document, index) => (
+                            <AnimateElement
+                                element="li"
+                                animationName='fadeRight'
+                                animationDelay={index * 100}
+                                key={document?.id}
+                            >
+                                <DocumentComponent
+                                    title={document?.title}
+                                    link={`${process.env.NEXT_PUBLIC_API_SERVER}${document?.file?.url}`}
+                                />
+                            </AnimateElement>
                         ))}
                 </ul>
             </section>
 
             <section className={styles.section_item}>
                 <AnimateElement
-                    element="h2" 
+                    element="h2"
                     animationName='fadeUp'
                     className="title"
                 >
@@ -61,20 +71,25 @@ export default function PageContent({ pageData }: PageContentProps) {
                 </AnimateElement>
                 <ul className={styles.documents_list}>
                     {pageData?.documents_3 && pageData?.documents_3.length > 0 &&
-                        pageData.documents_3.map((document) => (
-                            <li key={document?.id}>
-                            <DocumentComponent
-                                title={document?.title}
-                                link={`${process.env.NEXT_PUBLIC_API_SERVER}${document?.file?.url}`}
-                            />
-                            </li>
+                        pageData.documents_3.map((document, index) => (
+                            <AnimateElement
+                                element="li"
+                                animationName='fadeRight'
+                                animationDelay={index * 100}
+                                key={document?.id}
+                            >
+                                <DocumentComponent
+                                    title={document?.title}
+                                    link={`${process.env.NEXT_PUBLIC_API_SERVER}${document?.file?.url}`}
+                                />
+                            </AnimateElement>
                         ))}
                 </ul>
             </section>
 
             <section className={styles.section_item}>
                 <AnimateElement
-                    element="h2" 
+                    element="h2"
                     animationName='fadeUp'
                     className="title"
                 >
@@ -82,44 +97,47 @@ export default function PageContent({ pageData }: PageContentProps) {
                 </AnimateElement>
                 <ul className={styles.documents_list}>
                     {pageData?.documents_4 && pageData?.documents_4.length > 0 &&
-                        pageData.documents_4.map((document) => (
-                            <li key={document?.id}>
-                            <DocumentComponent
-                                title={document?.title}
-                                link={`${process.env.NEXT_PUBLIC_API_SERVER}${document?.file?.url}`}
-                            />
-                            </li>
+                        pageData.documents_4.map((document, index) => (
+                            <AnimateElement
+                                element="li"
+                                animationName='fadeRight'
+                                animationDelay={index * 100}
+                                key={document?.id}
+                            >
+                                <DocumentComponent
+                                    title={document?.title}
+                                    link={`${process.env.NEXT_PUBLIC_API_SERVER}${document?.file?.url}`}
+                                />
+                            </AnimateElement>
                         ))}
                 </ul>
             </section>
 
             <section className={styles.section_item}>
                 <AnimateElement
-                    element="h2" 
+                    element="h2"
                     animationName='fadeUp'
                     className="title"
                 >
-                 {pageData?.title_5}
+                    {pageData?.title_5}
                 </AnimateElement>
                 <ul className={styles.documents_list}>
                     {pageData?.documents_5 && pageData?.documents_5.length > 0 &&
-                        pageData.documents_5.map((document) => (
+                        pageData.documents_5.map((document, index) => (
                             <AnimateElement
-                                element="h2" 
-                                animationName='fadeUp'
-                                className="title"
+                                element="li"
+                                animationName='fadeRight'
+                                animationDelay={index * 100}
                                 key={document?.id}
                             >
-                                <li key={document?.id}>
                                 <DocumentComponent
                                     title={document?.title}
                                     link={`${process.env.NEXT_PUBLIC_API_SERVER}${document?.file?.url}`}
-                                    />
-                                </li>
-                                </AnimateElement>
+                                />
+                            </AnimateElement>
                         ))}
                 </ul>
-            </section> 
+            </section>
         </>
     )
 }

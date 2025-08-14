@@ -20,7 +20,7 @@
     background-position: right bottom;
 
     @media (max-width: 560px) {
-       min-height: 600px;
+        min-height: 600px;
     }
 }
 
@@ -87,7 +87,7 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 30px;
     padding: 70px 0;
-    
+
     @media (max-width: 768px) {
         grid-template-columns: 1fr;
     }

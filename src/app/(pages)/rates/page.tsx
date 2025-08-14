@@ -1,5 +1,5 @@
 import { Breadcrumbs } from "@/app/components";
-import DocumentComponent from "@/app/components/DocumentComponent/DocumentComponent";
+import { AnimateElement, DocumentComponent } from "@/app/components";
 import fetchData from "@/app/utils/fetchData";
 
 import styles from "./style.module.scss";
@@ -27,17 +27,25 @@ export default async function Rates() {
     return (
         <section className={styles.section}>
             <div className="container">
-                <Breadcrumbs secondLabel="Тарифы и нормативы"/>
+                <Breadcrumbs secondLabel="Тарифы и нормативы" />
                 <h1 className='title'>Тарифы</h1>
                 <p className={styles.desc}>В этом разделе размещаются нормативные акты, определяющие стоимость услуг МУП «Находка-Водоканал».</p>
                 <ul className={styles.ratesList}>
                     {ratesList.length > 0 &&
                         ratesList.map((rate, index) => (
-                            <DocumentComponent
+                            <AnimateElement
+                                element="li"
+                                animationName='fadeRight'
+                                animationDelay={index * 100}
                                 key={index}
-                                title={rate?.title}
-                                link={`${process.env.NEXT_PUBLIC_API_SERVER}${rate?.file?.url}`}
-                            />
+                            >
+                                <DocumentComponent
+                                    key={index}
+                                    title={rate?.title}
+                                    link={`${process.env.NEXT_PUBLIC_API_SERVER}${rate?.file?.url}`}
+                                />
+
+                            </AnimateElement>
                         ))}
                 </ul>
             </div>
