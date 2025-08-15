@@ -6,7 +6,8 @@ import { useState, useEffect } from "react";
 
 import logo from '@/../public/logo_w.svg'
 import phone from '@/../public/phone_w.svg';
-import uslugi from '@/../public/uslugi.png'
+// import uslugi from '@/../public/uslugi.png'
+import uslugi from '@/../public/uslugi-gray.svg'
 import { Cookies } from "@/app/components";
 import fetchData from '@/app/utils/fetchData';
 

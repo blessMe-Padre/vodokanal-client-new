@@ -52,23 +52,17 @@
 .counter {
     @include adaptiv-value("padding-bottom", 50, 30);
     @include adaptiv-value("padding-top", 50, 30);
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
     gap: 30px;
-
-    @media (max-width: 768px) {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    @media (max-width: 560px) {
-        grid-template-columns: repeat(1, 1fr);
-    }
 }
 
 .counter_item_title {
     font-family: var(--font-family);
     font-weight: 800;
-    @include adaptiv-value("font-size", 71, 40);
+    @include adaptiv-value("font-size", 80, 40);
     line-height: 95%;
     text-transform: uppercase;
     color: var(--main-color);

@@ -6,12 +6,11 @@
     position: relative;
     z-index: 2;
     display: block;
-    font-family: var(--font-family);
+    font-family: var(--font-montserrat);
     font-weight: 600;
     @include adaptiv-value("font-size", 16, 14);
     border-radius: 10px;
 
-    text-transform: uppercase;
     text-align: center;
     color: var(--black);
     background-color: var(--white);

@@ -13,7 +13,7 @@ export default function News() {
             <div className={styles.main_banner}>
                 <div className={styles.main_banner_small}>
                     <h2>Находка-Водоканал — всегда на связи с городом</h2>
-                    <p>Передайте показания, оплатите услуги  и получите поддержку — всё в пару кликов</p>
+                    <p>Передайте показания, оплатите услуги  <br /> и получите поддержку — всё в пару кликов</p>
                     
                     <LinkCustom href={'/transmission-of-readings'} text='Передать показания' />
                     

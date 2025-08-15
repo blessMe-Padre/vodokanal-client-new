@@ -34,7 +34,7 @@
         
         font-weight: 800;
         color: var(--white);
-        max-width: 70%;
+        max-width: 52%;
 
 
         @media screen and (max-width: 780px) {
@@ -46,11 +46,11 @@
         z-index: 2;
         color: var(--white);
         font-weight: 700;
-        @include adaptiv-value("font-size", 20, 16);
+        @include adaptiv-value("font-size", 22, 16);
         @include adaptiv-value("margin-bottom", 30, 17);
         
 
-        max-width: 50%;
+        max-width: 40%;
 
 
         @media screen and (max-width: 780px) {
@@ -60,6 +60,7 @@
     }
 
 }
+
 
 
 .main_banner_small {

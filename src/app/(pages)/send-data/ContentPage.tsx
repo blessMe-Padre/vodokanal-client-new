@@ -490,14 +490,16 @@ const ComponentFormReadings = ({ register, errors, isSending }: ComponentFormRea
                 <div className={styles.form_content}>
                     Согласно Федеральному закону № 152–ФЗ от 27.07.2006 г. «О персональных данных», я согласен на обработку персональных данных. До моего сведения доведено, что МУП «Находка-Водоканал» гарантирует обработку моих персональных данных в соответствии с действующим законодательством РФ.*
                 </div>
-
-                <button type="submit" className='appButton' disabled={isSending}>
-                    {isSending ? (
-                        <span className='loader'></span>
-                    ) : (
-                        'Отправить'
-                    )}
-                </button>
+                        
+                    <div className={styles.btn_wrapper}>
+                        <button type="submit" className='appButton' disabled={isSending}>
+                            {isSending ? (
+                                <span className='loader'></span>
+                            ) : (
+                                'Отправить'
+                            )}
+                        </button>
+                    </div>
             </div>
         </>
     )

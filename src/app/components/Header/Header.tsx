@@ -220,6 +220,7 @@ export default function Header() {
                                         <Link href={`tel:${contact.phone_bot_1}`}>
                                             {contact.phone_1}
                                         </Link>
+                                        <span> , </span>
                                         {contact.phone_bot_2 && (
                                             <>
                                                 <Link href={`tel:${contact.phone_bot_2}`}>

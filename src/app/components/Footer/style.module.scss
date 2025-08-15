@@ -42,14 +42,14 @@
 .uslugi_logo {
     margin-top: 10px;
     opacity: 0.5;
-    filter: grayscale(100%);
+    // filter: grayscale(100%);
 
-    transition: all 0.3s ease-in-out;
+    // transition: all 0.3s ease-in-out;
 
-    &:hover {
-        opacity: 1;
-        filter: grayscale(0%);
-    }
+    // &:hover {
+    //     opacity: 1;
+    //     filter: grayscale(0%);
+    // }
 }
 
 .nav {

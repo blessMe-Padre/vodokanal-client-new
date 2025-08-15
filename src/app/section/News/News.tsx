@@ -53,7 +53,7 @@ export default function News() {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [hasMore, setHasMore] = useState<boolean>(false);
     // для пагинации
-    const PAGE_SIZE: number = 3; // количество новостей на странице
+    const PAGE_SIZE: number = 6; // количество новостей на странице
     const [page, setPage] = useState<number>(1);
 
     const handleLoadMore = () => {
@@ -104,15 +104,17 @@ export default function News() {
                             <li className={styles.news_item} key={index}>
                                 
                                     <div className={styles.news_image_wrapper}>
-                                        <Image
-                                            src={item?.image?.url ? `${process.env.NEXT_PUBLIC_API_SERVER}${item.image.url}` : '/placeholder.svg'}
-                                            alt={'image'}
-                                            width={300}
-                                            height={250}
-                                            loading="lazy"
-                                            placeholder="blur"
-                                            blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQ0MiIgaGVpZ2h0PSIxMTg5IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNjY2MiIC8+PC9zdmc+"
-                                            />
+                                        <Link href={`/news/${item.documentId}`}>
+                                            <Image
+                                                src={item?.image?.url ? `${process.env.NEXT_PUBLIC_API_SERVER}${item.image.url}` : '/placeholder.svg'}
+                                                alt={'image'}
+                                                width={300}
+                                                height={250}
+                                                loading="lazy"
+                                                placeholder="blur"
+                                                blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQ0MiIgaGVpZ2h0PSIxMTg5IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNjY2MiIC8+PC9zdmc+"
+                                                />
+                                        </Link>
                                     </div>
                                     <Link href={`/news/${item.documentId}`}>
                                         <h3 className={styles.item_title}>{item?.title}</h3>

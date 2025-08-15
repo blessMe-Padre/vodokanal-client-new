@@ -103,7 +103,7 @@ a {
   width: 100%;
   padding: 15px;
   background-color: var(--light-gray);
-  color: var(--black);
+  color: #8499A9;
   border: none;
   border-radius: 10px;
   margin-bottom: 10px;
@@ -117,6 +117,7 @@ a {
   border: none;
   cursor: pointer;
   font-size: 18px;
+  border: none !important;
 
   transition: var(--anim-function);
 }
