@@ -1,23 +1,47 @@
 import fs from 'fs';
+import path from 'path';
 
 import { NextRequest, NextResponse } from 'next/server';
 
+import { logger } from '@/app/utils/logger';
 import sendEmail from '@/app/utils/mailSendExl';
 
 export async function POST(request: NextRequest) {
   try {
-    // получаем файл из /tmp/
-    const file = fs.readFileSync('/tmp/Readings_2025_08.xlsx');
+    // Получаем файл из tmp директории
+    const filePath = path.join(process.cwd(), 'tmp', 'Readings_2025_08.xlsx');
+
+    if (!fs.existsSync(filePath)) {
+      logger.warn('Файл показаний не найден', { filePath });
+      return NextResponse.json(
+        { status: 'error', message: 'Файл показаний не найден' },
+        { status: 404 }
+      );
+    }
+
+    const fileBuffer = fs.readFileSync(filePath);
     const body = {
       date: '2025-08-25'
-    }
-    // const [excelBuffer, fileName] = makeExcel(body);
+    };
 
-    // Отправляем файл на почту в момент отправки формы
-    const result = await sendEmail(body, [file]);
+    logger.info('Отправка файла показаний по email', {
+      filePath,
+      fileSize: `${(fileBuffer.length / 1024).toFixed(2)} KB`
+    });
+
+    // Отправляем файл на почту
+    const result = await sendEmail(body, [{
+      name: 'Readings_2025_08.xlsx',
+      buffer: fileBuffer,
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    }]);
+
+    logger.info('Email с файлом показаний успешно отправлен', {
+      messageId: result.messageId
+    });
 
     // Возвращаем файл клиенту
-    return new NextResponse(file, {
+    return new NextResponse(fileBuffer, {
       headers: {
         'Content-Disposition': `attachment; filename="Readings_2025_08.xlsx"`,
         'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -25,16 +49,17 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (error) {
-    console.error('Error details:', {
-      message: error,
-      stack: error
+    const err = error as Error;
+    logger.error('Ошибка при отправке файла', {
+      message: err.message,
+      stack: err.stack
     });
 
     return NextResponse.json(
       {
         status: 'error',
-        message: 'Не удалось сформировать файл',
-        details: error
+        message: 'Не удалось отправить файл',
+        details: err.message
       },
       { status: 500 }
     );

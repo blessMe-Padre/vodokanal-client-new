@@ -1,37 +1,78 @@
 import fs from 'fs';
+import path from 'path';
 
 import cron from 'node-cron';
 
+import { createCronLogger } from '@/app/utils/logger';
+
 export function setupCronJobs() {
-    // Запуск каждый день в 13.26
-    cron.schedule('35 13 * * *', async () => {
-        console.log('Running daily email job...');
+    // Проверяем, что мы на сервере
+    if (typeof window !== 'undefined') {
+        return;
+    }
+
+    const cronLogger = createCronLogger();
+    cronLogger.info('Инициализация cron задач');
+
+    // Запуск каждый день в 13:53 по московскому времени
+    cron.schedule('23 07 * * *', async () => {
+        const now = new Date();
+        cronLogger.info('Запуск ежедневной задачи отправки email', {
+            serverTime: now.toISOString(),
+            moscowTime: new Date(now.toLocaleString("en-US", { timeZone: "Europe/Moscow" })).toISOString()
+        });
 
         try {
-            const response = await fetch(`/api/send-file`, {
+            // Проверяем существование файла
+            const filePath = path.join(process.cwd(), 'tmp', 'Readings_2025_08.xlsx');
+
+            if (!fs.existsSync(filePath)) {
+                cronLogger.warn('Файл показаний не найден', { filePath });
+                return;
+            }
+
+            // Проверяем переменные окружения
+            const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+            cronLogger.info('Используется base URL', { baseUrl });
+
+            const response = await fetch(`${baseUrl}/api/send-file`, {
                 method: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${process.env.CRON_SECRET}`,
                     'Content-Type': 'application/json',
                 },
             });
 
             if (response.ok) {
-                console.log('Daily email sent successfully');
+                cronLogger.info('Ежедневный email успешно отправлен');
 
-                // удаляем файл из /tmp/
-                // fs.unlinkSync('/tmp/Readings_2025_08.xlsx');
-
-                // логирование отправки файла в logs/cron.log
-                fs.appendFileSync('logs/cron.log', `[${new Date().toISOString()}] Daily email sent successfully\n`);
+                // Удаляем файл после успешной отправки
+                try {
+                    fs.unlinkSync(filePath);
+                    cronLogger.info('Файл показаний удален после отправки', { filePath });
+                } catch (deleteError) {
+                    const error = deleteError as Error;
+                    cronLogger.error('Ошибка при удалении файла', {
+                        message: error.message,
+                        stack: error.stack
+                    });
+                }
 
             } else {
-                console.error('Failed to send daily email');
+                const errorText = await response.text();
+                cronLogger.error('Ошибка отправки ежедневного email', {
+                    message: `HTTP ${response.status}: ${errorText}`
+                });
             }
         } catch (error) {
-            console.error('Error in cron job:', error);
+            const err = error as Error;
+            cronLogger.error('Ошибка в cron задаче', {
+                message: err.message,
+                stack: err.stack
+            });
         }
     }, {
-        timezone: 'Europe/Moscow' // укажите вашу временную зону
+        timezone: 'Europe/Moscow'
     });
+
+    cronLogger.info('Cron задачи настроены');
 }
