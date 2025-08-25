@@ -10,16 +10,8 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-async function sendEmailUnit(body, files = []) {
+async function sendEmail(body, files = []) {
     try {
-        files.forEach((file, index) => {
-            console.log(`File ${index}:`, {
-                name: file.name,
-                type: file.type,
-                bufferSize: file.buffer ? file.buffer.length : 'undefined'
-            });
-        });
-
         // Подготавливаем attachments для файлов
         const attachments = files.map(file => ({
             filename: file.name,
@@ -31,14 +23,9 @@ async function sendEmailUnit(body, files = []) {
             from: process.env.SMTP_FROM,
             // to: `${process.env.SMTP_FROM}, Dubrovinaaa@yandex.ru`,
             to: `${process.env.SMTP_FROM}, ${process.env.SMTP_SEND_COPY_TO}`,
-            subject: "Подключение к сетям",
-            text: `Имя: ${body.client_name}\nТелефон: ${body.client_phone}`,
+            subject: `Передача показаний через сайт за ${body.date}`,
             html: `
-            <b>Имя:</b> ${body.client_name}<br>
-            <b>Номер телефона:</b> ${body.client_phone}<br>
-            <b>Прошу выдать акт разграничении эксплуатационной и балансовой ответственности сторон по водопроводным и канализационным сетям на них между МУП «Находка - Водоканал» и абонентом Объекта расположенного по адресу:</b> ${body.address}<br><br>
-            <b>Объекта расположенного по адресу:</b> ${body.object_address}<br><br>
-            `,
+            <b>Передача показаний через сайт за ${body.date}</b>`,
             attachments: attachments
         });
 
@@ -50,4 +37,4 @@ async function sendEmailUnit(body, files = []) {
     }
 }
 
-export default sendEmailUnit;
+export default sendEmail;
