@@ -9,7 +9,6 @@ import styles from './styles.module.scss';
 
 interface ComponentFormReadingsProps {
     register: UseFormRegister<FieldValues>;
-    errors: FieldErrors<FieldValues>;
     error: string;
     isSending: boolean;
     files: File[];
@@ -20,7 +19,7 @@ export default function ContentPage() {
     const router = useRouter();
     const [isSending, setIsSending] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
-    const [error, setError] = useState('');
+    const [error, setError] = useState<string>('');
     const [files, setFiles] = useState<File[]>([]);
     const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -63,12 +62,8 @@ export default function ContentPage() {
                 }
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-
-            // const data = await response.json();
-            // console.log('ответ от api', data);
-
+            setError('');
             setIsSuccess(true);
-
         } catch (err) {
             const errorMessage = err instanceof Error ? err.message : 'Неизвестная ошибка';
             setError(errorMessage);
@@ -107,7 +102,6 @@ export default function ContentPage() {
                             <form className={styles.form} onSubmit={handleSubmit(handleFormSubmit)}>
                                 <ComponentFormCallController
                                     register={register}
-                                    errors={errors}
                                     error={error}
                                     isSending={isSending}
                                     files={files}
@@ -122,7 +116,7 @@ export default function ContentPage() {
     );
 }
 
-const ComponentFormCallController = ({ register, isSending }: ComponentFormReadingsProps) => {
+const ComponentFormCallController = ({ register, isSending, error }: ComponentFormReadingsProps) => {
     const data = [
         { label: 'Фамилия, Имя, Отчество (или название компании)*', name: 'call_fio' },
         { label: 'Адрес (улица, дом, квартира)', name: 'call_address' },
@@ -130,8 +124,6 @@ const ComponentFormCallController = ({ register, isSending }: ComponentFormReadi
         { label: 'Телефон , по которому с вами свяжется контролер*', name: 'call_phone_number' },
         { label: 'E-mail', name: 'call_email' },
     ];
-
-
 
     return (
         <>
@@ -200,6 +192,8 @@ const ComponentFormCallController = ({ register, isSending }: ComponentFormReadi
                         'Отправить'
                     )}
                 </button>
+
+                {error && <p className='error_message'>Ошибка при отправке формы, попробуйте позже</p>}
             </div>
         </>
     )

@@ -28,13 +28,14 @@ interface FormData {
 export default function StatementFormBorder() {
     const [isSending, setIsSending] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
+    const [error, setError] = useState<boolean>(false);
     const [files, setFiles] = useState<File[]>([]);
     const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormData>();
 
 
     const handleFormSubmit = async (formData: FormData) => {
         setIsSending(true);
-
+        setError(false);
         const date = new Date().toLocaleDateString('ru-RU', {
             day: '2-digit',
             month: '2-digit',
@@ -74,7 +75,7 @@ export default function StatementFormBorder() {
 
         } catch (err) {
             const errorMessage = err instanceof Error ? err.message : 'Неизвестная ошибка';
-
+            setError(true);
             console.error('Ошибка при отправке:', errorMessage);
         } finally {
             setIsSending(false);
@@ -284,6 +285,8 @@ export default function StatementFormBorder() {
                                         'Отправить'
                                     )}
                                 </button>
+
+                                {error && <p className='error_message'>Ошибка при отправке формы, попробуйте позже</p>}
                             </form>
                         </div>
                     </section>
