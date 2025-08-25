@@ -12,10 +12,9 @@ export function setupCronJobs() {
     }
 
     const cronLogger = createCronLogger();
-    cronLogger.info('Инициализация cron задач');
 
     // Запуск каждый день в 13:53 по московскому времени
-    cron.schedule('23 07 * * *', async () => {
+    cron.schedule('28 07 * * *', async () => {
         const now = new Date();
         cronLogger.info('Запуск ежедневной задачи отправки email', {
             serverTime: now.toISOString(),
@@ -33,8 +32,6 @@ export function setupCronJobs() {
 
             // Проверяем переменные окружения
             const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-            cronLogger.info('Используется base URL', { baseUrl });
-
             const response = await fetch(`${baseUrl}/api/send-file`, {
                 method: 'POST',
                 headers: {
@@ -46,16 +43,16 @@ export function setupCronJobs() {
                 cronLogger.info('Ежедневный email успешно отправлен');
 
                 // Удаляем файл после успешной отправки
-                try {
-                    fs.unlinkSync(filePath);
-                    cronLogger.info('Файл показаний удален после отправки', { filePath });
-                } catch (deleteError) {
-                    const error = deleteError as Error;
-                    cronLogger.error('Ошибка при удалении файла', {
-                        message: error.message,
-                        stack: error.stack
-                    });
-                }
+                // try {
+                //     fs.unlinkSync(filePath);
+                //     cronLogger.info('Файл показаний удален после отправки', { filePath });
+                // } catch (deleteError) {
+                //     const error = deleteError as Error;
+                //     cronLogger.error('Ошибка при удалении файла', {
+                //         message: error.message,
+                //         stack: error.stack
+                //     });
+                // }
 
             } else {
                 const errorText = await response.text();
