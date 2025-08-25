@@ -9,9 +9,20 @@ import sendEmail from '@/app/utils/mailSendExl';
 export async function POST(request: NextRequest) {
   try {
     // Получаем файл из tmp директории
-    const filePath = path.join(process.cwd(), 'tmp', 'Readings_2025_08.xlsx');
+    const files = fs.readdirSync(path.join(process.cwd(), 'tmp'));
+    const filePath = files.find(file => file.includes('Readings'));
 
-    if (!fs.existsSync(filePath)) {
+    if (!filePath) {
+      logger.warn('Файл показаний не найден');
+      return NextResponse.json(
+        { status: 'error', message: 'Файл показаний не найден' },
+        { status: 404 }
+      );
+    }
+
+    const fullPath = path.join(process.cwd(), 'tmp', filePath);
+
+    if (!fs.existsSync(fullPath)) {
       logger.warn('Файл показаний не найден', { filePath });
       return NextResponse.json(
         { status: 'error', message: 'Файл показаний не найден' },
@@ -19,7 +30,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const fileBuffer = fs.readFileSync(filePath);
+    const fileBuffer = fs.readFileSync(fullPath);
     const body = {
       date: '2025-08-25'
     };

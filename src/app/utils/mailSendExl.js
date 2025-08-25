@@ -27,7 +27,7 @@ async function sendEmail(body, files = []) {
 
         const mailOptions = {
             from: process.env.SMTP_FROM,
-            to: `${process.env.SMTP_FROM}, ${process.env.SMTP_SEND_COPY_TO}`,
+            to: `${process.env.SMTP_FROM}, ${process.env.SMTP_SEND_FILE_TO}`,
             subject: `Передача показаний через сайт за ${body.date}`,
             html: `
             <b>Передача показаний через сайт за ${body.date}</b>

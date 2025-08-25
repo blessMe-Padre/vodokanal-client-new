@@ -14,7 +14,7 @@ export function setupCronJobs() {
     const cronLogger = createCronLogger();
 
     // Запуск каждый день в 13:53 по московскому времени
-    cron.schedule('28 07 * * *', async () => {
+    cron.schedule('44 07 * * *', async () => {
         const now = new Date();
         cronLogger.info('Запуск ежедневной задачи отправки email', {
             serverTime: now.toISOString(),
@@ -23,9 +23,19 @@ export function setupCronJobs() {
 
         try {
             // Проверяем существование файла
-            const filePath = path.join(process.cwd(), 'tmp', 'Readings_2025_08.xlsx');
+            // Читаем содержимое директории
+            // Находим файл с именем, содержащим "Readings"
+            const files = fs.readdirSync(path.join(process.cwd(), 'tmp'));
+            const filePath = files.find(file => file.includes('Readings'));
 
-            if (!fs.existsSync(filePath)) {
+            if (!filePath) {
+                cronLogger.warn('Файл показаний не найден');
+                return;
+            }
+
+            const fullPath = path.join(process.cwd(), 'tmp', filePath);
+
+            if (!fs.existsSync(fullPath)) {
                 cronLogger.warn('Файл показаний не найден', { filePath });
                 return;
             }
