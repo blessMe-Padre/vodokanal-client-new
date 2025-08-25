@@ -7,9 +7,7 @@ import styles from "./style.module.scss";
 interface ApiResponse {
     data: {
         id: number;
-        attributes: {
-            content?: ContentItem[];
-        };
+        content?: ContentItem[];
     };
 }
 
@@ -21,14 +19,16 @@ export const metadata = {
 export default async function PrivacyPolicy() {
     const page = await fetchData<ApiResponse>(`/api/stranicza-politika-konfidenczialnosti?populate=*`);
 
+    console.log(page);
+
     return (
         <section className={styles.section}>
             <div className="container">
                 <Breadcrumbs secondLabel="Политика конфиденциальности" />
                 <h1 className='title'>Политика конфиденциальности</h1>
 
-                {page?.data?.attributes?.content && (
-                    <ContentRenderer content={page.data.attributes.content} />
+                {page?.data?.content && (
+                    <ContentRenderer content={page.data.content} />
                 )}
             </div>
         </section>

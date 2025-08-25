@@ -14,7 +14,7 @@ export function setupCronJobs() {
     const cronLogger = createCronLogger();
 
     // Запуск каждый день в 13:53 по московскому времени
-    cron.schedule('44 07 * * *', async () => {
+    cron.schedule('45 00 * * *', async () => {
         const now = new Date();
         cronLogger.info('Запуск ежедневной задачи отправки email', {
             serverTime: now.toISOString(),
@@ -36,7 +36,7 @@ export function setupCronJobs() {
             const fullPath = path.join(process.cwd(), 'tmp', filePath);
 
             if (!fs.existsSync(fullPath)) {
-                cronLogger.warn('Файл показаний не найден', { filePath });
+                cronLogger.warn('Файл показаний не найден', { fullPath });
                 return;
             }
 
@@ -55,7 +55,7 @@ export function setupCronJobs() {
                 // Удаляем файл после успешной отправки
                 // try {
                 //     fs.unlinkSync(filePath);
-                //     cronLogger.info('Файл показаний удален после отправки', { filePath });
+                //     cronLogger.info('Файл показаний удален после отправки', { fullPath });
                 // } catch (deleteError) {
                 //     const error = deleteError as Error;
                 //     cronLogger.error('Ошибка при удалении файла', {
