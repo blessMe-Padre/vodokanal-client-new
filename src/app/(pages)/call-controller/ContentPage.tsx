@@ -7,11 +7,13 @@ import { Button, SuccessMessage } from '@/app/components';
 
 import styles from './styles.module.scss';
 
-interface ComponentFormReadingsProps { 
+interface ComponentFormReadingsProps {
     register: UseFormRegister<FieldValues>;
     errors: FieldErrors<FieldValues>;
     error: string;
     isSending: boolean;
+    files: File[];
+    setFiles: React.Dispatch<React.SetStateAction<File[]>>;
 }
 
 export default function ContentPage() {
@@ -19,10 +21,9 @@ export default function ContentPage() {
     const [isSending, setIsSending] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
     const [error, setError] = useState('');
-
-
+    const [files, setFiles] = useState<File[]>([]);
     const { register, handleSubmit, formState: { errors } } = useForm();
-    
+
     const handleFormSubmit = async (formData: FieldValues) => {
         setIsSending(true);
         setError('');
@@ -34,13 +35,23 @@ export default function ContentPage() {
             year: 'numeric'
         });
 
-        formData = { ...formData, date };
+        const formDataToSend = new FormData();
+        Object.keys(formData).forEach(key => {
+            if (key !== 'files' && formData[key as keyof FieldValues]) {
+                formDataToSend.append(key, formData[key as keyof FieldValues] as string);
+            }
+        });
+        formDataToSend.append('date', date);
+
+        // Добавляем файлы в FormData
+        files.forEach((file) => {
+            formDataToSend.append('files', file);
+        });
 
         try {
             const response = await fetch('/api/call-controller', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData),
+                body: formDataToSend
             });
 
             const contentType = response.headers.get('content-type') || '';
@@ -51,8 +62,11 @@ export default function ContentPage() {
                     throw new Error(errorData.message || 'Ошибка сервера');
                 }
                 throw new Error(`HTTP error! status: ${response.status}`);
-            } 
-            
+            }
+
+            // const data = await response.json();
+            // console.log('ответ от api', data);
+
             setIsSuccess(true);
 
         } catch (err) {
@@ -81,7 +95,7 @@ export default function ContentPage() {
                         </div>
                     ) : (
                         <>
-                        
+
                             <p>Заполните предложенную заявку. В соответствии с законодательством время исполнения заявки - до 1 месяца. Накануне визита контролёр созвонится с вами и согласует время. Также вызвать контролёра вы можете по тел. 8(4236)745582.</p>
                             <p>При заполнении заявки ВАЖНО правильно выбрать причину вызова контролера.</p>
                             <p>Если требуется внести показания ИПУ на момент установки ОБЯЗАТЕЛЬНО нужно вносить в формате – 5 цифр до точки и 3 цифры после точки. Лидирующие нули и десятичные значения вносить обязательно (например, 00123.059 или 00072.000). Показания, где все восемь цифр - нули, не передаются: даже если вы водомером не пользуетесь, он зафиксировал несколько литров воды при заводской поверке, внесите их значения после пяти нулей и точки.</p>
@@ -96,6 +110,8 @@ export default function ContentPage() {
                                     errors={errors}
                                     error={error}
                                     isSending={isSending}
+                                    files={files}
+                                    setFiles={setFiles}
                                 />
                             </form>
                         </>
@@ -106,13 +122,13 @@ export default function ContentPage() {
     );
 }
 
-const ComponentFormCallController = ({ register, isSending }: ComponentFormReadingsProps) => { 
+const ComponentFormCallController = ({ register, isSending }: ComponentFormReadingsProps) => {
     const data = [
-      { label: 'Фамилия, Имя, Отчество (или название компании)*', name: 'call_fio' },
-      { label: 'Адрес (улица, дом, квартира)', name: 'call_address' },
-      { label: 'Код двери подъезда (при наличии)', name: 'call_code_door' },
-      { label: 'Телефон , по которому с вами свяжется контролер*', name: 'call_phone_number' },
-      { label: 'E-mail', name: 'call_email' },
+        { label: 'Фамилия, Имя, Отчество (или название компании)*', name: 'call_fio' },
+        { label: 'Адрес (улица, дом, квартира)', name: 'call_address' },
+        { label: 'Код двери подъезда (при наличии)', name: 'call_code_door' },
+        { label: 'Телефон , по которому с вами свяжется контролер*', name: 'call_phone_number' },
+        { label: 'E-mail', name: 'call_email' },
     ];
 
 
@@ -126,16 +142,16 @@ const ComponentFormCallController = ({ register, isSending }: ComponentFormReadi
                         <div>
                             <p>Причина вызова контролера</p>
                         </div>
-        
+
                         <div className={styles.form_content_item}>
                             <div>
-                            <select className={styles.form_select} {...register('call_reason')}>
-                                <option value="" defaultValue={''}>Выберите причину вызова</option>
-                                <option value="Ввод установленного водомера в эксплуатацию">Ввод установленного водомера в эксплуатацию</option>
-                                <option value="Контрольное снятие показаний водомеров">Контрольное снятие показаний водомеров</option>
-                                <option value="У водомера скоро окончится МПИ">У водомера скоро окончится МПИ</option>
-                                <option value="Водомер вышел из строя">Водомер вышел из строя</option>
-                            </select>
+                                <select className={styles.form_select} {...register('call_reason')}>
+                                    <option value="" defaultValue={''}>Выберите причину вызова</option>
+                                    <option value="Ввод установленного водомера в эксплуатацию">Ввод установленного водомера в эксплуатацию</option>
+                                    <option value="Контрольное снятие показаний водомеров">Контрольное снятие показаний водомеров</option>
+                                    <option value="У водомера скоро окончится МПИ">У водомера скоро окончится МПИ</option>
+                                    <option value="Водомер вышел из строя">Водомер вышел из строя</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -144,37 +160,37 @@ const ComponentFormCallController = ({ register, isSending }: ComponentFormReadi
                     <div className={styles.form_content_item}>
                         <p className={styles.sub_title}>Индивидуальные приборы учета воды</p>
                         {data.map((i, idx) => {
-                            if (idx !== 1 && idx !== 4) {       
+                            if (idx !== 1 && idx !== 4) {
                                 return (
                                     <div key={idx} className={styles.form_row}>
                                         <label>{i.label}</label>
-                                        <input 
-                                            type="text" 
-                                            className='appInput' 
+                                        <input
+                                            type="text"
+                                            className='appInput'
                                             placeholder='' {...register(i.name)}
                                             required
                                         />
                                     </div>
-                            )
+                                )
                             } else {
                                 return (
-                                     <div key={idx} className={styles.form_row}>
+                                    <div key={idx} className={styles.form_row}>
                                         <label>{i.label}</label>
-                                        <input 
-                                            type="text" 
-                                            className='appInput' 
+                                        <input
+                                            type="text"
+                                            className='appInput'
                                             placeholder='' {...register(i.name)}
                                         />
                                     </div>
                                 )
-                        }
+                            }
                         })}
                     </div>
                 </div>
 
                 <div className={styles.form_content}>
                     <p>Согласно Федеральному закону № 152–ФЗ от 27.07.2006 г. «О персональных данных», я согласен на обработку персональных данных. До моего сведения доведено, что МУП «Находка-Водоканал» гарантирует обработку моих персональных данных в соответствии с действующим законодательством РФ.*</p>
-                    
+
                 </div>
 
                 <button type="submit" className='appButton' disabled={isSending}>
