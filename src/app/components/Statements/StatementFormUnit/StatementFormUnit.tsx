@@ -65,8 +65,6 @@ export default function StatementFormUnit() {
             }
 
             setIsSuccess(true);
-            // const data = await response.json();
-            // console.log('ответ от api', data);
 
         } catch (err) {
             const errorMessage = err instanceof Error ? err.message : 'Неизвестная ошибка';

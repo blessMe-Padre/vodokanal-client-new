@@ -66,9 +66,6 @@ export default function ContentPage() {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
-            // const data = await response.json();
-            // console.log('ответ от api', data);
-
             setIsSuccess(true);
 
         } catch (err) {

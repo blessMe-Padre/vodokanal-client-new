@@ -48,7 +48,6 @@ async function sendEmailPod(body, files = []) {
             attachments: attachments
         });
 
-        // console.log("Message sent: %s", info.messageId);
         return info;
     } catch (error) {
         console.error("Error sending email:", error);
