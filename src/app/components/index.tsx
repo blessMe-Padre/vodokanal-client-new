@@ -36,5 +36,6 @@ export { default as Cookies } from './Cookies/Cookies';
 export { default as SuccessMessage } from './SuccessMessage/SuccessMessage';
 export { default as AnimateElement } from './AnimateElement/AnimateElement';
 export { default as DocumentComponent } from './DocumentComponent/DocumentComponent';
+export { default as DownloadDocumentComponent } from './DownloadDocumentComponent/DownloadDocumentComponent';
 
 // timer

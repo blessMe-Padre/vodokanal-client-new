@@ -160,7 +160,7 @@ export default function ContentPage(): React.JSX.Element {
                 <h1 className="title">Передача показаний через сайт</h1>
                 <div className="flex flex-col gap-[10px]">
                     {isSuccess ? (
-                        <div className={styles.success_wrapper}>
+                        <div className="success_wrapper">
                             <SuccessMessage text="Спасибо! Ваши показания приняты в обработку." />
                             <Button
                                 text="На главную"

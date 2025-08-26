@@ -79,7 +79,7 @@ export default function ContentPage() {
                 <h1 className="title">Вызов контролера</h1>
                 <div className="flex flex-col gap-[10px]">
                     {isSuccess ? (
-                        <div className={styles.success_wrapper}>
+                        <div className="success_wrapper">
                             <SuccessMessage text="Спасибо! Ваша заявка принята в обработку." />
                             <Button
                                 text="На главную"
