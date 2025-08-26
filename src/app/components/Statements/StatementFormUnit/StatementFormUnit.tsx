@@ -177,11 +177,11 @@ export default function StatementFormUnit() {
 
                             <div className={styles.statement_title}>
                                 <h3>Заявление</h3>
-                                <p>Прошу выдать технические условия на проектирование узла учета потребляемой объекта</p>
+                                <p>Прошу выдать технические условия на проектирование узла учета потребляемой холодной воды для объекта:</p>
                             </div>
 
                             <div className={styles.form_row}>
-                                <label htmlFor='object'>Прошу выдать акт разграничении эксплуатационной и балансовой ответственности сторон по водопроводным и канализационным сетям на них между МУП «Находка  - Водоканал» и абонентом Объекта расположенного по адресу:</label>
+                                <label htmlFor='object'>Объект</label>
                                 <div className={styles.input_wrapper}>
                                     <input
                                         id='object'

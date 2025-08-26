@@ -152,7 +152,7 @@ export default function StatementFormBorder() {
                     </div>
                 ) : (
                     <section>
-                        <h2>заявление на границы</h2>
+                        <h2>Заявление на акт разграничения</h2>
 
                         <div className={styles.statement_page}>
                             <form onSubmit={handleSubmit(handleFormSubmit)}>
@@ -185,6 +185,7 @@ export default function StatementFormBorder() {
 
                                 <div className={styles.statement_title}>
                                     <h3>Заявление</h3>
+                                    <p>Прошу выдать акт разграничения эксплуатационной и балансовой ответственности сторон по водопроводным и канализационным сетям на них между МУП «Находка  - Водоканал» и абонентом:</p>
 
                                 </div>
 
@@ -215,7 +216,7 @@ export default function StatementFormBorder() {
                                     </div>
                                 </div>
 
-                                <div className={styles.form_row}>
+                                {/* <div className={styles.form_row}>
                                     <label htmlFor='power'>1. Планируемая величина максимальной необходимой мощности (нагрузки) составляет для потребления холодной</label>
                                     <div className={styles.input_wrapper}>
                                         <input
@@ -227,7 +228,7 @@ export default function StatementFormBorder() {
                                         />
                                         {errors.power && <span className={styles.error}>{errors.power.message}</span>}
                                     </div>
-                                </div>
+                                </div> */}
 
                                 <div className={styles.form_row}>
                                     <label>Ситуационный план земельного участка (масштаб 1:1000 или 1:2000).

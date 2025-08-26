@@ -142,7 +142,7 @@ export default function StatementFormSelf() {
     return (
         <>
             {isSuccess ? (
-                <div className={styles.success_wrapper}>
+                <div className="success_wrapper">
                     <SuccessMessage text="Спасибо! Ваша заявка принята в обработку." />
                     <Button
                         text="На главную"

@@ -31,15 +31,13 @@ async function sendEmailBorder(body, files = []) {
             from: process.env.SMTP_FROM,
             // to: `${process.env.SMTP_FROM}, Dubrovinaaa@yandex.ru`,
             to: `${process.env.SMTP_FROM}, ${process.env.SMTP_SEND_COPY_TO}`,
-            subject: "Подключение к сетям",
+            subject: "Заявление на акт разграничения",
             text: `Имя: ${body.client_name}\nТелефон: ${body.client_phone}`,
             html: `
             <b>Имя:</b> ${body.client_name}<br>
             <b>Номер телефона:</b> ${body.client_phone}<br>
-            <b>ФИО:</b> ${body.full_name}<br>
-            <b>Прошу выдать технические условия на проектирование узла учета потребляемой объекта:</b> ${body.address}<br><br>
+            <b>Прошу выдать технические условия на проектирование узла учета потребляемой объекта:</b> ${body.address}<br>
             <b>Подключение Объекта расположенного по адресу:</b> ${body.object_address}<br><br>
-            <b>Планируемая величина максимальной необходимой мощности (нагрузки) составляет для потребления холодной:</b> ${body.power}<br><br>
             `,
             attachments: attachments
         });
