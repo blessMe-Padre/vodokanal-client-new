@@ -42,8 +42,6 @@ export default function PageContent() {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [hasMore, setHasMore] = useState<boolean>(false);
 
-    console.log(newsMain);
-
     // для пагинации
     const PAGE_SIZE: number = 6; // количество новостей на странице
     const [page, setPage] = useState<number>(1);

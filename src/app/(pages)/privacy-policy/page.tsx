@@ -19,8 +19,6 @@ export const metadata = {
 export default async function PrivacyPolicy() {
     const page = await fetchData<ApiResponse>(`/api/stranicza-politika-konfidenczialnosti?populate=*`);
 
-    console.log(page);
-
     return (
         <section className={styles.section}>
             <div className="container">

@@ -1,7 +1,7 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { FieldErrors, FieldValues, useForm, UseFormRegister } from 'react-hook-form';
+import { FieldValues, useForm, UseFormRegister } from 'react-hook-form';
 
 import { Button, SuccessMessage } from '@/app/components';
 
@@ -21,7 +21,7 @@ export default function ContentPage() {
     const [isSuccess, setIsSuccess] = useState(false);
     const [error, setError] = useState<string>('');
     const [files, setFiles] = useState<File[]>([]);
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit } = useForm();
 
     const handleFormSubmit = async (formData: FieldValues) => {
         setIsSending(true);

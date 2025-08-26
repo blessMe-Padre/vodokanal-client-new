@@ -18,8 +18,6 @@ export default async function About() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const page = await fetchData(`/api/stranicza-o-kompanii?populate=*`) as any;
 
-    console.log(page)
-
     return (
 
         <div className="container">

@@ -1,12 +1,12 @@
 import fs from 'fs';
 import path from 'path';
 
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
 import { logger } from '@/app/utils/logger';
 import sendEmail from '@/app/utils/mailSendExl';
 
-export async function POST(request: NextRequest) {
+export async function POST() {
   try {
     // Получаем файл из tmp директории
     const files = fs.readdirSync(path.join(process.cwd(), 'tmp'));
