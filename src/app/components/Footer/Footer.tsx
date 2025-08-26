@@ -62,6 +62,10 @@ const navLinks: NavLink[] = [
     {
         title: "Противодействие коррупции",
         href: "/anti-corruption"
+    },
+    {
+        title: "Скачать бланки",
+        href: "/download-blank"
     }
 ]
 
@@ -74,7 +78,7 @@ export default function Footer() {
         const fetchContacts = async () => {
             try {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                const response = await fetchData<{data: Contact[]}>('/api/kontakties') as any;
+                const response = await fetchData<{ data: Contact[] }>('/api/kontakties') as any;
                 if (response?.data[0].kontakty) {
                     setContacts(response?.data[0].kontakty);
                 } else {
@@ -97,7 +101,7 @@ export default function Footer() {
                         <Link className={styles.uslugi_logo} href={'https://gosuslugi.primorsky.ru/main.htm'} target="_blank">
                             <Image src={uslugi} alt="uslugi" />
                         </Link>
-                        
+
                         <Link href={'/'} className={styles.logo}>
                             <Image src={logo} width={50} height={50} alt="logo" />
                             <div>
@@ -124,18 +128,18 @@ export default function Footer() {
                     <div className={styles.contacts_column}>
                         {contacts.map((contact, index) => (
                             <div className={styles.wrapper_contact_info} key={index}>
-                                <Image 
-                                    src={phone} 
-                                    width={20} 
-                                    height={20} 
-                                    alt={`Иконка телефона ${contact.phone_name}`} 
+                                <Image
+                                    src={phone}
+                                    width={20}
+                                    height={20}
+                                    alt={`Иконка телефона ${contact.phone_name}`}
                                 />
                                 <div>
                                     <p>{contact.phone_name}</p>
                                     <div className={styles.phone_numbers}>
                                         <Link href={`tel:${contact.phone_bot_1}`}>
                                             {contact.phone_1}
-                                        </Link> 
+                                        </Link>
                                         <span> , </span>
                                         {contact.phone_bot_2 && (
                                             <>

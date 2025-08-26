@@ -31,13 +31,13 @@ async function sendEmailUnit(body, files = []) {
             from: process.env.SMTP_FROM,
             // to: `${process.env.SMTP_FROM}, Dubrovinaaa@yandex.ru`,
             to: `${process.env.SMTP_FROM}, ${process.env.SMTP_SEND_COPY_TO}`,
-            subject: "Подключение к сетям",
+            subject: "Заявление на узел учета",
             text: `Имя: ${body.client_name}\nТелефон: ${body.client_phone}`,
             html: `
             <b>Имя:</b> ${body.client_name}<br>
             <b>Номер телефона:</b> ${body.client_phone}<br>
-            <b>Прошу выдать акт разграничении эксплуатационной и балансовой ответственности сторон по водопроводным и канализационным сетям на них между МУП «Находка - Водоканал» и абонентом Объекта расположенного по адресу:</b> ${body.address}<br><br>
-            <b>Объекта расположенного по адресу:</b> ${body.object_address}<br><br>
+            <b>Объект:</b> ${body.object}<br>
+            <b>Объекта расположенного по адресу::</b> ${body.object_address}<br><br>
             `,
             attachments: attachments
         });
