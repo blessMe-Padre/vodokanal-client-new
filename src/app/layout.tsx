@@ -5,6 +5,9 @@ import { Footer, Header } from "./components";
 import type { Metadata } from "next";
 import "./globals.css";
 
+// Инициализация серверных компонентов (cron, логирование и т.д.)
+import "@/lib/server-init";
+
 const montserrat = Montserrat({
   variable: "--font-montserrat",
   subsets: ["latin", "cyrillic"],

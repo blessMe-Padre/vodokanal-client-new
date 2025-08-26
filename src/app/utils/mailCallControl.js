@@ -21,16 +21,17 @@ async function sendEmail(body, files = []) {
 
         const info = await transporter.sendMail({
             from: process.env.SMTP_FROM,
-            // to: `${process.env.SMTP_FROM}, Dubrovinaaa@yandex.ru`,
             to: `${process.env.SMTP_FROM}, ${process.env.SMTP_SEND_COPY_TO}`,
-            subject: "Обращение в водоканал",
+            subject: "Вызов контролера",
             text: `Имя: ${body.contact_fio}\nТелефон: ${body.contact_phone_number}`,
             html: `
-            <b>ФИО:</b> ${body.contact_fio}<br>
-            <b>Адрес проживания:</b> ${body.contact_address}<br>
-            <b>Номер телефона:</b> ${body.contact_phone_number}<br>
-            <b>Email:</b> ${body.contact_email}<br>
-            <b>Описание проблемы:</b> ${body.contact_message}<br><br>
+            <b>Индивидуальные приборы учета воды<br>
+            <b>Причина вызова контролера:</b> ${body.call_reason}<br>
+            <b>ФИО:</b> ${body.call_fio}<br>
+            <b>Адрес :</b> ${body.call_address}<br>
+            <b>Код двери:</b> ${body.call_code_door}<br>
+            <b>Номер телефона:</b> ${body.call_phone_number}<br>
+            <b>E-mail:</b> ${body.call_email}<br><br>
             ${body.date}`,
             attachments: attachments
         });

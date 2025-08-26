@@ -30,7 +30,7 @@ async function sendEmailBorder(body, files = []) {
         const info = await transporter.sendMail({
             from: process.env.SMTP_FROM,
             // to: `${process.env.SMTP_FROM}, Dubrovinaaa@yandex.ru`,
-            to: `${process.env.SMTP_FROM}, zarodiny@yandex.ru`,
+            to: `${process.env.SMTP_FROM}, ${process.env.SMTP_SEND_COPY_TO}`,
             subject: "Подключение к сетям",
             text: `Имя: ${body.client_name}\nТелефон: ${body.client_phone}`,
             html: `

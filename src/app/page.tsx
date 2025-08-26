@@ -1,4 +1,3 @@
-
 import { Kontrakt, MainBanner, News, Services } from "./section/index";
 
 export default function Home() {
