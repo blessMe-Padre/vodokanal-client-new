@@ -267,18 +267,35 @@ const ComponentFormCallController = ({
                         <div className={styles.form_content}>
                             <div className={styles.form_content_item}>
                                 {dataNotDefault.map((i, idx) => {
+                                    if(idx === 0) {
+                                        return (
+                                            <div key={idx} className={styles.form_row}>
+                                                <label>{i.label}</label>
+                                                <select
+                                                    className="appInput"
+                                                    {...register('call_reason')}
+                                                >
+                                                    <option value="Первично">Первично</option>
+                                                    <option value="После поверки/замены в связи с окончанием МПИ">После поверки/замены в связи с окончанием МПИ</option>
+                                                    <option value="Для повторной установки демонтированной пломбы">Для повторной установки демонтированной пломбы</option>
+                                                    <option value="После замены ИПУ в связи с поломкой водомера">После замены ИПУ в связи с поломкой водомера</option>
+                                                </select>
+                                            </div>
+                                        )
+                                    }else{
                                         return (
                                             <div key={idx} className={styles.form_row}>
                                                 <label>{i.label}</label>
                                                 <input
                                                     type="text"
                                                     className='appInput'
-                                                    placeholder=''
+                                                    placeholder={i.placeholder || ''}
                                                     {...register(i.name)}
                                                     required
                                                 />
                                             </div>
                                         )
+                                    }
                                 })}
                             </div>
                         </div>
