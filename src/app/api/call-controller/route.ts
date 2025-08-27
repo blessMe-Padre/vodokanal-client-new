@@ -10,6 +10,8 @@ export async function POST(request: NextRequest) {
     const formFields: Record<string, string> = {};
     const files: File[] = [];
 
+    console.log("formFields", formFields);
+
     for (const [key, value] of formData.entries()) {
       if (key === 'files') {
         if (value instanceof File) {
@@ -36,13 +38,13 @@ export async function POST(request: NextRequest) {
     );
 
     // получаем в result все что уполо в api
-    const result = await sendEmail(formFields, fileBuffers);
+    // const result = await sendEmail(formFields, fileBuffers);
 
     return NextResponse.json({
       status: 'success',
       message: 'Данные успешно отправлены',
       emailResult: {
-        accepted: result.accepted,
+        // accepted: result.accepted,
         message: "Письмо успешно отправлено",
       },
       details: {
