@@ -15,24 +15,25 @@ export default function Calculator() {
     const [consumption, setConsumption] = useState(0);
     const [consumptionWater, setConsumptionWater] = useState(0);
     const [length, setLength] = useState(0);
-    const [diameter, setDiameter] = useState(0);
+    const [diameter, setDiameter] = useState(1);
     const [asphalt, setAsphalt] = useState(false);
 
     // Примерные тарифы (можно заменить на реальные)
-    const bazovayStoimost: number = 1600; // Предполагаемый расход (кубометров в сутки): на 1 кубометр в сутки
-    const bazovayStoimostWater: number = 1082; // Предполагаемый расход (кубометров в сутки): на 1 кубометр в сутки
+    const bazovayStoimost: number = 1015; // Водоснабжение
+    const bazovayStoimostWater: number = 1473; // Водоотведение
     const diametrSety: number[] = [
-        5500, // До 100 мм.
-        6000, // От 100 до 125 мм.
-        6500, // От 125 до 150 мм.
+        7458, // До 110 мм.
+        10334, // От 160 до 200 мм.
     ];
     const diametrSetyWater: number[] = [
-        6340, // До 160 мм.
+        9104, // До 160 мм.
+        10005, // От 160 до 200 мм.
     ];
-    const asphaltStoimost: number = 1700;
+    const asphaltStoimost: number = 1140 / 1000; // стоимость восстановления водоснабжения за 1 м
+    const asphaltStoimostWater: number = 1578 / 1000; // стоимость восстановления водоотведения за 1 м
     const NDC: number = 0.2; // 20% НДС
 
-    // Расчет стоимости
+    // Расчет стоимости водоснабжения
     const calcNetwork = () => {
         if (diameter === 0) return 0;
         let base = length * diametrSety[diameter - 1];
@@ -41,12 +42,12 @@ export default function Calculator() {
         return base;
     };
 
-    // Расчет стоимости
+    // Расчет стоимости водоотведения
     const calcNetworkWater = () => {
         if (diameter === 0) return 0;
         let base = length * diametrSetyWater[diameter - 1];
 
-        if (asphalt) base += asphaltStoimost * length;
+        if (asphalt) base += asphaltStoimostWater * length;
         return base;
     };
 
@@ -140,10 +141,9 @@ export default function Calculator() {
                                 <div className={styles.input_wrapper}>
                                     <label htmlFor="diameter">Предполагаемый диаметр cети (мм.):</label>
                                     <select name="" id="diameter" value={diameter} onChange={e => setDiameter(+e.target.value)}>
-                                        <option value="0">- Выберите диаметр -</option>
-                                        <option value="1">До 100 мм.</option>
-                                        <option value="2">От 100 до 125 мм.</option>
-                                        <option value="3">От 125 до 150 мм.</option>
+                                        {/* <option value="0">- Выберите диаметр -</option> */}
+                                        <option value="1">До 110 мм.</option>
+                                        <option value="2">От 160 до 200 мм.</option>
                                     </select>
                                 </div>
                             </div>
@@ -215,8 +215,8 @@ export default function Calculator() {
                                 <div className={styles.input_wrapper}>
                                     <label htmlFor="diameter">Предполагаемый диаметр cети (мм.):</label>
                                     <select name="" id="diameter" value={diameter} onChange={e => setDiameter(+e.target.value)}>
-                                        <option value="0">- Выберите диаметр -</option>
                                         <option value="1">До 160 мм.</option>
+                                        <option value="2">От 160 до 200 мм.</option>
                                     </select>
                                 </div>
                             </div>
