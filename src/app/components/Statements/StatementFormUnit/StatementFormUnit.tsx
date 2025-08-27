@@ -1,4 +1,6 @@
 'use client';
+
+import Link from 'next/link';
 import router from 'next/router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -16,6 +18,7 @@ interface FormData {
     power?: string;
     date?: string;
     files2?: FileList;
+    agreement?: boolean;
 }
 
 export default function StatementFormUnit() {
@@ -246,6 +249,16 @@ export default function StatementFormUnit() {
                                         ))}
                                     </ul>
                                 </div>
+                            </div>
+
+                            <div className="agreement">
+                                <div className="agreement_wrapper">
+                                <input type="checkbox" id="agreement" {...register('agreement', { required: 'Подтвердите согласие с условиями обработки персональных данных' })} />
+                                    <label htmlFor="agreement">
+                                        Я согласен с условиями <Link target='_blank' href="/terms-of-service">обработки персональных данных</Link>
+                                    </label>
+                                </div>
+                                {errors.agreement && <span className="error_agreement">{errors.agreement.message}</span>}
                             </div>
 
                             <button type="submit" className="appButton appButton--full" disabled={isSending}>

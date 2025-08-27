@@ -1,13 +1,16 @@
 'use client';
+
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { FieldValues, useForm, UseFormRegister } from 'react-hook-form';
+import { FieldErrors, FieldValues, useForm, UseFormRegister } from 'react-hook-form';
 
 import { Button, SuccessMessage } from '@/app/components';
 
 import styles from './styles.module.scss';
 
 interface ComponentFormReadingsProps {
+    agreement?: boolean;
     register: UseFormRegister<FieldValues>;
     error: string;
     isSending: boolean;
@@ -18,7 +21,7 @@ interface ComponentFormReadingsProps {
     handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleRemoveFile: (index: number) => void;
     setValue: (name: string, value: FileList) => void;
-
+    errors: FieldErrors<FieldValues>;
 }
 
 export default function ContentPage() {
@@ -28,7 +31,7 @@ export default function ContentPage() {
     const [isSuccess, setIsSuccess] = useState(false);
     const [error, setError] = useState<string>('');
     const [files, setFiles] = useState<File[]>([]);
-    const { register, handleSubmit, setValue } = useForm();
+    const { register, handleSubmit, setValue, formState: { errors } } = useForm();
 
     const handleFormSubmit = async (formData: FieldValues) => {
         setIsSending(true);
@@ -149,6 +152,7 @@ export default function ContentPage() {
                                     handleFileChange={handleFileChange}
                                     handleRemoveFile={handleRemoveFile}
                                     setValue={setValue}
+                                    errors={errors}
                                 />
                             </form>
                         </>
@@ -166,6 +170,7 @@ const ComponentFormCallController = ({
     setIsDefaultForm,
     isDefaultForm,
     files,
+    errors,
     handleFileChange,
     handleRemoveFile }: ComponentFormReadingsProps) => {
         
@@ -350,7 +355,16 @@ const ComponentFormCallController = ({
 
                 <div className={styles.form_content}>
                     <p>Согласно Федеральному закону № 152–ФЗ от 27.07.2006 г. «О персональных данных», я согласен на обработку персональных данных. До моего сведения доведено, что МУП «Находка-Водоканал» гарантирует обработку моих персональных данных в соответствии с действующим законодательством РФ.*</p>
+                </div>
 
+                <div className="agreement">
+                    <div className="agreement_wrapper">
+                    <input type="checkbox" id="agreement" {...register('agreement', { required: 'Подтвердите согласие с условиями обработки персональных данных' })} />
+                        <label htmlFor="agreement">
+                            Я согласен с условиями <Link target='_blank' href="/terms-of-service">обработки персональных данных</Link>
+                        </label>
+                    </div>
+                    {errors.agreement && <span className="error_agreement">{errors.agreement.message as string}</span>}
                 </div>
 
                 <button type="submit" className='appButton' disabled={isSending}>

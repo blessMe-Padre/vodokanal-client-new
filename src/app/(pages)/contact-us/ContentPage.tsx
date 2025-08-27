@@ -1,4 +1,6 @@
 'use client';
+
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FieldErrors, FieldValues, useForm, UseFormRegister, UseFormSetValue } from 'react-hook-form';
@@ -10,11 +12,12 @@ import styles from './styles.module.scss';
 interface ComponentFormReadingsProps {
     register: UseFormRegister<FieldValues>;
     setValue: UseFormSetValue<FieldValues>;
-    errors: FieldErrors<FieldValues>;
     error: string;
     isSending: boolean;
     files: File[];
     setFiles: React.Dispatch<React.SetStateAction<File[]>>;
+    agreement?: boolean;
+    errors: FieldErrors<FieldValues>;
 }
 
 export default function ContentPage() {
@@ -111,7 +114,7 @@ export default function ContentPage() {
     );
 }
 
-const ComponentFormContactUs = ({ register, isSending, files, setFiles }: ComponentFormReadingsProps) => {
+const ComponentFormContactUs = ({ register, isSending, files, setFiles, errors }: ComponentFormReadingsProps) => {
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newFiles = Array.from(e.target.files || []);
@@ -223,6 +226,16 @@ const ComponentFormContactUs = ({ register, isSending, files, setFiles }: Compon
                                 </li>
                             ))}
                         </ul>
+
+                        <div className="agreement">
+                    <div className="agreement_wrapper">
+                    <input type="checkbox" id="agreement" {...register('agreement', { required: 'Подтвердите согласие с условиями обработки персональных данных' })} />
+                        <label htmlFor="agreement">
+                            Я согласен с условиями <Link target='_blank' href="/terms-of-service">обработки персональных данных</Link>
+                        </label>
+                    </div>
+                    {errors.agreement && <span className="error_agreement">{errors.agreement.message as string}</span>}
+                </div>
                         <div className="button-container">
                             <button type="submit" className="appButton appButton--full" disabled={isSending}>
                                 {isSending ? (
