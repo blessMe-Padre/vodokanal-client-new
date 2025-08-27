@@ -49,8 +49,6 @@ export default function ContentPage() {
         });
         formDataToSend.append('date', date);
 
-        console.log("formDataToSend", formDataToSend);
-
         // Добавляем файлы в FormData
         files.forEach((file) => {
             formDataToSend.append('files', file);
@@ -187,8 +185,8 @@ const ComponentFormCallController = ({
         { label: 'E-mail', name: 'call_email' },
         { label: 'Адрес, по которому расположен узел учета*', name: 'call_address_2' },
         { label: 'Предполагаемая дата и время ввода в эксплуатацию узла учета', name: 'date_call' },
-        { label: 'Место установки ИПУ*', name: 'date_call', placeholder: '(например: кухня, санузел, общий санузел и т.д.)' },
-        { label: 'Тип ИПУ*', name: 'date_call', placeholder: '(см. в паспорте ИПУ, например, ВСКМ-15, VLF-15U)' },
+        { label: 'Место установки ИПУ*', name: 'ipu_place', placeholder: '(например: кухня, санузел, общий санузел и т.д.)' },
+        { label: 'Тип ИПУ*', name: 'ipu_type', placeholder: '(см. в паспорте ИПУ, например, ВСКМ-15, VLF-15U)' },
         { label: 'После повторной установки припломбированной пломбы демонтаж в связи с', name: 'call_after_demount' },
         { label: 'Заводской № ИПУ*', name: 'ipu_number', placeholder: '(см. в паспорте ИПУ)' },
         { label: 'Дата поверки ИПУ*', name: 'date_check_ipu', placeholder: '(см. в паспорте ИПУ)' },
@@ -275,7 +273,8 @@ const ComponentFormCallController = ({
                                                 <input
                                                     type="text"
                                                     className='appInput'
-                                                    placeholder='' {...register(i.name)}
+                                                    placeholder=''
+                                                    {...register(i.name)}
                                                     required
                                                 />
                                             </div>
