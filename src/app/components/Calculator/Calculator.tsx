@@ -15,38 +15,42 @@ export default function Calculator() {
     const [consumption, setConsumption] = useState(0);
     const [consumptionWater, setConsumptionWater] = useState(0);
     const [length, setLength] = useState(0);
-    const [diameter, setDiameter] = useState(0);
+    const [lengthWater, setLengthWater] = useState(0);
+    const [diameter, setDiameter] = useState(1);
+    const [diameterWater, setDiameterWater] = useState(1);
     const [asphalt, setAsphalt] = useState(false);
+    const [asphaltWater, setAsphaltWater] = useState(false);
 
     // Примерные тарифы (можно заменить на реальные)
-    const bazovayStoimost: number = 1600; // Предполагаемый расход (кубометров в сутки): на 1 кубометр в сутки
-    const bazovayStoimostWater: number = 1082; // Предполагаемый расход (кубометров в сутки): на 1 кубометр в сутки
+    const bazovayStoimost: number = 1015; // Водоснабжение
+    const bazovayStoimostWater: number = 1473; // Водоотведение
     const diametrSety: number[] = [
-        5500, // До 100 мм.
-        6000, // От 100 до 125 мм.
-        6500, // От 125 до 150 мм.
+        7457.97, // До 110 мм. (тыс. руб/км)
+        10333.60, // От 160 до 200 мм. (тыс. руб/км)
     ];
     const diametrSetyWater: number[] = [
-        6340, // До 160 мм.
+        9104, // До 160 мм. (тыс. руб/км)
+        10005, // От 160 до 200 мм. (тыс. руб/км)
     ];
-    const asphaltStoimost: number = 1700;
+    const asphaltStoimost: number = 1140; // стоимость восстановления водоснабжения за 1 км
+    const asphaltStoimostWater: number = 1578; // стоимость восстановления водоотведения за 1 км
     const NDC: number = 0.2; // 20% НДС
 
-    // Расчет стоимости
+    // Расчет стоимости водоснабжения
     const calcNetwork = () => {
-        if (diameter === 0) return 0;
-        let base = length * diametrSety[diameter - 1];
+        if (diameter < 1 || diameter > 2) return 0;
+        let base = length * (diametrSety[diameter - 1] / 1000);
 
-        if (asphalt) base += asphaltStoimost * length;
+        if (asphalt) base += (asphaltStoimost * length) / 1000; // делим на 1000, так как стоимость за км, а длина в метрах
         return base;
     };
 
-    // Расчет стоимости
+    // Расчет стоимости водоотведения
     const calcNetworkWater = () => {
-        if (diameter === 0) return 0;
-        let base = length * diametrSetyWater[diameter - 1];
+        if (diameterWater < 1 || diameterWater > 2) return 0;
+        let base = lengthWater * (diametrSetyWater[diameterWater - 1] / 1000);
 
-        if (asphalt) base += asphaltStoimost * length;
+        if (asphaltWater) base += (asphaltStoimostWater * lengthWater) / 1000; // делим на 1000, так как стоимость за км, а длина в метрах
         return base;
     };
 
@@ -140,10 +144,9 @@ export default function Calculator() {
                                 <div className={styles.input_wrapper}>
                                     <label htmlFor="diameter">Предполагаемый диаметр cети (мм.):</label>
                                     <select name="" id="diameter" value={diameter} onChange={e => setDiameter(+e.target.value)}>
-                                        <option value="0">- Выберите диаметр -</option>
-                                        <option value="1">До 100 мм.</option>
-                                        <option value="2">От 100 до 125 мм.</option>
-                                        <option value="3">От 125 до 150 мм.</option>
+                                        {/* <option value="0">- Выберите диаметр -</option> */}
+                                        <option value="1">До 110 мм.</option>
+                                        <option value="2">От 160 до 200 мм.</option>
                                     </select>
                                 </div>
                             </div>
@@ -159,24 +162,24 @@ export default function Calculator() {
                         <div className={styles.result_table}>
                             <div className={styles.result_total}>
                                 <h3>Расчеты </h3>
-                                <p>Подключение: <span>{totalConsumptionNDC.toLocaleString()}</span></p>
-                                <p>Сеть: <span>{networkNDC.toLocaleString()}</span></p>
-                                <p>Итого: <span>{totalNDC.toLocaleString()}</span></p>
+                                <p>Подключение: <span>{totalConsumptionNDC.toFixed(2)}</span></p>
+                                <p>Сеть: <span>{networkNDC.toFixed(2)}</span></p>
+                                <p>Итого: <span>{totalNDC.toFixed(2)}</span></p>
                             </div>
                             <div className={styles.result_cost}>
                                 <h2>Расчетная стоимость</h2>
                                 <div className={styles.result_inner}>
                                     <div className={styles.result_inner_item}>
                                         <h3>Без НДС, руб</h3>
-                                        <p>{totalConsumption.toLocaleString()}</p>
-                                        <p>{network.toLocaleString()}</p>
-                                        <p>{total.toLocaleString()}</p>
+                                        <p>{totalConsumption.toFixed(2)}</p>
+                                        <p>{network.toFixed(2)}</p>
+                                        <p>{total.toFixed(2)}</p>
                                     </div>
                                     <div className={styles.result_inner_item}>
                                         <h3>С НДС, руб</h3>
-                                        <p>{totalConsumptionNDC.toLocaleString()}</p>
-                                        <p>{networkNDC.toLocaleString()}</p>
-                                        <p>{totalNDC.toLocaleString()}</p>
+                                        <p>{totalConsumptionNDC.toFixed(2)}</p>
+                                        <p>{networkNDC.toFixed(2)}</p>
+                                        <p>{totalNDC.toFixed(2)}</p>
                                     </div>
                                 </div>
                             </div>
@@ -197,8 +200,8 @@ export default function Calculator() {
                         <div>
                             <h3>Подключение</h3>
                             <div className={styles.input_wrapper}>
-                                <label htmlFor="consumption">Предполагаемый расход (кубометров в сутки):</label>
-                                <input type="number" id="consumption" value={consumptionWater} onChange={e => setConsumptionWater(+e.target.value)} />
+                                <label htmlFor="consumptionWater">Предполагаемый расход (кубометров в сутки):</label>
+                                <input type="number" id="consumptionWater" value={consumptionWater} onChange={e => setConsumptionWater(+e.target.value)} />
                             </div>
                         </div>
 
@@ -207,24 +210,24 @@ export default function Calculator() {
                             <div className={styles.tab_item_row}>
                                 <div className={styles.input_group}>
                                     <div className={styles.input_wrapper}>
-                                        <label htmlFor="length">Предполагаемая длина сети (метров):</label>
-                                        <input type="number" id="length" value={length} onChange={e => setLength(+e.target.value)} />
+                                        <label htmlFor="lengthWater">Предполагаемая длина сети (метров):</label>
+                                        <input type="number" id="lengthWater" value={lengthWater} onChange={e => setLengthWater(+e.target.value)} />
                                     </div>
                                 </div>
 
                                 <div className={styles.input_wrapper}>
-                                    <label htmlFor="diameter">Предполагаемый диаметр cети (мм.):</label>
-                                    <select name="" id="diameter" value={diameter} onChange={e => setDiameter(+e.target.value)}>
-                                        <option value="0">- Выберите диаметр -</option>
+                                    <label htmlFor="diameterWater">Предполагаемый диаметр cети (мм.):</label>
+                                    <select name="" id="diameterWater" value={diameterWater} onChange={e => setDiameterWater(+e.target.value)}>
                                         <option value="1">До 160 мм.</option>
+                                        <option value="2">От 160 до 200 мм.</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
 
                         <div className={styles.input_checkbox_wrapper}>
-                            <input type="checkbox" id="asphalt" value="20000" name="asphalt" checked={asphalt} onChange={e => setAsphalt(e.target.checked)} />
-                            <label htmlFor="asphalt">Учитывать работы по восстановлению асфальтового покрытия</label>
+                            <input type="checkbox" id="asphaltWater" value="20000" name="asphaltWater" checked={asphaltWater} onChange={e => setAsphaltWater(e.target.checked)} />
+                            <label htmlFor="asphaltWater">Учитывать работы по восстановлению асфальтового покрытия</label>
                         </div>
                     </div>
 
@@ -232,24 +235,24 @@ export default function Calculator() {
                         <div className={styles.result_table}>
                             <div className={styles.result_total}>
                                 <h3>Расчеты </h3>
-                                <p>Подключение: <span>{totalConsumptionWaterNDC.toLocaleString()}</span></p>
-                                <p>Сеть: <span>{networkWaterNDC.toLocaleString()}</span></p>
-                                <p>Итого: <span>{totalWaterNDC.toLocaleString()}</span></p>
+                                <p>Подключение: <span>{totalConsumptionWaterNDC.toFixed(2)}</span></p>
+                                <p>Сеть: <span>{networkWaterNDC.toFixed(2)}</span></p>
+                                <p>Итого: <span>{totalWaterNDC.toFixed(2)}</span></p>
                             </div>
                             <div className={styles.result_cost}>
                                 <h2>Расчетная стоимость</h2>
                                 <div className={styles.result_inner}>
                                     <div className={styles.result_inner_item}>
                                         <h3>Без НДС, руб</h3>
-                                        <p>{totalConsumptionWater.toLocaleString()}</p>
-                                        <p>{networkWater.toLocaleString()}</p>
-                                        <p>{totalWater.toLocaleString()}</p>
+                                        <p>{totalConsumptionWater.toFixed(2)}</p>
+                                        <p>{networkWater.toFixed(2)}</p>
+                                        <p>{totalWater.toFixed(2)}</p>
                                     </div>
                                     <div className={styles.result_inner_item}>
                                         <h3>С НДС, руб</h3>
-                                        <p>{totalConsumptionWaterNDC.toLocaleString()}</p>
-                                        <p>{networkWaterNDC.toLocaleString()}</p>
-                                        <p>{totalWaterNDC.toLocaleString()}</p>
+                                        <p>{totalConsumptionWaterNDC.toFixed(2)}</p>
+                                        <p>{networkWaterNDC.toFixed(2)}</p>
+                                        <p>{totalWaterNDC.toFixed(2)}</p>
                                     </div>
                                 </div>
                             </div>

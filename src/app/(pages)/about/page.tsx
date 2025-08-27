@@ -52,10 +52,10 @@ export default async function About() {
                 <div className={styles.counter_item}>
                     <div className={styles.counter_item_title}>
                         <span>&gt;</span>
-                        <Counter endValue={300} className="increement" />
+                        <Counter endValue={40} className="increement" />
                         <span> ед</span>
                     </div>
-                    <p>специалистов в штате</p>
+                    <p>насосных станций</p>
                 </div>
             </section>
 

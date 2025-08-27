@@ -34,8 +34,6 @@ export async function POST(request: NextRequest) {
         };
       })
     );
-
-    // получаем в result все что уполо в api
     const result = await sendEmail(formFields, fileBuffers);
 
     return NextResponse.json({

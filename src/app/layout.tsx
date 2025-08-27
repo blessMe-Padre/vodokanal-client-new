@@ -27,8 +27,8 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: "МУП Находка-Водоканал",
-  description: "",
+  title: "МУП «Находка-Водоканал» - всегда на связи с городом",
+  description: "МУП «Находка-Водоканал» - всегда на связи с городом",
 };
 
 export default function RootLayout({

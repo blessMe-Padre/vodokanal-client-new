@@ -13,7 +13,7 @@
     }
 
     .contract_item {
-        width: 50%;
+        width: 100%;
         border-radius: 20px;
         @include adaptiv-value("padding", 32, 30);
         background-color: var(--light-gray);
