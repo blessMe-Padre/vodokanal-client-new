@@ -158,5 +158,5 @@ export default async function makeDocxBorder(body: Record<string, string>) {
     fs.writeFileSync(filePath, buffer);
 
     // Возвращаем путь относительно public
-    return `/tmp/${filename}`;
+    return `/documents/${filename}`;
 }

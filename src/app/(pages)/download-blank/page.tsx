@@ -21,7 +21,10 @@ export const metadata = {
 
 export default async function Rates() {
     const data: RatesResponse = await fetchData('/api/blanki-dlya-yuridicheskih-liczs?populate=*');
+    const data2: RatesResponse = await fetchData('/api/blanki-dlya-fizicheskij-liczs?populate=*');
     const ratesList: RatesList[] = data.data;
+    const ratesList2: RatesList[] = data2.data;
+
 
     return (
         <section className={styles.section}>
@@ -44,6 +47,24 @@ export default async function Rates() {
                                     link={`${process.env.NEXT_PUBLIC_API_SERVER}${rate?.file?.url}`}
                                 />
 
+                            </AnimateElement>
+                        ))}
+                </ul>
+                <p className={styles.desc}>В этом разделе размещаются бланки для физических лиц</p>
+                <ul className={styles.ratesList}>
+                    {ratesList2.length > 0 &&
+                        ratesList2.map((rate, index) => (
+                            <AnimateElement
+                                element="li"
+                                animationName='fadeRight'
+                                animationDelay={index * 100}
+                                key={index}
+                            >
+                                <DownloadDocumentComponent
+                                    key={index}
+                                    title={rate?.title}
+                                    link={`${process.env.NEXT_PUBLIC_API_SERVER}${rate?.file?.url}`}
+                                />
                             </AnimateElement>
                         ))}
                 </ul>
