@@ -44,7 +44,7 @@ const navLinks: NavLink[] = [
         href: "/transmission-of-readings"
     },
     {
-        title: "Связаться с нами",
+        title: "Обращение в водоканал",
         href: "/contact-us"
     },
     {
@@ -52,7 +52,7 @@ const navLinks: NavLink[] = [
         href: "/call-controller"
     },
     {
-        title: "Калькулятор",
+        title: "Калькулятор стоимости подключения",
         href: "/connection"
     },
     {
@@ -72,7 +72,6 @@ const navLinks: NavLink[] = [
 export default function Footer() {
     const pathname = usePathname();
     const [contacts, setContacts] = useState<Contact[]>([]);
-
 
     useEffect(() => {
         const fetchContacts = async () => {
@@ -98,10 +97,6 @@ export default function Footer() {
                 <div className={styles.footer_info}>
                     {/* Первая колонка - логотипы */}
                     <div className={styles.logos_column}>
-                        <Link className={styles.uslugi_logo} href={'https://gosuslugi.primorsky.ru/main.htm'} target="_blank">
-                            <Image src={uslugi} alt="uslugi" />
-                        </Link>
-
                         <Link href={'/'} className={styles.logo}>
                             <Image src={logo} width={50} height={50} alt="logo" />
                             <div>
@@ -109,6 +104,10 @@ export default function Footer() {
                                 <h1 className={`${styles.logo_title} font-inter font-me`}>МУП Находка-Водоканал</h1>
                             </div>
                         </Link>
+                        <Link className={styles.uslugi_logo} href={'https://gosuslugi.primorsky.ru/main.htm'} target="_blank">
+                            <Image src={uslugi} alt="uslugi" />
+                        </Link>
+
                     </div>
 
                     {/* Вторая колонка - навигация */}
