@@ -21,6 +21,7 @@
 /build
 /tmp
 /logs
+/public/documents
 
 # misc
 .DS_Store
