@@ -192,7 +192,7 @@ export default function StatementFormBorder() {
                                 </div>
 
                                 <div className={styles.form_row}>
-                                    <label htmlFor='address'>Прошу выдать технические условия на проектирование узла учета потребляемой объекта:</label>
+                                    <label htmlFor='address'>Наименование объекта</label>
                                     <div className={styles.input_wrapper}>
                                         <input
                                             id='address'
@@ -282,14 +282,14 @@ export default function StatementFormBorder() {
                                 </div>
 
                                 <div className="agreement">
-                                <div className="agreement_wrapper">
-                                <input type="checkbox" id="agreement" {...register('agreement', { required: 'Подтвердите согласие с условиями обработки персональных данных' })} />
-                                    <label htmlFor="agreement">
-                                        Я согласен с условиями <Link target='_blank' href="/terms-of-service">обработки персональных данных</Link>
-                                    </label>
+                                    <div className="agreement_wrapper">
+                                        <input type="checkbox" id="agreement" {...register('agreement', { required: 'Подтвердите согласие с условиями обработки персональных данных' })} />
+                                        <label htmlFor="agreement">
+                                            Я согласен с условиями <Link target='_blank' href="/terms-of-service">обработки персональных данных</Link>
+                                        </label>
+                                    </div>
+                                    {errors.agreement && <span className="error_agreement">{errors.agreement.message}</span>}
                                 </div>
-                                {errors.agreement && <span className="error_agreement">{errors.agreement.message}</span>}
-                            </div>
 
                                 <button type="submit" className="appButton appButton--full" disabled={isSending}>
                                     {isSending ? (
