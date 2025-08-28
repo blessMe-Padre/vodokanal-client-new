@@ -226,5 +226,5 @@ export default async function makeDocx(body: Record<string, string>) {
     fs.writeFileSync(filePath, buffer);
 
     // Возвращаем путь относительно public
-    return `/documents/${filename}`;
+    return `/tmp/${filename}`;
 }

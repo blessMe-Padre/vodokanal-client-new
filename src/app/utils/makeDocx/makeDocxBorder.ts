@@ -119,7 +119,7 @@ export default async function makeDocxBorder(body: Record<string, string>) {
                 // Раздел 2
                 createSection("Объекта расположенного по адресу:",
                     `${body.object_address}`),
-               
+
                 // Раздел 6
                 new Paragraph({
                     children: [
@@ -127,7 +127,7 @@ export default async function makeDocxBorder(body: Record<string, string>) {
                             text: "1 Исполнительная съемка на проложенную сеть (масштаб 1:500)",
                             size: 24,
                             bold: true,
-                        }),                 
+                        }),
                     ],
                 }),
 
@@ -158,5 +158,5 @@ export default async function makeDocxBorder(body: Record<string, string>) {
     fs.writeFileSync(filePath, buffer);
 
     // Возвращаем путь относительно public
-    return `/documents/${filename}`;
+    return `/tmp/${filename}`;
 }

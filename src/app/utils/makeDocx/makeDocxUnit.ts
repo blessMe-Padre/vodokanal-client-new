@@ -168,5 +168,5 @@ export default async function makeDocxUnit(body: Record<string, string>) {
     fs.writeFileSync(filePath, buffer);
 
     // Возвращаем путь относительно public
-    return `/documents/${filename}`;
+    return `/tmp/${filename}`;
 }
