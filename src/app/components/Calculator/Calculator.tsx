@@ -22,6 +22,7 @@ export default function Calculator() {
     const [asphaltWater, setAsphaltWater] = useState(false);
 
     // Примерные тарифы (можно заменить на реальные)
+    const NDC: number = 0.2; // 20% НДС
     const bazovayStoimost: number = 1015; // Водоснабжение
     const bazovayStoimostWater: number = 1473; // Водоотведение
     const diametrSety: number[] = [
@@ -32,9 +33,11 @@ export default function Calculator() {
         9104, // До 160 мм. (тыс. руб/км)
         10005, // От 160 до 200 мм. (тыс. руб/км)
     ];
-    const asphaltStoimost: number = 1140; // стоимость восстановления водоснабжения за 1 км
-    const asphaltStoimostWater: number = 1578; // стоимость восстановления водоотведения за 1 км
-    const NDC: number = 0.2; // 20% НДС
+    const asphaltStoimost: number = 1140; // стоимость восстановления водоснабжения за 1 км 
+    const asphaltStoimostDiametr200: number = 1120; // стоимость восстановления водоснабжения за 1 км
+
+    const asphaltStoimostWater: number = 1578; // стоимость восстановления асфальта за 1 км диаметр < 160
+    const asphaltStoimostWaterDiametr200: number = 1530; // стоимость восстановления асфальта за 1 км диаметр > 160
 
     // Расчет стоимости водоснабжения
     const calcNetwork = () => {
