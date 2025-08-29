@@ -80,12 +80,12 @@ export default function Calculator() {
         if (diameterWater < 1 || diameterWater > 2) return 0;
 
         // Базовая стоимость прокладки сети
-        const networkCost = lengthWater * (diametrSetyWater[diameterWater - 1] / 1000);
+        const networkCost = lengthWater * (diametrSetyWater[diameterWater - 1]);
 
         // Стоимость восстановления асфальта
         let asphaltCost = 0;
         if (asphaltWater) {
-            asphaltCost = (getAsphaltCost(diameterWater, true) * lengthWater) / 1000;
+            asphaltCost = (getAsphaltCost(diameterWater, true) * lengthWater);
         }
 
         return {
