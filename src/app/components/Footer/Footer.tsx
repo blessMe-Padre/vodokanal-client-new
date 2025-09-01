@@ -48,7 +48,7 @@ const navLinks: NavLink[] = [
         href: "/contact-us"
     },
     {
-        title: "Вызвать оператора",
+        title: "Ввызов оператора",
         href: "/call-controller"
     },
     {
@@ -64,7 +64,7 @@ const navLinks: NavLink[] = [
         href: "/anti-corruption"
     },
     {
-        title: "Скачать бланки",
+        title: "Скачать бланки заявлений",
         href: "/download-blank"
     }
 ]
@@ -101,7 +101,7 @@ export default function Footer() {
                             <Image src={logo} width={50} height={50} alt="logo" />
                             <div>
                                 <p className={`${styles.logo_sub_title} font-inter`}>Муниципальное унитарное предприятие</p>
-                                <h1 className={`${styles.logo_title} font-inter font-me`}>МУП Находка-Водоканал</h1>
+                                <h1 className={`${styles.logo_title} font-inter font-me`}>«Находка-Водоканал»</h1>
                             </div>
                         </Link>
                         <Link className={styles.uslugi_logo} href={'https://gosuslugi.primorsky.ru/main.htm'} target="_blank">
