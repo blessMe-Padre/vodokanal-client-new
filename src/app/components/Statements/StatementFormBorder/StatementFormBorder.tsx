@@ -188,7 +188,6 @@ export default function StatementFormBorder() {
                                 <div className={styles.statement_title}>
                                     <h3>Заявление</h3>
                                     <p>Прошу выдать акт разграничения эксплуатационной и балансовой ответственности сторон по водопроводным и канализационным сетям на них между МУП «Находка  - Водоканал» и абонентом:</p>
-
                                 </div>
 
                                 <div className={styles.form_row}>
