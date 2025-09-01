@@ -60,12 +60,12 @@ export default function Calculator() {
         if (diameter < 1 || diameter > 2) return 0;
 
         // Базовая стоимость прокладки сети
-        const networkCost = length * (diametrSety[diameter - 1] / 1000);
+        const networkCost = length * (diametrSety[diameter - 1]);
 
         // Стоимость восстановления асфальта
         let asphaltCost = 0;
         if (asphalt) {
-            asphaltCost = (getAsphaltCost(diameter) * length) / 1000;
+            asphaltCost = (getAsphaltCost(diameter) * length);
         }
 
         return {
@@ -196,9 +196,9 @@ export default function Calculator() {
                             {/* Информация о выбранном диаметре */}
                             <div className={styles.diameter_info}>
                                 <p><strong>Выбранный диаметр:</strong> {getDiameterName(diameter)}</p>
-                                <p><strong>Стоимость прокладки:</strong> {diametrSety[diameter - 1]} тыс. руб/км</p>
+                                <p><strong>Стоимость прокладки:</strong> {diametrSety[diameter - 1]} тыс. руб/м</p>
                                 {asphalt && (
-                                    <p><strong>Стоимость асфальта:</strong> {getAsphaltCost(diameter)} тыс. руб/км</p>
+                                    <p><strong>Стоимость асфальта:</strong> {getAsphaltCost(diameter)} тыс. руб/м</p>
                                 )}
                             </div>
                         </div>
