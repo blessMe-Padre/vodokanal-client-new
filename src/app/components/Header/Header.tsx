@@ -16,7 +16,6 @@ import styles from "./style.module.scss";
 
 import type { Variants } from "framer-motion";
 
-
 type NavLink = {
     title: string;
     href: string;
@@ -43,17 +42,17 @@ const navLinks: NavLink[] = [
         title: "О компании",
         href: "/about"
     },
-    {
-        title: "Передача показаний через сайт",
-        href: "/transmission-of-readings"
-    },
+    // {
+    //     title: "Передача показаний через сайт",
+    //     href: "/transmission-of-readings"
+    // },
     {
         title: "Новости",
         href: "/news"
     },
     {
-        title: "Противодействие коррупции",
-        href: "/anti-corruption"
+        title: "Скачать бланки заявлений",
+        href: "/download-blank"
     },
     {
         title: "Раскрытие информации",
@@ -166,7 +165,6 @@ export default function Header() {
         setMobileMenuOpened(!mobileMenuOpened);
     };
 
-
     return (
         <header className={styles.header}>
             <div className="container">
@@ -185,7 +183,7 @@ export default function Header() {
                         <Image src={logo} width={50} height={50} alt="logo" />
                         <div>
                             <p className={`${styles.logo_sub_title} font-inter`}>Муниципальное унитарное предприятие</p>
-                            <h1 className={`${styles.logo_title} font-inter font-me`}>«Находка-Водоканал»: </h1>
+                            <h1 className={`${styles.logo_title} font-inter font-me`}>«Находка-Водоканал» </h1>
                         </div>
                     </Link>
                     <Link href={'/'} className={styles.mobile_logos}>
@@ -228,7 +226,7 @@ export default function Header() {
                             </div>
                         ))}
                     </div>
-                    
+
                     <Link href={'https://gosuslugi.primorsky.ru/main.htm'} className={styles.desktop_logo} target="_blank">
                         <Image src={uslugi} alt="uslugi" />
                     </Link>

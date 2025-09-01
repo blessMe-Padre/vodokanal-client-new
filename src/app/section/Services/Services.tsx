@@ -20,7 +20,7 @@ const items: Services[] = [
         link: '/transmission-of-readings'
     },
     {
-        title: 'Вызвать контролёра',
+        title: 'Вызов контролёра',
         desc: 'Заполните заявку и контролер свяжется с вами для согласования времени',
         link: '/call-controller'
     },

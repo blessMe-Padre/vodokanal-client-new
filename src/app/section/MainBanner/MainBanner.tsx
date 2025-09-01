@@ -7,23 +7,23 @@ import { LinkCustom } from '@/app/components';
 
 import styles from './style.module.scss';
 
-export default function News() { 
+export default function News() {
     return (
         <section className={styles.section_banner}>
             <div className={styles.main_banner}>
                 <div className={styles.main_banner_small}>
-                    <h2>Находка-Водоканал — всегда на связи с городом</h2>
+                    <h2>МУП «Находка-Водоканал» — всегда на связи с городом</h2>
                     <p>Передайте показания, оплатите услуги  <br /> и получите поддержку — всё в пару кликов</p>
-                    
+
                     <LinkCustom href={'/transmission-of-readings'} text='Передать показания' />
-                    
+
                     <Image src={banner} className={styles.banner} alt='banner' />
                 </div>
                 <Image src={banner_s} className={styles.banner_small} alt='banner small' />
             </div>
 
 
-             <div className={styles.contacts_mobile}>
+            <div className={styles.contacts_mobile}>
                 <div className={styles.wrapper_contact_info}>
                     <Image src={phone} width={25} height={25} alt="phone" />
                     <div>

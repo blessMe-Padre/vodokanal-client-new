@@ -31,16 +31,17 @@
         text-transform: uppercase;
         @include adaptiv-value("font-size", 46, 23);
         @include adaptiv-value("margin-bottom", 30, 17);
-        
+
         font-weight: 800;
         color: var(--white);
-        max-width: 52%;
+        max-width: 68%;
 
 
         @media screen and (max-width: 780px) {
             max-width: 100%;
         }
     }
+
     p {
         position: relative;
         z-index: 2;
@@ -48,7 +49,7 @@
         font-weight: 700;
         @include adaptiv-value("font-size", 22, 16);
         @include adaptiv-value("margin-bottom", 30, 17);
-        
+
 
         max-width: 40%;
 
@@ -71,6 +72,7 @@
 
 .contacts_mobile {
     display: none;
+
     @media screen and (max-width: 580) {
         display: flex;
         flex-direction: column;
@@ -79,24 +81,24 @@
         margin-top: 30px;
     }
 
-    
+
     .wrapper_contact_info {
         display: flex;
         align-items: center;
         gap: 10px;
-        
+
         p {
             font-size: 12px;
             color: var(--main-color);
             margin-bottom: 2px;
         }
-        
+
         a {
             color: var(--main-color);
             text-decoration: none;
             font-size: 14px;
             font-weight: 700;
-            
+
             &:hover {
                 text-decoration: underline;
             }
