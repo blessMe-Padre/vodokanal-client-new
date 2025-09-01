@@ -48,7 +48,7 @@ const navLinks: NavLink[] = [
         href: "/contact-us"
     },
     {
-        title: "Ввызов оператора",
+        title: "Вызов контролёра",
         href: "/call-controller"
     },
     {

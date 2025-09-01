@@ -36,7 +36,7 @@ async function sendEmailLegal(body, files = []) {
             html: `
             <b>Имя:</b> ${body.client_name}<br>
             <b>Номер телефона:</b> ${body.client_phone}<br>
-            <b>ФИО:</b> ${body.full_name}<br>
+            <b>Сведения об огранизании:</b> ${body.full_name}<br>
             <b>Контактные данные лица:</b> ${body.address}<br><br>
             <b>Подключение к:</b> ${body.client_request}<br><br>
             <b>Адрес и кадастровый номер подключаемого объекта::</b> ${body.object_address}<br><br>
