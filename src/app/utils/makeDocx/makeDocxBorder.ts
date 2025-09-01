@@ -89,7 +89,7 @@ export default async function makeDocxBorder(body: Record<string, string>) {
                     alignment: AlignmentType.CENTER,
                     children: [
                         new TextRun({
-                            text: "ЗАПРОС",
+                            text: "Заявление",
                             bold: true,
                             size: 28,
                             allCaps: true,
@@ -102,7 +102,25 @@ export default async function makeDocxBorder(body: Record<string, string>) {
                     alignment: AlignmentType.CENTER,
                     children: [
                         new TextRun({
-                            text: "Прошу выдать технические условия на проектирование узла учета потребляемой объекта",
+                            text: "Прошу выдать акт разграничения эксплуатационной и балансовой",
+                            size: 24,
+                        }),
+                    ],
+                }),
+                new Paragraph({
+                    alignment: AlignmentType.CENTER,
+                    children: [
+                        new TextRun({
+                            text: "ответственности сторон по водопроводным и канализационным",
+                            size: 24,
+                        }),
+                    ],
+                }),
+                new Paragraph({
+                    alignment: AlignmentType.CENTER,
+                    children: [
+                        new TextRun({
+                            text: "сетям на них между МУП «Находка - Водоканал» и абонентом:",
                             size: 24,
                         }),
                     ],
@@ -114,7 +132,7 @@ export default async function makeDocxBorder(body: Record<string, string>) {
                 new Paragraph({ children: [new TextRun("")] }),
 
                 // Раздел 1
-                createSection("Прошу выдать акт разграничении эксплуатационной и балансовой ответственности сторон по водопроводным и канализационным сетям на них между МУП «Находка - Водоканал» и абонентом Объекта расположенного по адресу:", `${body.address}`),
+                createSection("Наименование объекта", `${body.address}`),
 
                 // Раздел 2
                 createSection("Объекта расположенного по адресу:",
@@ -124,7 +142,7 @@ export default async function makeDocxBorder(body: Record<string, string>) {
                 new Paragraph({
                     children: [
                         new TextRun({
-                            text: "1 Исполнительная съемка на проложенную сеть (масштаб 1:500)",
+                            text: "Ситуационный план земельного участка (масштаб 1:1000 или 1:2000). Исполнительная съемка на проложенную сеть (масштаб 1:500). Согласно Федерального закона №152-ФЗ от 27.07.2006 г. «О персональных данных».",
                             size: 24,
                             bold: true,
                         }),
@@ -146,7 +164,7 @@ export default async function makeDocxBorder(body: Record<string, string>) {
     });
 
     const buffer = await Packer.toBuffer(doc);
-    const filename = `Заявление ${body.full_name} - ${body.date}.docx`.replace(/[/\\?%*:|"<>]/g, '-');
+    const filename = `Заявление ${body.client_name} - ${body.date}.docx`.replace(/[/\\?%*:|"<>]/g, '-');
     const publicDir = path.join(process.cwd(), 'public', 'documents');
 
     // Создаем папку, если ее нет

@@ -19,6 +19,7 @@ interface FormData {
     date?: string;
     files2?: FileList;
     agreement?: boolean;
+    object_nagruzka?: string;
 }
 
 export default function StatementFormUnit() {
@@ -211,6 +212,19 @@ export default function StatementFormUnit() {
                                 {/* <p className={styles.form_row_description}>(адрес регистрации, контактный телефон, адрес электронной почты)</p> */}
                             </div>
 
+                            <div className={styles.form_row}>
+                                <label htmlFor='power'>Планируемая величина необходимой подключаемой нагрузки:</label>
+                                <div className={styles.input_wrapper}>
+                                    <input
+                                        id='power'
+                                        type="text"
+                                        className='appInput'
+                                        {...register('power', { required: 'Поле обязательно для заполнения' })}
+                                    />
+                                    {errors.power && <span className={styles.error}>{errors.power.message}</span>}
+                                </div>
+                            </div>
+
                             <div className={styles.documents}>
                                 <h2>Прикрепить документы</h2>
                                 <div className={styles.documents_wrapper}>
@@ -253,7 +267,7 @@ export default function StatementFormUnit() {
 
                             <div className="agreement">
                                 <div className="agreement_wrapper">
-                                <input type="checkbox" id="agreement" {...register('agreement', { required: 'Подтвердите согласие с условиями обработки персональных данных' })} />
+                                    <input type="checkbox" id="agreement" {...register('agreement', { required: 'Подтвердите согласие с условиями обработки персональных данных' })} />
                                     <label htmlFor="agreement">
                                         Я согласен с условиями <Link target='_blank' href="/terms-of-service">обработки персональных данных</Link>
                                     </label>

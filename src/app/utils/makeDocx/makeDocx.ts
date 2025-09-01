@@ -211,7 +211,7 @@ export default async function makeDocx(body: Record<string, string>) {
     });
 
     const buffer = await Packer.toBuffer(doc);
-    const filename = `Заявление ${body.full_name} - ${body.date}.docx`.replace(/[/\\?%*:|"<>]/g, '-');
+    const filename = `Запрос - ${body.full_name} - ${body.date}.docx`.replace(/[/\\?%*:|"<>]/g, '-');
     const publicDir = path.join(process.cwd(), 'public', 'documents');
 
     // Создаем папку, если ее нет

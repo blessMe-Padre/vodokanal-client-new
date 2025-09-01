@@ -89,7 +89,7 @@ export default async function makeDocxLegalPod(body: Record<string, string>) {
                     alignment: AlignmentType.CENTER,
                     children: [
                         new TextRun({
-                            text: "ЗАПРОС",
+                            text: "ЗАЯВЛЕНИЕ",
                             bold: true,
                             size: 28,
                             allCaps: true,
@@ -102,7 +102,7 @@ export default async function makeDocxLegalPod(body: Record<string, string>) {
                     alignment: AlignmentType.CENTER,
                     children: [
                         new TextRun({
-                            text: "о подключении ",
+                            text: "о подключении (технологическом присоединении) к",
                             size: 24,
                         }),
                     ],
@@ -111,7 +111,7 @@ export default async function makeDocxLegalPod(body: Record<string, string>) {
                     alignment: AlignmentType.CENTER,
                     children: [
                         new TextRun({
-                            text: "(технологическое присоединение) к централизованным системам",
+                            text: "централизованной системе холодного водоснабжения и (или)",
                             size: 24,
                         }),
                     ],
@@ -120,7 +120,7 @@ export default async function makeDocxLegalPod(body: Record<string, string>) {
                     alignment: AlignmentType.CENTER,
                     children: [
                         new TextRun({
-                            text: "холодного водоснабжения и (или) водоотведения",
+                            text: "водоотведения",
                             size: 24,
                         }),
                     ],
@@ -171,7 +171,7 @@ export default async function makeDocxLegalPod(body: Record<string, string>) {
                 new Paragraph({
                     children: [
                         new TextRun({
-                            text: "7.1 в том числе на нужды пожаротушенияй",
+                            text: "7.1 в том числе на нужды пожаротушения",
                             size: 24,
                             bold: true,
                         }),

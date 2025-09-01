@@ -37,7 +37,9 @@ async function sendEmailUnit(body, files = []) {
             <b>Имя:</b> ${body.client_name}<br>
             <b>Номер телефона:</b> ${body.client_phone}<br>
             <b>Объект:</b> ${body.object}<br>
-            <b>Объекта расположенного по адресу::</b> ${body.object_address}<br><br>
+            <b>Объекта расположенного по адресу::</b> ${body.object_address}<br>
+            <b>Планируемая величина необходимой подключаемой нагрузки::</b> ${body.power}
+            <br><br>
             `,
             attachments: attachments
         });
