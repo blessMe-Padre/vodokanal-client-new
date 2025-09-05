@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { FieldErrors, FieldValues, useForm, UseFormRegister } from 'react-hook-form';
 
 import { Button, SuccessMessage } from '@/app/components';
+import ContentRenderer from '@/app/components/ContentRenderer/ContentRenderer';
 
 import styles from './styles.module.scss';
 
@@ -24,7 +25,7 @@ interface ComponentFormReadingsProps {
     errors: FieldErrors<FieldValues>;
 }
 
-export default function ContentPage() {
+export default function ContentPage({ data }: { data: [] }) {
     const router = useRouter();
     const [isDefaultForm, setIsDefaultForm] = useState(true);
     const [isSending, setIsSending] = useState(false);
@@ -131,14 +132,7 @@ export default function ContentPage() {
                         </div>
                     ) : (
                         <>
-
-                            <p>Заполните предложенную заявку. В соответствии с законодательством время исполнения заявки - до 1 месяца. Накануне визита контролёр созвонится с вами и согласует время. Также вызвать контролёра вы можете по тел. 8(4236)745582.</p>
-                            <p>При заполнении заявки ВАЖНО правильно выбрать причину вызова контролёра.</p>
-                            <p>Если требуется внести показания ИПУ на момент установки ОБЯЗАТЕЛЬНО нужно вносить в формате – 5 цифр до точки и 3 цифры после точки. Лидирующие нули и десятичные значения вносить обязательно (например, 00123.059 или 00072.000). Показания, где все восемь цифр - нули, не передаются: даже если вы водомером не пользуетесь, он зафиксировал несколько литров воды при заводской поверке, внесите их значения после пяти нулей и точки.</p>
-                            <p>Обратите внимание:</p>
-
-                            <p>- Внимание! Причина вызова «Опломбирование вводов» означает их полное перекрытие! Выбирайте её ТОЛЬКО, КОГДА вы водой по указанному адресу не пользуетесь (В ЖИЛЬЕ НИКТО НЕ ПРОЖИВАЕТ). После опломбирования вам не придётся передавать показания или менять водомер даже с истёкшим МПИ.</p>
-                            <p>- Выбирайте причину «ВВОД установленного водомера В ЭКСПЛУАТАЦИЮ», если вы впервые установили водомер или заменили его после окончания МПИ. А также если сорвали пломбу без предварительного вызова контролёра.</p>
+                            <ContentRenderer content={data} />
 
                             <form className={styles.form} onSubmit={handleSubmit(handleFormSubmit)}>
                                 <ComponentFormCallController
@@ -163,7 +157,7 @@ export default function ContentPage() {
     );
 }
 
-const ComponentFormCallController = ({ 
+const ComponentFormCallController = ({
     register,
     isSending,
     error,
@@ -173,7 +167,7 @@ const ComponentFormCallController = ({
     errors,
     handleFileChange,
     handleRemoveFile }: ComponentFormReadingsProps) => {
-        
+
     const dataDefault = [
         { label: 'Фамилия, Имя, Отчество (или название компании)*', name: 'call_fio' },
         { label: 'Адрес (улица, дом, квартира)', name: 'call_address' },
@@ -234,36 +228,36 @@ const ComponentFormCallController = ({
                 </div>
 
                 {/* тело формы по умолчанию */}
-                {isDefaultForm ? ( 
+                {isDefaultForm ? (
                     <div className={styles.form_content}>
-                    <div className={styles.form_content_item}>
-                        <p className={styles.sub_title}>Индивидуальные приборы учета воды</p>
-                        {dataDefault.map((i, idx) => {
-                            if (idx !== 1 && idx !== 4) {
-                                return (
-                                    <div key={idx} className={styles.form_row}>
-                                        <label>{i.label}</label>
-                                        <input
-                                            type="text"
-                                            className='appInput'
-                                            placeholder='' {...register(i.name)}
-                                            required
-                                        />
-                                    </div>
-                                )
-                            } else {
-                                return (
-                                    <div key={idx} className={styles.form_row}>
-                                        <label>{i.label}</label>
-                                        <input
-                                            type="text"
-                                            className='appInput'
-                                            placeholder='' {...register(i.name)}
-                                        />
-                                    </div>
-                                )
-                            }
-                        })}
+                        <div className={styles.form_content_item}>
+                            <p className={styles.sub_title}>Индивидуальные приборы учета воды</p>
+                            {dataDefault.map((i, idx) => {
+                                if (idx !== 1 && idx !== 4) {
+                                    return (
+                                        <div key={idx} className={styles.form_row}>
+                                            <label>{i.label}</label>
+                                            <input
+                                                type="text"
+                                                className='appInput'
+                                                placeholder='' {...register(i.name)}
+                                                required
+                                            />
+                                        </div>
+                                    )
+                                } else {
+                                    return (
+                                        <div key={idx} className={styles.form_row}>
+                                            <label>{i.label}</label>
+                                            <input
+                                                type="text"
+                                                className='appInput'
+                                                placeholder='' {...register(i.name)}
+                                            />
+                                        </div>
+                                    )
+                                }
+                            })}
                         </div>
                     </div>
                 ) : (
@@ -272,7 +266,7 @@ const ComponentFormCallController = ({
                         <div className={styles.form_content}>
                             <div className={styles.form_content_item}>
                                 {dataNotDefault.map((i, idx) => {
-                                    if(idx === 0) {
+                                    if (idx === 0) {
                                         return (
                                             <div key={idx} className={styles.form_row}>
                                                 <label>{i.label}</label>
@@ -287,7 +281,7 @@ const ComponentFormCallController = ({
                                                 </select>
                                             </div>
                                         )
-                                    }else{
+                                    } else {
                                         return (
                                             <div key={idx} className={styles.form_row}>
                                                 <label>{i.label}</label>
@@ -359,7 +353,7 @@ const ComponentFormCallController = ({
 
                 <div className="agreement">
                     <div className="agreement_wrapper">
-                    <input type="checkbox" id="agreement" {...register('agreement', { required: 'Подтвердите согласие с условиями обработки персональных данных' })} />
+                        <input type="checkbox" id="agreement" {...register('agreement', { required: 'Подтвердите согласие с условиями обработки персональных данных' })} />
                         <label htmlFor="agreement">
                             Я согласен с условиями <Link target='_blank' href="/terms-of-service">обработки персональных данных</Link>
                         </label>

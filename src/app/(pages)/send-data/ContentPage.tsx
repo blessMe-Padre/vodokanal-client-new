@@ -328,12 +328,12 @@ const ComponentFormReadings = ({ register, errors, isSending }: ComponentFormRea
                                         touchedFields['house_number'] || false,
                                         'appInput'
                                     )}
-                                    placeholder='Номер дома'
+                                    placeholder='Номер дома (3 цифры) например: 012'
                                     {...register('house_number', {
                                         required: 'Номер дома обязателен',
                                         pattern: {
-                                            value: /^[\dа-яА-Я\/]+$/,
-                                            message: 'Номер дома может содержать цифры, буквы и символ /'
+                                            value: /^(?=.*\d)(?=.*[а-яА-Я])[\dа-яА-Я\/]{3,}$/i,
+                                            message: 'Номер дома может содержать 3 цифры, буквы и символ "/" (например: 012, 012а, 012/1)'
                                         },
                                         onChange: (e: React.ChangeEvent<HTMLInputElement>) => handleFieldChange('house_number', e.target.value),
                                         onBlur: () => handleFieldBlur('house_number')
@@ -346,12 +346,12 @@ const ComponentFormReadings = ({ register, errors, isSending }: ComponentFormRea
                                         touchedFields['apartment_number'] || false,
                                         'appInput'
                                     )}
-                                    placeholder='Номер квартиры'
+                                    placeholder='Номер квартиры (3 цифры) например: 022'
                                     {...register('apartment_number', {
                                         required: 'Номер квартиры обязателен',
                                         pattern: {
-                                            value: /^[\dа-яА-Я]+$/,
-                                            message: 'Номер квартиры может содержать цифры и буквы'
+                                            value: /^\d{3}$/,
+                                            message: 'Номер квартиры должен содержать 3 цифры например: 022'
                                         },
                                         onChange: (e: React.ChangeEvent<HTMLInputElement>) => handleFieldChange('apartment_number', e.target.value),
                                         onBlur: () => handleFieldBlur('apartment_number')

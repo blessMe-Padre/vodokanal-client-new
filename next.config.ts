@@ -11,12 +11,16 @@ const nextConfig = {
                 hostname: '109.70.24.185',
                 port: '1337'
             },
+            {
+                protocol: 'https',
+                hostname: 'nakhodka-vodokanal.ru',
+            },
         ],
     },
     experimental: {
         viewTransition: true,
     },
-    
+
 };
 
 export default nextConfig;

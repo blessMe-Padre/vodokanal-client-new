@@ -64,7 +64,6 @@ export type NewsItem = {
 export default function Kontrakt() {
     const [kontrakts, setKontrakts] = useState<ContractItem[]>([]);
     const [lastNews, setLastNews] = useState<NewsItem | null>(null);
-    console.log(lastNews);
 
     useEffect(() => {
         const getContracts = async () => {
