@@ -15,7 +15,7 @@ export default function News() {
                     <h2>МУП «Находка-Водоканал» — всегда на связи с городом</h2>
                     <p>Передайте показания, оплатите услуги  <br /> и получите поддержку — всё в пару кликов</p>
 
-                    <LinkCustom href={'/transmission-of-readings'} text='Передать показания' />
+                    <LinkCustom href={'/transmission-of-readings'} text='Передать показания' target={false} />
 
                     <Image src={banner} className={styles.banner} alt='banner' />
                 </div>

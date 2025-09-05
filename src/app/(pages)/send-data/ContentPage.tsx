@@ -332,7 +332,7 @@ const ComponentFormReadings = ({ register, errors, isSending }: ComponentFormRea
                                     {...register('house_number', {
                                         required: 'Номер дома обязателен',
                                         pattern: {
-                                            value: /^(?=.*\d)(?=.*[а-яА-Я])[\dа-яА-Я\/]{3,}$/i,
+                                            value: /^[\dа-яА-Я\/]{3,}$/,
                                             message: 'Номер дома может содержать 3 цифры, буквы и символ "/" (например: 012, 012а, 012/1)'
                                         },
                                         onChange: (e: React.ChangeEvent<HTMLInputElement>) => handleFieldChange('house_number', e.target.value),

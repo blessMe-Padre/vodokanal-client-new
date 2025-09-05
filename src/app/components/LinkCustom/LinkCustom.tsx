@@ -9,9 +9,10 @@ interface LinkButtonProps {
     text: string;
     style?: string;
     width?: string | number;
+    target?: boolean;
 }
 
-const LinkCustom: FC<LinkButtonProps> = ({ href, text, style, width }) => {
+const LinkCustom: FC<LinkButtonProps> = ({ href, text, target = true, style, width }) => {
     const customStyle: CSSProperties = width ? { maxWidth: width } : {};
 
     return (
@@ -19,7 +20,7 @@ const LinkCustom: FC<LinkButtonProps> = ({ href, text, style, width }) => {
             style={customStyle}
             className={`${styles.appLink} ${style === 'noBg' ? `${styles.noBg}` : ''}`}
             href={href}
-            target="_blank"
+            target={target ? '_blank' : '_self'}
         >
             {text}
         </Link>
