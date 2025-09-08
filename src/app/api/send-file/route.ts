@@ -31,8 +31,10 @@ export async function POST() {
     }
 
     const fileBuffer = fs.readFileSync(fullPath);
+    const date = new Date();
+    const normalDate = date.toLocaleDateString(); // "08.09.2025"
     const body = {
-      date: '2025-08-25'
+      date: normalDate,
     };
 
     logger.info('Отправка файла показаний по email', {

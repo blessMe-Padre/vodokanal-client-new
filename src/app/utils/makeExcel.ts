@@ -32,7 +32,7 @@ interface ReadingsData {
 interface ErrorDetail {
   message: string;
   stack?: string;
-  path?: string;  
+  path?: string;
   [key: string]: unknown;
 }
 
@@ -40,14 +40,15 @@ export const makeExcel = (body: ReadingsData): [string, string] => {
   try {
     const now = new Date();
     const currentMonth = now.getMonth() + 1;
+    const currentDay = now.getDate();
     const currentYear = now.getFullYear();
 
-    const fileName = `Readings_${currentYear}_${currentMonth.toString().padStart(2, '0')}.xlsx`;
+    const fileName = `Readings_${currentDay.toString().padStart(2, '0')}_${currentMonth.toString().padStart(2, '0')}_${currentYear}.xlsx`;
     const tempDir = path.join(process.cwd(), 'tmp');
     const filePath = path.join(tempDir, fileName);
 
     logger.info(`Начало обработки файла для ${currentMonth}.${currentYear}: ${fileName}`);
-    
+
     if (!fs.existsSync(tempDir)) {
       fs.mkdirSync(tempDir, { recursive: true });
       logger.info(`Создана временная директория: ${tempDir}`);
@@ -109,7 +110,7 @@ export const makeExcel = (body: ReadingsData): [string, string] => {
         address: newRecord['Адрес']
       })}`
     );
-    
+
     worksheet = XLSX.utils.json_to_sheet(excelData);
     const numFormat = '0.000';
 
@@ -144,11 +145,11 @@ export const makeExcel = (body: ReadingsData): [string, string] => {
       const excelBuffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' });
       fs.writeFileSync(filePath, excelBuffer);
 
-      logger.info(`Файл успешно сохранен`, { 
+      logger.info(`Файл успешно сохранен`, {
         path: filePath,
         size: `${(excelBuffer.length / 1024).toFixed(2)} KB`
       });
-      
+
       return [filePath, fileName];
     } catch (error) {
       const errorDetail: ErrorDetail = {
@@ -157,10 +158,10 @@ export const makeExcel = (body: ReadingsData): [string, string] => {
       };
 
       logger.error(`Ошибка при сохранении файла`, {
-        ...errorDetail, 
-        path: filePath  
+        ...errorDetail,
+        path: filePath
       } as ErrorDetail);
-      
+
       throw error;
     }
   } catch (error) {
