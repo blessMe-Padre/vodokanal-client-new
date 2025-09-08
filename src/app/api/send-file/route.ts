@@ -44,7 +44,7 @@ export async function POST() {
 
     // Отправляем файл на почту
     const result = await sendEmail(body, [{
-      name: 'Readings_2025_08.xlsx',
+      name: `Readings_${normalDate}.xlsx`,
       buffer: fileBuffer,
       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     }]);
@@ -56,7 +56,7 @@ export async function POST() {
     // Возвращаем файл клиенту
     return new NextResponse(fileBuffer, {
       headers: {
-        'Content-Disposition': `attachment; filename="Readings_2025_08.xlsx"`,
+        'Content-Disposition': `attachment; filename="Readings_${normalDate}.xlsx"`,
         'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       },
     });
