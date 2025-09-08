@@ -1,6 +1,8 @@
 import { Montserrat, Inter, Roboto } from "next/font/google";
+import { Suspense } from "react";
 
 import { Footer, Header } from "./components";
+import { Metrika } from "./components/Metrika/Metrika";
 
 import type { Metadata } from "next";
 import "./globals.css";
@@ -39,6 +41,9 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body className={`${montserrat.variable} ${inter.variable} ${roboto.variable}`}>
+          <Suspense>
+            <Metrika />
+          </Suspense>
         <div className="page_wrapper">
           <Header />
           <main>
