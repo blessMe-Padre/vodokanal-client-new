@@ -14,7 +14,7 @@ export function setupCronJobs() {
     const cronLogger = createCronLogger();
 
     // Запуск каждый день в 07:45 по местному времени - (30 00)
-    cron.schedule('23 01 * * *', async () => {
+    cron.schedule('30 00 * * *', async () => {
         cronLogger.info('Запуск ежедневной задачи отправки email');
 
         try {
