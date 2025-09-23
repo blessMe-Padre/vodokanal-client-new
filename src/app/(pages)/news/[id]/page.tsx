@@ -53,7 +53,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
         <div className="container">
             <Breadcrumbs secondLink="/news" secondLabel="Новости" thirdLabel={page?.data?.title} />
             <article className={styles.article}>
-                <div className={`image-wrapper ${styles.article_img}`}>
+                <div className={`${styles.article_img}`}>
                     <Image
                         src={page?.data?.image?.url ? `${process.env.NEXT_PUBLIC_API_SERVER}${page.data.image.url}` : '/placeholder.svg'}
                         alt={page?.data?.title}
