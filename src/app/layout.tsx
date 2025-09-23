@@ -7,7 +7,6 @@ import { Metrika } from "./components/Metrika/Metrika";
 import type { Metadata } from "next";
 import "./globals.css";
 
-// Инициализация серверных компонентов (cron, логирование и т.д.)
 import "@/lib/server-init";
 
 const montserrat = Montserrat({
