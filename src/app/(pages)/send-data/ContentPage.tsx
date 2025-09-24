@@ -47,9 +47,6 @@ interface FormData {
     date: string;
 }
 
-// Интерфейс для ошибок формы
-// interface FormErrors extends FieldErrors<FormData> {}
-
 // Интерфейс для состояния полей
 interface FieldState {
     [key: string]: boolean;
@@ -75,12 +72,6 @@ interface ComponentPhoneNumberProps {
     register: UseFormRegister<FormData>;
     errors: FieldErrors;
 }
-
-// // Интерфейс для ответа API
-// interface ApiResponse {
-//     message?: string;
-//     success?: boolean;
-// }
 
 // Интерфейс для ошибки API
 interface ApiError {
@@ -350,8 +341,8 @@ const ComponentFormReadings = ({ register, errors, isSending }: ComponentFormRea
                                     {...register('apartment_number', {
                                         required: 'Номер квартиры обязателен',
                                         pattern: {
-                                            value: /^\d{3}$/,
-                                            message: 'Номер квартиры должен содержать 3 цифры например: 022'
+                                            value: /^[\dа-яА-Я\/]{3,}$/,
+                                           message: 'Номер квартиры может содержать 3 цифры, буквы и символ "/" (например: 012, 012а, 012/1)'
                                         },
                                         onChange: (e: React.ChangeEvent<HTMLInputElement>) => handleFieldChange('apartment_number', e.target.value),
                                         onBlur: () => handleFieldBlur('apartment_number')
