@@ -1,11 +1,26 @@
 @use '@/app/mixins' as *;
 // @include adaptiv-value("font-size", 24, 13);
 
+.last_news_image {
+
+    @media screen and (max-width: 750px) {
+        object-fit: contain !important;
+    }
+}
+
 
 .contract_wrapper {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 30px;
+
+    @media screen and (max-width: 750px) {
+        grid-template-columns: repeat(1, 1fr);
+
+        p {
+            font-size: 14px;
+        }
+    }
 
     @media screen and (max-width: 580px) {
         flex-direction: column;
