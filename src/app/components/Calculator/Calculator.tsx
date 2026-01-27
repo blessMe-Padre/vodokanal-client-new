@@ -21,77 +21,64 @@ export default function Calculator() {
     const [asphalt, setAsphalt] = useState(false);
     const [asphaltWater, setAsphaltWater] = useState(false);
 
-    // Примерные тарифы (можно заменить на реальные)
     const NDC: number = 0.2; // 20% НДС
-    const bazovayStoimost: number = 1015; // Водоснабжение
-    const bazovayStoimostWater: number = 1473; // Водоотведение
-    const diametrSety: number[] = [
-        7457.97, // До 110 мм. (тыс. руб/км)
-        10333.60, // От 160 до 200 мм. (тыс. руб/км)
+    const bazovayStoimost: number = 670; // Водоснабжение: 0,670 тыс. руб/куб.м в сутки
+    const bazovayStoimostWater: number = 704; // Водоотведение: 0,704 тыс. руб/куб.м в сутки
+    type WaterSupplyDiameter = { name: string; withoutAsphalt: number; withAsphalt: number };
+    const waterSupplyDiameters: WaterSupplyDiameter[] = [
+        { name: 'До 110 мм.', withoutAsphalt: 8119.79, withAsphalt: 9282.83 },
+        { name: 'От 125 до 160 мм.', withoutAsphalt: 8984.57, withAsphalt: 9245.88 },
+        { name: 'От 160 до 200 мм.', withoutAsphalt: 9282.83, withAsphalt: 10111.56 },
     ];
-    const diametrSetyWater: number[] = [
-        9104, // До 160 мм. (тыс. руб/км)
-        10005, // От 160 до 200 мм. (тыс. руб/км)
+    const waterDisposalDiameters: WaterSupplyDiameter[] = [
+        { name: 'До 160 мм.', withoutAsphalt: 8511.82, withAsphalt: 8997.44 },
+        { name: 'От 160 до 200 мм.', withoutAsphalt: 10355.67, withAsphalt: 13157.74 },
     ];
-    const asphaltStoimost: number = 1140; // стоимость восстановления водоснабжения за 1 км 
-    const asphaltStoimostDiametr200: number = 1120; // стоимость восстановления водоснабжения за 1 км
 
-    const asphaltStoimostWater: number = 1578; // стоимость восстановления асфальта за 1 км диаметр < 160
-    const asphaltStoimostWaterDiametr200: number = 1530; // стоимость восстановления асфальта за 1 км диаметр > 160
-
-    // Получение названия диаметра для отображения
     const getDiameterName = (diam: number, isWater: boolean = false): string => {
         if (isWater) {
-            return diam === 1 ? 'До 160 мм.' : 'От 160 до 200 мм.';
+            const d = waterDisposalDiameters[diam - 1];
+            return d ? d.name : '';
         }
-        return diam === 1 ? 'До 110 мм.' : 'От 160 до 200 мм.';
+        const d = waterSupplyDiameters[diam - 1];
+        return d ? d.name : '';
     };
 
-    // Получение стоимости асфальта в зависимости от диаметра
-    const getAsphaltCost = (diam: number, isWater: boolean = false): number => {
-        if (isWater) {
-            return diam === 1 ? asphaltStoimostWater : asphaltStoimostWaterDiametr200;
-        }
-        return diam === 1 ? asphaltStoimost : asphaltStoimostDiametr200;
+    const getWaterSupplyTariff = (diam: number): number => {
+        const d = waterSupplyDiameters[diam - 1];
+        if (!d) return 0;
+        return asphalt ? d.withAsphalt : d.withoutAsphalt;
     };
 
-    // Расчет стоимости водоснабжения
+    const getWaterDisposalTariff = (diam: number): number => {
+        const d = waterDisposalDiameters[diam - 1];
+        if (!d) return 0;
+        return asphaltWater ? d.withAsphalt : d.withoutAsphalt;
+    };
+
     const calcNetwork = () => {
-        if (diameter < 1 || diameter > 2) return 0;
+        if (diameter < 1 || diameter > 3) return { networkCost: 0, asphaltCost: 0, total: 0 };
 
-        // Базовая стоимость прокладки сети
-        const networkCost = length * (diametrSety[diameter - 1]);
-
-        // Стоимость восстановления асфальта
-        let asphaltCost = 0;
-        if (asphalt) {
-            asphaltCost = (getAsphaltCost(diameter) * length);
-        }
+        const tariff = getWaterSupplyTariff(diameter);
+        const networkCost = length * tariff;
 
         return {
             networkCost,
-            asphaltCost,
-            total: networkCost + asphaltCost
+            asphaltCost: 0,
+            total: networkCost
         };
     };
 
-    // Расчет стоимости водоотведения
     const calcNetworkWater = () => {
-        if (diameterWater < 1 || diameterWater > 2) return 0;
+        if (diameterWater < 1 || diameterWater > 2) return { networkCost: 0, asphaltCost: 0, total: 0 };
 
-        // Базовая стоимость прокладки сети
-        const networkCost = lengthWater * (diametrSetyWater[diameterWater - 1]);
-
-        // Стоимость восстановления асфальта
-        let asphaltCost = 0;
-        if (asphaltWater) {
-            asphaltCost = (getAsphaltCost(diameterWater, true) * lengthWater);
-        }
+        const tariff = getWaterDisposalTariff(diameterWater);
+        const networkCost = lengthWater * tariff;
 
         return {
             networkCost,
-            asphaltCost,
-            total: networkCost + asphaltCost
+            asphaltCost: 0,
+            total: networkCost
         };
     };
 
@@ -188,18 +175,15 @@ export default function Calculator() {
                                     <label htmlFor="diameter">Предполагаемый диаметр cети (мм.):</label>
                                     <select name="" id="diameter" value={diameter} onChange={e => setDiameter(+e.target.value)}>
                                         <option value="1">До 110 мм.</option>
-                                        <option value="2">От 160 до 200 мм.</option>
+                                        <option value="2">От 125 до 160 мм.</option>
+                                        <option value="3">От 160 до 200 мм.</option>
                                     </select>
                                 </div>
                             </div>
 
-                            {/* Информация о выбранном диаметре */}
                             <div className={styles.diameter_info}>
                                 <p><strong>Выбранный диаметр:</strong> {getDiameterName(diameter)}</p>
-                                <p><strong>Стоимость прокладки:</strong> {diametrSety[diameter - 1]} тыс. руб/м</p>
-                                {asphalt && (
-                                    <p><strong>Стоимость асфальта:</strong> {getAsphaltCost(diameter)} тыс. руб/м</p>
-                                )}
+                                <p><strong>Тариф:</strong> {getWaterSupplyTariff(diameter)} тыс. руб/км{asphalt ? ' (с восстановлением асфальта)' : ''}</p>
                             </div>
                         </div>
 
@@ -289,13 +273,9 @@ export default function Calculator() {
                                 </div>
                             </div>
 
-                            {/* Информация о выбранном диаметре */}
                             <div className={styles.diameter_info}>
                                 <p><strong>Выбранный диаметр:</strong> {getDiameterName(diameterWater, true)}</p>
-                                <p><strong>Стоимость прокладки:</strong> {diametrSetyWater[diameterWater - 1]} руб/км</p>
-                                {asphaltWater && (
-                                    <p><strong>Стоимость асфальта:</strong> {getAsphaltCost(diameterWater, true)} руб/км</p>
-                                )}
+                                <p><strong>Тариф:</strong> {getWaterDisposalTariff(diameterWater)} тыс. руб/км{asphaltWater ? ' (с восстановлением асфальта)' : ''}</p>
                             </div>
                         </div>
 
@@ -338,10 +318,6 @@ export default function Calculator() {
                             <div className={styles.calculation_details}>
                                 <p><strong>Длина сети:</strong> {lengthWater} м</p>
                                 <p><strong>Диаметр:</strong> {getDiameterName(diameterWater, true)}</p>
-                                <p><strong>Стоимость прокладки сети:</strong> {networkWaterData && typeof networkWaterData === 'object' ? networkWaterData.networkCost.toFixed(2) : '0.00'} руб</p>
-                                {asphaltWater && (
-                                    <p><strong>Стоимость восстановления асфальта:</strong> {networkWaterData && typeof networkWaterData === 'object' ? networkWaterData.asphaltCost.toFixed(2) : '0.00'} руб</p>
-                                )}
                                 <p><strong>Общая стоимость сети:</strong> {networkWaterData && typeof networkWaterData === 'object' ? networkWaterData.total.toFixed(2) : '0.00'} руб</p>
                             </div>
                         </div>
