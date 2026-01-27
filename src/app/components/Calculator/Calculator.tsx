@@ -21,7 +21,7 @@ export default function Calculator() {
     const [asphalt, setAsphalt] = useState(false);
     const [asphaltWater, setAsphaltWater] = useState(false);
 
-    const NDC: number = 0.2; // 20% НДС
+    const NDC: number = 0.22; // 22% НДС
     const bazovayStoimost: number = 670; // Водоснабжение: 0,670 тыс. руб/куб.м в сутки
     const bazovayStoimostWater: number = 704; // Водоотведение: 0,704 тыс. руб/куб.м в сутки
     type WaterSupplyDiameter = { name: string; withoutAsphalt: number; withAsphalt: number };
