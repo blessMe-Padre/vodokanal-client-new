@@ -6,8 +6,29 @@ import { useCallback, useEffect, useRef } from 'react';
 const SCRIPT_SRC = 'https://pos.gosuslugi.ru/bin/script.min.js';
 const WIDGET_URL = 'https://pos.gosuslugi.ru/form';
 const DEFAULT_WIDGET_ID = 376184;
-const BG_SMALL = "url('https://pos.gosuslugi.ru/bin/banner-fluid/2/banner-fluid-bg-2-small.svg')";
-const BG_LARGE = "url('https://pos.gosuslugi.ru/bin/banner-fluid/2/banner-fluid-bg-2.svg')";
+const POS_PREFIX = '--pos-banner-fluid-35__';
+const BG_35 = "url('https://pos.gosuslugi.ru/bin/banner-fluid/35/banner-fluid-bg-35.svg')";
+const BG_35_2 = "url('https://pos.gosuslugi.ru/bin/banner-fluid/35/banner-fluid-bg-35-2.svg')";
+
+const INITIAL_BANNER_OPTIONS: Record<string, string> = {
+  background: '#50b3ff',
+  'grid-template-columns': '100%',
+  'grid-template-rows': '264px auto',
+  'max-width': '100%',
+  'text-font-size': '20px',
+  'text-small-font-size': '14px',
+  'text-margin': '0 0 12px 0',
+  'description-margin': '0 0 24px 0',
+  'button-wrap-max-width': '100%',
+  'bg-url': BG_35,
+  'bg-url-position': 'right bottom',
+  'content-padding': '26px 24px 20px',
+  'content-grid-row': '0',
+  'logo-wrap-padding': '16px 12px 12px',
+  'logo-width': '65px',
+  'logo-wrap-top': '0',
+  'slogan-font-size': '12px',
+};
 
 declare global {
   interface Window {
@@ -19,10 +40,17 @@ export type GosuslugiWidgetProps = {
   widgetId?: number;
 };
 
-function setBannerVars(vars: Record<string, string>) {
+function setStyles(options: Record<string, string>) {
   const root = document.documentElement;
-  Object.entries(vars).forEach(([key, value]) => {
-    root.style.setProperty(key, value);
+  Object.entries(options).forEach(([key, value]) => {
+    root.style.setProperty(`${POS_PREFIX}${key}`, value);
+  });
+}
+
+function removeStyles(options: Record<string, string>) {
+  const root = document.documentElement;
+  Object.keys(options).forEach((key) => {
+    root.style.removeProperty(`${POS_PREFIX}${key}`);
   });
 }
 
@@ -33,117 +61,78 @@ export default function GosuslugiWidgetClient({
 
   const updateBannerSize = useCallback(() => {
     const banner = bannerRef.current;
-    if (!banner) return;
+    const width = banner ? banner.offsetWidth : document.body.offsetWidth;
+    const options = { ...INITIAL_BANNER_OPTIONS };
 
-    const width = banner.offsetWidth;
-
-    if (width <= 405) {
-      setBannerVars({
-        '--pos-banner-fluid-2__grid-template-columns': '100%',
-        '--pos-banner-fluid-2__grid-template-rows': '310px auto',
-        '--pos-banner-fluid-2__decor-grid-column': 'initial',
-        '--pos-banner-fluid-2__decor-grid-row': 'initial',
-        '--pos-banner-fluid-2__decor-padding': '30px 30px 0 30px',
-        '--pos-banner-fluid-2__content-padding': '0 30px 30px 30px',
-        '--pos-banner-fluid-2__bg-url': BG_SMALL,
-        '--pos-banner-fluid-2__bg-position': 'calc(10% + 64px) calc(100% - 20px)',
-        '--pos-banner-fluid-2__bg-size': 'cover',
-        '--pos-banner-fluid-2__slogan-font-size': '20px',
-        '--pos-banner-fluid-2__slogan-line-height': '32px',
-        '--pos-banner-fluid-2__logo-wrap-padding': '20px 30px 30px 40px',
-        '--pos-banner-fluid-2__logo-wrap-top': '0',
-        '--pos-banner-fluid-2__logo-wrap-bottom': 'initial',
-        '--pos-banner-fluid-2__logo-wrap-border-radius': '0 0 0 80px',
-      });
-      return;
+    if (width > 340) {
+      options['button-wrap-max-width'] = '209px';
     }
 
-    if (width <= 500) {
-      setBannerVars({
-        '--pos-banner-fluid-2__grid-template-columns': '100%',
-        '--pos-banner-fluid-2__grid-template-rows': '310px auto',
-        '--pos-banner-fluid-2__decor-grid-column': 'initial',
-        '--pos-banner-fluid-2__decor-grid-row': 'initial',
-        '--pos-banner-fluid-2__decor-padding': '30px 30px 0 30px',
-        '--pos-banner-fluid-2__content-padding': '0 30px 30px 30px',
-        '--pos-banner-fluid-2__bg-url': BG_SMALL,
-        '--pos-banner-fluid-2__bg-position': 'calc(10% + 64px) calc(100% - 20px)',
-        '--pos-banner-fluid-2__bg-size': 'cover',
-        '--pos-banner-fluid-2__slogan-font-size': '24px',
-        '--pos-banner-fluid-2__slogan-line-height': '32px',
-        '--pos-banner-fluid-2__logo-wrap-padding': '30px 50px 30px 70px',
-        '--pos-banner-fluid-2__logo-wrap-top': '0',
-        '--pos-banner-fluid-2__logo-wrap-bottom': 'initial',
-        '--pos-banner-fluid-2__logo-wrap-border-radius': '0 0 0 80px',
-      });
-      return;
+    if (width > 360) {
+      options['bg-url'] = BG_35_2;
+      options['bg-url-position'] = 'calc(100% + 135px) bottom';
     }
 
-    if (width <= 585) {
-      setBannerVars({
-        '--pos-banner-fluid-2__grid-template-columns': 'min-content 1fr',
-        '--pos-banner-fluid-2__grid-template-rows': '100%',
-        '--pos-banner-fluid-2__decor-grid-column': '2',
-        '--pos-banner-fluid-2__decor-grid-row': '1',
-        '--pos-banner-fluid-2__decor-padding': '30px 30px 30px 0',
-        '--pos-banner-fluid-2__content-padding': '30px',
-        '--pos-banner-fluid-2__bg-url': BG_SMALL,
-        '--pos-banner-fluid-2__bg-position': '0% calc(100% - 70px)',
-        '--pos-banner-fluid-2__bg-size': 'cover',
-        '--pos-banner-fluid-2__slogan-font-size': '24px',
-        '--pos-banner-fluid-2__slogan-line-height': '32px',
-        '--pos-banner-fluid-2__logo-wrap-padding': '30px 30px 24px 40px',
-        '--pos-banner-fluid-2__logo-wrap-top': 'initial',
-        '--pos-banner-fluid-2__logo-wrap-bottom': '0',
-        '--pos-banner-fluid-2__logo-wrap-border-radius': '80px 0 0 0',
-      });
-      return;
+    if (width > 482) {
+      options['text-font-size'] = '23px';
+      options['text-small-font-size'] = '18px';
+      options['bg-url-position'] = 'center bottom';
     }
 
-    if (width <= 800) {
-      setBannerVars({
-        '--pos-banner-fluid-2__grid-template-columns': 'min-content 1fr',
-        '--pos-banner-fluid-2__grid-template-rows': '100%',
-        '--pos-banner-fluid-2__decor-grid-column': '2',
-        '--pos-banner-fluid-2__decor-grid-row': '1',
-        '--pos-banner-fluid-2__decor-padding': '30px 30px 30px 0',
-        '--pos-banner-fluid-2__content-padding': '30px',
-        '--pos-banner-fluid-2__bg-url': BG_SMALL,
-        '--pos-banner-fluid-2__bg-position': '0% calc(100% - 6px)',
-        '--pos-banner-fluid-2__bg-size': 'cover',
-        '--pos-banner-fluid-2__slogan-font-size': '24px',
-        '--pos-banner-fluid-2__slogan-line-height': '32px',
-        '--pos-banner-fluid-2__logo-wrap-padding': '30px 30px 24px 40px',
-        '--pos-banner-fluid-2__logo-wrap-top': 'initial',
-        '--pos-banner-fluid-2__logo-wrap-bottom': '0',
-        '--pos-banner-fluid-2__logo-wrap-border-radius': '80px 0 0 0',
-      });
-      return;
+    if (width > 568) {
+      options['bg-url'] = BG_35;
+      options['bg-url-position'] = 'calc(100% + 35px) bottom';
+      options['text-font-size'] = '24px';
+      options['text-small-font-size'] = '14px';
+      options['grid-template-columns'] = '1fr 292px';
+      options['grid-template-rows'] = '100%';
+      options['content-grid-row'] = '1';
+      options['content-padding'] = '48px 24px';
     }
 
-    setBannerVars({
-      '--pos-banner-fluid-2__grid-template-columns': 'min-content 1fr',
-      '--pos-banner-fluid-2__grid-template-rows': '100%',
-      '--pos-banner-fluid-2__decor-grid-column': '2',
-      '--pos-banner-fluid-2__decor-grid-row': '1',
-      '--pos-banner-fluid-2__decor-padding': '30px 30px 30px 0',
-      '--pos-banner-fluid-2__content-padding': '30px',
-      '--pos-banner-fluid-2__bg-url': BG_LARGE,
-      '--pos-banner-fluid-2__bg-position': '0% center',
-      '--pos-banner-fluid-2__bg-size': 'cover',
-      '--pos-banner-fluid-2__slogan-font-size': '24px',
-      '--pos-banner-fluid-2__slogan-line-height': '32px',
-      '--pos-banner-fluid-2__logo-wrap-padding': '30px 30px 24px 40px',
-      '--pos-banner-fluid-2__logo-wrap-top': 'initial',
-      '--pos-banner-fluid-2__logo-wrap-bottom': '0',
-      '--pos-banner-fluid-2__logo-wrap-border-radius': '80px 0 0 0',
-    });
+    if (width > 783) {
+      options['grid-template-columns'] = '1fr 390px';
+      options['bg-url'] = BG_35_2;
+      options['bg-url-position'] = 'calc(100% + 144px) bottom';
+      options['text-small-font-size'] = '18px';
+      options['content-padding'] = '30px 24px';
+    }
+
+    if (width > 820) {
+      options['grid-template-columns'] = '1fr 420px';
+    }
+
+    if (width > 918) {
+      options['bg-url-position'] = 'calc(100% + 100px) bottom';
+    }
+
+    if (width > 1098) {
+      options['bg-url-position'] = 'center bottom';
+      options['grid-template-columns'] = '1fr 557px';
+      options['text-font-size'] = '32px';
+      options['content-padding'] = '34px 50px';
+      options['logo-width'] = '78px';
+      options['slogan-font-size'] = '15px';
+      options['logo-wrap-padding'] = '20px 16px 16px';
+    }
+
+    if (width > 1422) {
+      options['max-width'] = '1422px';
+      options['grid-template-columns'] = '1fr 720px';
+      options.background = 'linear-gradient(90deg, #50b3ff 50%, #E0ECFE 50%)';
+    }
+
+    setStyles(options);
   }, []);
 
   useEffect(() => {
     updateBannerSize();
     window.addEventListener('resize', updateBannerSize);
-    return () => window.removeEventListener('resize', updateBannerSize);
+
+    return () => {
+      window.removeEventListener('resize', updateBannerSize);
+      removeStyles(INITIAL_BANNER_OPTIONS);
+    };
   }, [updateBannerSize]);
 
   const initWidget = () => {
@@ -158,42 +147,35 @@ export default function GosuslugiWidgetClient({
         onReady={initWidget}
       />
 
-      <div
-        id="js-show-iframe-wrapper"
-        ref={bannerRef}
-      >
-        <div className="pos-banner-fluid bf-2">
-          <div className="bf-2__decor">
-            <div className="bf-2__logo-wrap">
+      <div id="js-show-iframe-wrapper" ref={bannerRef}>
+        <div className="pos-banner-fluid bf-35">
+          <div className="bf-35__decor">
+            <div className="bf-35__logo-wrap">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                className="bf-2__logo"
-                src="https://pos.gosuslugi.ru/bin/banner-fluid/gosuslugi-logo.svg"
+                className="bf-35__logo"
+                src="https://pos.gosuslugi.ru/bin/banner-fluid/gosuslugi-logo-blue.svg"
                 alt="Госуслуги"
               />
-              <div className="bf-2__slogan">Решаем вместе</div>
+              <div className="bf-35__slogan">Решаем вместе</div>
             </div>
           </div>
 
-          <div className="bf-2__content">
-            <div className="bf-2__description">
-              <span className="bf-2__text">
-                Не убран мусор, яма на дороге, не горит фонарь?
+          <div className="bf-35__content">
+            <div className="bf-35__description">
+              <span className="bf-35__text">
+                Направить обращение через Госуслуги
               </span>
-              <span className="pos-banner-fluid__text pos-banner-fluid__text_small">
-                Столкнулись с проблемой — сообщите о ней!
-              </span>
+              <span className="bf-35__text bf-35__text_small" />
             </div>
 
-            <div className="bf-2__btn-wrap">
-              {/* pos-banner-btn_2 не удалять; другие классы не добавлять */}
-              <button
-                className="pos-banner-btn_2"
-                type="button"
-                style={{ width: 240 }}
-              >
-                Сообщить о проблеме
-              </button>
+            <div className="bf-35__bottom-wrap">
+              <div className="bf-35__btn-wrap">
+                {/* pos-banner-btn_2 не удалять; другие классы не добавлять */}
+                <button className="pos-banner-btn_2" type="button">
+                  Написать о проблеме
+                </button>
+              </div>
             </div>
           </div>
         </div>
