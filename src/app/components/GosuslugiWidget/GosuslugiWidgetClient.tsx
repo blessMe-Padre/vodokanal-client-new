@@ -5,7 +5,8 @@ import { useCallback, useEffect, useRef } from 'react';
 
 const SCRIPT_SRC = 'https://pos.gosuslugi.ru/bin/script.min.js';
 const WIDGET_URL = 'https://pos.gosuslugi.ru/form';
-const DEFAULT_WIDGET_ID = 376184;
+/** Идентификатор организации (opaId) из файла виджета Госуслуг */
+const ORGANIZATION_ID = 376184;
 const POS_PREFIX = '--pos-banner-fluid-35__';
 const BG_35 = "url('https://pos.gosuslugi.ru/bin/banner-fluid/35/banner-fluid-bg-35.svg')";
 const BG_35_2 = "url('https://pos.gosuslugi.ru/bin/banner-fluid/35/banner-fluid-bg-35-2.svg')";
@@ -32,11 +33,12 @@ const INITIAL_BANNER_OPTIONS: Record<string, string> = {
 
 declare global {
   interface Window {
-    Widget?: (url: string, id: number) => void;
+    Widget?: (url: string, opaId: number, isFz59?: boolean) => void;
   }
 }
 
 export type GosuslugiWidgetProps = {
+  /** opaId организации в системе ПОС Госуслуг */
   widgetId?: number;
 };
 
@@ -55,9 +57,10 @@ function removeStyles(options: Record<string, string>) {
 }
 
 export default function GosuslugiWidgetClient({
-  widgetId = DEFAULT_WIDGET_ID,
+  widgetId = ORGANIZATION_ID,
 }: GosuslugiWidgetProps) {
   const bannerRef = useRef<HTMLDivElement>(null);
+  const widgetBoundRef = useRef(false);
 
   const updateBannerSize = useCallback(() => {
     const banner = bannerRef.current;
@@ -125,6 +128,21 @@ export default function GosuslugiWidgetClient({
     setStyles(options);
   }, []);
 
+  const bindOfficialWidget = useCallback(() => {
+    const banner = bannerRef.current ?? document.getElementById('js-show-iframe-wrapper');
+
+    if (!banner || typeof window.Widget !== 'function' || widgetBoundRef.current) {
+      return false;
+    }
+
+    // Как в исходном файле: Widget("https://pos.gosuslugi.ru/form", 376184)
+    // Открывает iframe: /form?opaId=376184&fz59=false
+    window.Widget(WIDGET_URL, widgetId);
+    widgetBoundRef.current = true;
+    banner.setAttribute('data-opa-id', String(widgetId));
+    return true;
+  }, [widgetId]);
+
   useEffect(() => {
     updateBannerSize();
     window.addEventListener('resize', updateBannerSize);
@@ -132,22 +150,42 @@ export default function GosuslugiWidgetClient({
     return () => {
       window.removeEventListener('resize', updateBannerSize);
       removeStyles(INITIAL_BANNER_OPTIONS);
+      widgetBoundRef.current = false;
     };
   }, [updateBannerSize]);
 
-  const initWidget = () => {
-    window.Widget?.(WIDGET_URL, widgetId);
-  };
+  useEffect(() => {
+    if (bindOfficialWidget()) {
+      return;
+    }
+
+    const timer = window.setInterval(() => {
+      if (bindOfficialWidget()) {
+        window.clearInterval(timer);
+      }
+    }, 100);
+
+    return () => window.clearInterval(timer);
+  }, [bindOfficialWidget]);
 
   return (
     <>
       <Script
         src={SCRIPT_SRC}
-        strategy="lazyOnload"
-        onReady={initWidget}
+        strategy="afterInteractive"
+        onReady={() => {
+          bindOfficialWidget();
+        }}
+        onLoad={() => {
+          bindOfficialWidget();
+        }}
       />
 
-      <div id="js-show-iframe-wrapper" ref={bannerRef}>
+      <div
+        id="js-show-iframe-wrapper"
+        ref={bannerRef}
+        data-opa-id={widgetId}
+      >
         <div className="pos-banner-fluid bf-35">
           <div className="bf-35__decor">
             <div className="bf-35__logo-wrap">
