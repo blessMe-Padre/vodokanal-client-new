@@ -283,7 +283,7 @@ export default function StatementFormUnit() {
                                 )}
                             </button>
 
-                            {error && <p className='error_message'>Ошибка при отправке формы, попробуйте позже</p>}
+                            {error && <p className='error_message'>Не удалось отправить данные. Попробуйте ещё раз через некоторое время.</p>}
                         </form>
                     </div>
                 </section>

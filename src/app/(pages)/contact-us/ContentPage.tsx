@@ -114,7 +114,7 @@ export default function ContentPage() {
     );
 }
 
-const ComponentFormContactUs = ({ register, isSending, files, setFiles, errors }: ComponentFormReadingsProps) => {
+const ComponentFormContactUs = ({ register, isSending, files, setFiles, errors, error }: ComponentFormReadingsProps) => {
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newFiles = Array.from(e.target.files || []);
@@ -245,6 +245,7 @@ const ComponentFormContactUs = ({ register, isSending, files, setFiles, errors }
                                 )}
                             </button>
                         </div>
+                        {error && <p className='error_message'>Не удалось отправить данные. Попробуйте ещё раз через некоторое время.</p>}
                     </div>
                 </div>
 

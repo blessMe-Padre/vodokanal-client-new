@@ -249,7 +249,7 @@ const ComponentPhoneNumber = ({ setStep, register, errors }: ComponentPhoneNumbe
 }
 
 
-const ComponentFormReadings = ({ register, errors, isSending }: ComponentFormReadingsProps): React.JSX.Element => {
+const ComponentFormReadings = ({ register, errors, error, isSending }: ComponentFormReadingsProps): React.JSX.Element => {
     const [touchedFields, setTouchedFields] = useState<FieldState>({});
     const [fieldValues, setFieldValues] = useState<FieldValues>({});
 
@@ -490,6 +490,7 @@ const ComponentFormReadings = ({ register, errors, isSending }: ComponentFormRea
                             'Отправить'
                         )}
                     </button>
+                    {error && <p className='error_message'>Не удалось отправить данные. Попробуйте ещё раз через некоторое время.</p>}
                 </div>
             </div>
         </>
